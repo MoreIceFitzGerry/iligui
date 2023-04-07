@@ -1,0 +1,11 @@
+<RCC>
+  <qresource prefix="icons">
+    <file>icons/arrowdown.png</file>
+    <file>icons/arrowright.png</file>
+    <file>icons/fileupload.png</file>
+    <file>icons/interlis.png</file>
+    <file>icons/model.png</file>
+    <file>icons/play.png</file>
+    <file>icons/validator.png</file>
+  </qresource>
+</RCC>
