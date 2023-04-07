@@ -1,5 +1,5 @@
 # iligui
-Development of an understandable Graphical User Interface (GUI), to simply the usage of INTERLIS Data und Tools for Users.
+Development of an understandable Graphical User Interface to simplify the usage of INTERLIS Data und Tools for Users.
 
 ## Background
 INTERLIS appeared in 1991 as a description language for spatial data and as a mechanism for data exchange. The name comes from the abbreviation INTER or BETWEEN land information systems. The language is intended to ensure long-term compatibility among different systems. (Fachgruppe Geo-normen et al. 2017) Since 2008, it has been legally specified in the Swiss Geoinformation Act.
