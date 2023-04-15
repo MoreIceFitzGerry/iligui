@@ -1,17 +1,20 @@
 import jpype
 
-# Start the JVM
-jpype.startJVM()
+# Start the JVM with the desired JRE
+jpype.startJVM(jpype.getDefaultJVMPath(), "-Djava.home=java11")
 
-# Create a Java object from the script
-script_class = jpype.JClass("ilivalidator-1.13.2/ilivalidator-1.13.2.jar)   
-script = script_class()
+# Load the Jar file
+jar_path = "ilivalidator-1.13.2\ilivalidator-1.13.2.jar"
+jpype.JClass("java.net.URLClassLoader").getSystemClassLoader().addURL(jpype.java.net.URL("file:" + jar_path))
 
-# Call a method on the Java object
-result = script.run()
+# Find the main class of the Jar file
+manifest = jpype.JClass("java.util.jar.JarFile")(jar_path).getManifest()
+main_class = manifest.getMainAttributes().getValue("Main-Class")
 
-# Print the result
-print(result)
+# Run the main class with input arguments
+#args = ["input1", "input2", "input3"]
+args = ["tests\RoadsSimple.xml"]
+jpype.JClass(str(main_class)).main(args)
 
-# Shutdown the JVM
+# Shut down the JVM
 jpype.shutdownJVM()
