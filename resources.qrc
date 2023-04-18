@@ -1,11 +1,35 @@
 <RCC>
   <qresource prefix="icons">
+    <file>icons/play-circle.svg</file>
+    <file>icons/alert-circle.svg</file>
+    <file>icons/alert-octagon.svg</file>
+    <file>icons/alert-triangle.svg</file>
+    <file>icons/archive.svg</file>
     <file>icons/arrowdown.png</file>
     <file>icons/arrowright.png</file>
+    <file>icons/chevron-down.svg</file>
+    <file>icons/database.svg</file>
+    <file>icons/download.svg</file>
+    <file>icons/file-plus.svg</file>
     <file>icons/fileupload.png</file>
+    <file>icons/help-circle.svg</file>
+    <file>icons/home.svg</file>
+    <file>icons/ili2c.png</file>
+    <file>icons/ili2db.png</file>
+    <file>icons/info.svg</file>
     <file>icons/interlis.png</file>
+    <file>icons/layers.svg</file>
+    <file>icons/loader.svg</file>
+    <file>icons/log-in.svg</file>
+    <file>icons/menu.svg</file>
     <file>icons/model.png</file>
+    <file>icons/package.svg</file>
     <file>icons/play.png</file>
+    <file>icons/play_green.png</file>
+    <file>icons/server.svg</file>
+    <file>icons/settings.svg</file>
+    <file>icons/tool.svg</file>
     <file>icons/validator.png</file>
+    <file>icons/x.svg</file>
   </qresource>
 </RCC>

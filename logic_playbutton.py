@@ -1,12 +1,12 @@
 import os
-from PyQt5.QtCore import QProcess
+from PyQt6.QtCore import QProcess
 
 def run_ilivalidator(file_path):
     print("Filepath: " + file_path)
     ilivalidator_path = "ilivalidator-1.13.2/ilivalidator-1.13.2.jar" # .jar file path
 
     process = QProcess()
-    process.setProcessChannelMode(QProcess.MergedChannels)
+    process.setProcessChannelMode(QProcess.ProcessChannelMode.MergedChannels)
     process.start("java11\\bin\java.exe", ["-jar", ilivalidator_path, file_path])
     process.waitForFinished()
 
