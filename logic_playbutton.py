@@ -1,13 +1,15 @@
-import os
 from PyQt6.QtCore import QProcess
 
-def run_ilivalidator(file_path):
-    print("Filepath: " + file_path)
+def run_ilivalidator(Options, file):
+    print("Command: " + Options + " " + file)
     ilivalidator_path = "ilivalidator-1.13.2/ilivalidator-1.13.2.jar" # .jar file path
 
     process = QProcess()
     process.setProcessChannelMode(QProcess.ProcessChannelMode.MergedChannels)
-    process.start("java11\\bin\java.exe", ["-jar", ilivalidator_path, file_path])
+    if len(Options) == 0:
+        process.start("java11\\bin\java.exe", ["-jar", ilivalidator_path, file])
+    else:
+        process.start("java11\\bin\java.exe", ["-jar", ilivalidator_path, Options, file])
     process.waitForFinished()
 
     # setProcessChannelMode(QProcess::MergedChannels) will merge the output channels.
@@ -21,17 +23,3 @@ def run_ilivalidator(file_path):
     # so we ingore these errors and simply pass what can be.
     textoutput = bytes(output).decode("utf8", "ignore")
     return textoutput
-
-# Vor Neuinstallation, Kontrolle ob Java11 im lokalen Ordner installiert.
-def checkinstall_cwdjava():
-    if os.path.isdir("java11") is False:
-        try:
-            import jdk
-            cwd = os.getcwd()
-            jdk.install(version='11', jre=True, path=cwd)
-            os.rename("jdk-11.0.18+10-jre", "java11")
-            checkinstall_cwdjava()
-        except:
-            return False
-    else:
-        return True
