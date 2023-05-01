@@ -80,6 +80,8 @@ class iligui(QMainWindow):
     def mousePressEvent(self, event):
         if event.button() == Qt.LeftButton:
             self.pressPos = event.pos()
+    #https://stackoverflow.com/questions/72940478/pyqt-event-when-button-clicked
+    #https://stackoverflow.com/questions/67638434/detect-single-mouse-click-in-pyqt5-widgets-missing-mouseclickevent-function
 
     def reset_PlayButton(self):
         self.playButton.setIcon(QtGui.QIcon("icons/play.png"))
