@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- File CHBaseEx_V1_SewageCatalogue.xml 2011-08-30 (http://www.geo.admin.ch) -->
+<TRANSFER xmlns="http://www.interlis.ch/INTERLIS2.3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://models.geo.admin.ch/CHBase/CHBaseEx_V1.xsd">
+
+  <HEADERSECTION VERSION="2.3" SENDER="http://www.geo.admin.ch">
+    <MODELS>
+      <MODEL NAME="LocalisationCH_V1" URI="http://models.geo.admin.ch/CHBase" VERSION="2011-08-30"/>
+      <MODEL NAME="CatalogueObjects_V1" URI="http://models.geo.admin.ch/CHBase" VERSION="2011-08-30"/>
+      <MODEL NAME="WithOneState_V1" URI="http://models.geo.admin.ch/CHBase" VERSION="2011-08-30"/>
+      <MODEL NAME="CHBaseEx_SewageCatalogue_V1" URI="http://models.geo.admin.ch/CHBase" VERSION="2011-08-30"/>
+    </MODELS>
+  </HEADERSECTION>
+  
+  <DATASECTION>
+    
+    <CHBaseEx_Sewage_V1.SewageCatalogue_WithOneState BID="xSewageCatalogBasket1">
+      
+      <CHBaseEx_Sewage_V1.SewageCatalogue_WithOneState.SewagePlantType TID="XSewageMechanical">
+        <Value>Mechanical</Value>
+        <UserText>
+          <LocalisationCH_V1.MultilingualText>
+            <LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>de</Language>
+                <Text>Mechanische Klärung</Text>
+              </LocalisationCH_V1.LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>fr</Language>
+                <Text>Epuration mécanique</Text>
+              </LocalisationCH_V1.LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>en</Language>
+                <Text>Mechanical treatment</Text>
+              </LocalisationCH_V1.LocalisedText>
+            </LocalisedText>
+          </LocalisationCH_V1.MultilingualText>
+        </UserText>
+      </CHBaseEx_Sewage_V1.SewageCatalogue_WithOneState.SewagePlantType>
+      
+      <CHBaseEx_Sewage_V1.SewageCatalogue_WithOneState.SewagePlantType TID="xSewageBiological">
+        <Value>Biological</Value>
+        <UserText>
+          <LocalisationCH_V1.MultilingualText>
+            <LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>de</Language>
+                <Text>Biologische Klärung</Text>
+              </LocalisationCH_V1.LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>fr</Language>
+                <Text>Epuration biologique</Text>
+              </LocalisationCH_V1.LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>en</Language>
+                <Text>Biological treatment</Text>
+              </LocalisationCH_V1.LocalisedText>
+            </LocalisedText>
+          </LocalisationCH_V1.MultilingualText>
+        </UserText>
+      </CHBaseEx_Sewage_V1.SewageCatalogue_WithOneState.SewagePlantType>
+      
+      <CHBaseEx_Sewage_V1.SewageCatalogue_WithOneState.SewagePlantType TID="xSewageMembraneFiltration">
+        <Value>MembraneFiltration</Value>
+        <UserText>
+          <LocalisationCH_V1.MultilingualText>
+            <LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>de</Language>
+                <Text>Membran-Filterung</Text>
+              </LocalisationCH_V1.LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>fr</Language>
+                <Text>Filtration par membrane</Text>
+              </LocalisationCH_V1.LocalisedText>
+              <LocalisationCH_V1.LocalisedText>
+                <Language>en</Language>
+                <Text>Membrane filtration</Text>
+              </LocalisationCH_V1.LocalisedText>
+            </LocalisedText>
+          </LocalisationCH_V1.MultilingualText>
+        </UserText>
+      </CHBaseEx_Sewage_V1.SewageCatalogue_WithOneState.SewagePlantType>
+      
+    </CHBaseEx_Sewage_V1.SewageCatalogue_WithOneState>
+    
+  </DATASECTION>
+</TRANSFER>

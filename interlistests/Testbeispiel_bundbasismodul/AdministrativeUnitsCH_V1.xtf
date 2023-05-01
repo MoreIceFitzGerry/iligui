@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<TRANSFER xmlns="http://www.interlis.ch/INTERLIS2.3">
+
+  <HEADERSECTION VERSION="2.3" SENDER="UNKNOWN">
+    <MODELS>
+      <MODEL NAME="AdministrativeUnitsCH_V1" URI="http://models.geo.admin.ch" VERSION="" />
+    </MODELS>
+    <ALIAS>
+      <ENTRIES FOR="AdministrativeUnitsCH_V1">
+      </ENTRIES>
+    </ALIAS>
+  </HEADERSECTION>
+
+  <DATASECTION>
+
+    <!-- TOPIC CHCantons -->
+
+    <AdministrativeUnitsCH_V1.CHCantons BID="xCHCantonsBasket1">
+
+      <AdministrativeUnitsCH_V1.CHCantons.CHCanton TID="xGL">
+        <Code>GL</Code> 
+        <Name>
+          <LocalisationCH_V1.MultilingualText>
+            <LocalisedText>
+               <LocalisationCH_V1.LocalisedText>
+                 <Language>de</Language>
+                 <Text>Kanton Glarus</Text>
+               </LocalisationCH_V1.LocalisedText>
+            </LocalisedText>
+          </LocalisationCH_V1.MultilingualText>
+        </Name>
+        <Web>http://www.gl.ch</Web>
+        <UpperLevelUnit REF="xCHE"/>
+      </AdministrativeUnitsCH_V1.CHCantons.CHCanton>
+
+    </AdministrativeUnitsCH_V1.CHCantons>
+
+    <!-- TOPIC CHMunicipalities -->
+
+    <AdministrativeUnitsCH_V1.CHMunicipalities BID="xCHMunicipalitiesBasket1">
+
+      <AdministrativeUnitsCH_V1.CHMunicipalities.CHMunicipality TID="xGuggital">
+        <Code>9999</Code> 
+        <Name>
+          <LocalisationCH_V1.MultilingualText>
+            <LocalisedText>
+               <LocalisationCH_V1.LocalisedText>
+                 <Language>de</Language>
+                 <Text>Guggital</Text>
+               </LocalisationCH_V1.LocalisedText>
+            </LocalisedText>
+          </LocalisationCH_V1.MultilingualText>
+        </Name>
+        <Web>http://www.guggital.ch</Web>
+        <UpperLevelUnit REF="xGL"/>
+      </AdministrativeUnitsCH_V1.CHMunicipalities.CHMunicipality>
+
+    </AdministrativeUnitsCH_V1.CHMunicipalities>
+
+    <!-- TOPIC CHAgencies -->
+
+    <AdministrativeUnitsCH_V1.CHAgencies BID="xCHAgenciesBasket1">
+
+      <AdministrativeUnitsCH_V1.CHAgencies.Agency TID="A288D432-EF97-4481-BA21-392A4B93D9DF">
+        <Name>
+          <LocalisationCH_V1.MultilingualText>
+            <LocalisedText>
+               <LocalisationCH_V1.LocalisedText>
+                 <Language>de</Language>
+                 <Text>BAFU, Abteilung Wasser</Text>
+               </LocalisationCH_V1.LocalisedText>
+               <LocalisationCH_V1.LocalisedText>
+                 <Language>fr</Language>
+                 <Text>LOFEV, Division Eaux</Text>
+               </LocalisationCH_V1.LocalisedText>
+               <LocalisationCH_V1.LocalisedText>
+                 <Language>it</Language>
+                 <Text>LUFAM, Divisione Acque</Text>
+               </LocalisationCH_V1.LocalisedText>
+               <LocalisationCH_V1.LocalisedText>
+                 <Language>en</Language>
+                 <Text>FOEN, Water Division</Text>
+               </LocalisationCH_V1.LocalisedText>
+            </LocalisedText>
+          </LocalisationCH_V1.MultilingualText>
+        </Name>
+        <Web>http://www.bafu.admin.ch</Web>
+        <Description>
+          <LocalisationCH_V1.MultilingualMText>
+            <LocalisedText>
+               <LocalisationCH_V1.LocalisedMText>
+                 <Language>de</Language>
+                 <Text>Bundesamt fuer Umwelt, Abteilung Wasser</Text>
+               </LocalisationCH_V1.LocalisedMText>
+            </LocalisedText>
+          </LocalisationCH_V1.MultilingualMText>
+        </Description>
+        <Supervisor REF="xCHE"/>
+      </AdministrativeUnitsCH_V1.CHAgencies.Agency>
+
+    </AdministrativeUnitsCH_V1.CHAgencies>
+
+  </DATASECTION>
+
+</TRANSFER>

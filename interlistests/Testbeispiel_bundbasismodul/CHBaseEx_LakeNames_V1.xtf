@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- File CHBaseEx_V1_LakeNames.xml 2011-08-30 (http://www.geo.admin.ch) -->
+<TRANSFER xmlns="http://www.interlis.ch/INTERLIS2.3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://models.geo.admin.ch/swisstopo/CHBaseEx_V1.xsd">
+
+  <HEADERSECTION VERSION="2.3" SENDER="http://www.geo.admin.ch">
+    <MODELS>
+      <MODEL NAME="DictionariesCH_V1" URI="http://models.geo.admin.ch/CHBase" VERSION="2011-08-30"/>
+      <MODEL NAME="CHBaseEx_WaterNet_V1" URI="http://models.geo.admin.ch/CHBase" VERSION="2011-08-30"/>
+    </MODELS>
+  </HEADERSECTION>
+  
+  <DATASECTION>
+    
+    <CHBaseEx_WaterNet_V1.LakeNames BID="xLakeNamesBasket1">
+      
+      <CHBaseEx_WaterNet_V1.LakeNames.LakeNameTranslations TID="xLakeNamesDE">
+        <Language>de</Language>
+        <Entries>
+          <CHBaseEx_WaterNet_V1.LakeNames.LakeName>
+            <Text>Guggitalersee</Text>
+            <Ref REF="B6DCF3B1-5D79-4874-99A9-E26DA93704FB"></Ref>
+          </CHBaseEx_WaterNet_V1.LakeNames.LakeName>
+          <CHBaseEx_WaterNet_V1.LakeNames.LakeName>
+            <Text>Qualensee</Text>
+            <Ref REF="A3D8FF1C-2DCC-4AD7-91C6-F70BCFC9BE64"></Ref>
+          </CHBaseEx_WaterNet_V1.LakeNames.LakeName>
+          <CHBaseEx_WaterNet_V1.LakeNames.LakeName>
+            <Text>Foowilersee</Text>
+            <Ref REF="B5B8EBE2-8A6C-46B7-AEBF-F30689849944"></Ref>
+          </CHBaseEx_WaterNet_V1.LakeNames.LakeName>
+        </Entries>
+      </CHBaseEx_WaterNet_V1.LakeNames.LakeNameTranslations>
+
+      <CHBaseEx_WaterNet_V1.LakeNames.LakeNameTranslations TID="xLakeNamesFR">
+        <Language>fr</Language>
+        <Entries>
+          <CHBaseEx_WaterNet_V1.LakeNames.LakeName>
+            <Text>Lac du Guggital</Text>
+            <Ref REF="B6DCF3B1-5D79-4874-99A9-E26DA93704FB"></Ref>
+          </CHBaseEx_WaterNet_V1.LakeNames.LakeName>
+          <CHBaseEx_WaterNet_V1.LakeNames.LakeName>
+            <Text>Lac du Tourment</Text>
+            <Ref REF="A3D8FF1C-2DCC-4AD7-91C6-F70BCFC9BE64"></Ref>
+          </CHBaseEx_WaterNet_V1.LakeNames.LakeName>
+          <CHBaseEx_WaterNet_V1.LakeNames.LakeName>
+            <Text>Lac de Foo-Villars</Text>
+            <Ref REF="B5B8EBE2-8A6C-46B7-AEBF-F30689849944"></Ref>
+          </CHBaseEx_WaterNet_V1.LakeNames.LakeName>
+        </Entries>
+      </CHBaseEx_WaterNet_V1.LakeNames.LakeNameTranslations>
+
+      <CHBaseEx_WaterNet_V1.LakeNames.LakeNameTranslations TID="xLakeNamesEN">
+        <Language>en</Language>
+        <Entries>
+          <CHBaseEx_WaterNet_V1.LakeNames.LakeName>
+            <Text>Lake Guggital</Text>
+            <Ref REF="B6DCF3B1-5D79-4874-99A9-E26DA93704FB"></Ref>
+          </CHBaseEx_WaterNet_V1.LakeNames.LakeName>
+          <CHBaseEx_WaterNet_V1.LakeNames.LakeName>
+            <Text>Lake Sorrow</Text>
+            <Ref REF="A3D8FF1C-2DCC-4AD7-91C6-F70BCFC9BE64"></Ref>
+          </CHBaseEx_WaterNet_V1.LakeNames.LakeName>
+          <CHBaseEx_WaterNet_V1.LakeNames.LakeName>
+            <Text>Lake Footown</Text>
+            <Ref REF="B5B8EBE2-8A6C-46B7-AEBF-F30689849944"></Ref>
+          </CHBaseEx_WaterNet_V1.LakeNames.LakeName>
+        </Entries>
+      </CHBaseEx_WaterNet_V1.LakeNames.LakeNameTranslations>
+      
+    </CHBaseEx_WaterNet_V1.LakeNames>     
+    
+  </DATASECTION>
+</TRANSFER>

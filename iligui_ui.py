@@ -12,10 +12,11 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(700, 450)
+        MainWindow.resize(600, 450)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("c:\\Users\\mauri\\Repos\\GitHub\\iligui\\icons/interlis.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         MainWindow.setWindowIcon(icon)
+        MainWindow.setStyleSheet("")
         MainWindow.setToolButtonStyle(QtCore.Qt.ToolButtonStyle.ToolButtonIconOnly)
         self.centralwidget = QtWidgets.QWidget(parent=MainWindow)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Preferred)
@@ -24,13 +25,24 @@ class Ui_MainWindow(object):
         sizePolicy.setHeightForWidth(self.centralwidget.sizePolicy().hasHeightForWidth())
         self.centralwidget.setSizePolicy(sizePolicy)
         self.centralwidget.setAcceptDrops(True)
+        self.centralwidget.setStyleSheet("background-color: WhiteSmoke;\n"
+"")
         self.centralwidget.setObjectName("centralwidget")
         self.verticalLayout_5 = QtWidgets.QVBoxLayout(self.centralwidget)
         self.verticalLayout_5.setContentsMargins(10, 10, 10, 10)
         self.verticalLayout_5.setObjectName("verticalLayout_5")
-        self.toolFrame = QtWidgets.QFrame(parent=self.centralwidget)
+        self.frame = QtWidgets.QFrame(parent=self.centralwidget)
+        self.frame.setStyleSheet("")
+        self.frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.frame.setObjectName("frame")
+        self.verticalLayout = QtWidgets.QVBoxLayout(self.frame)
+        self.verticalLayout.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout.setSpacing(0)
+        self.verticalLayout.setObjectName("verticalLayout")
+        self.toolFrame = QtWidgets.QFrame(parent=self.frame)
         self.toolFrame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.toolFrame.setFrameShadow(QtWidgets.QFrame.Shadow.Sunken)
+        self.toolFrame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.toolFrame.setObjectName("toolFrame")
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.toolFrame)
         self.horizontalLayout_2.setContentsMargins(0, 0, 0, 0)
@@ -42,7 +54,7 @@ class Ui_MainWindow(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.interlisButton.sizePolicy().hasHeightForWidth())
         self.interlisButton.setSizePolicy(sizePolicy)
-        self.interlisButton.setMinimumSize(QtCore.QSize(80, 80))
+        self.interlisButton.setMinimumSize(QtCore.QSize(60, 60))
         self.interlisButton.setIcon(icon)
         self.interlisButton.setIconSize(QtCore.QSize(30, 30))
         self.interlisButton.setAutoRaise(True)
@@ -62,31 +74,32 @@ class Ui_MainWindow(object):
         self.horizontalLayout_2.addWidget(self.versionLabel)
         spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
         self.horizontalLayout_2.addItem(spacerItem1)
-        self.menuButton = QtWidgets.QPushButton(parent=self.toolFrame)
+        self.settingsButton = QtWidgets.QToolButton(parent=self.toolFrame)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.menuButton.sizePolicy().hasHeightForWidth())
-        self.menuButton.setSizePolicy(sizePolicy)
-        self.menuButton.setMinimumSize(QtCore.QSize(60, 60))
-        self.menuButton.setText("")
+        sizePolicy.setHeightForWidth(self.settingsButton.sizePolicy().hasHeightForWidth())
+        self.settingsButton.setSizePolicy(sizePolicy)
+        self.settingsButton.setMinimumSize(QtCore.QSize(60, 60))
+        self.settingsButton.setText("")
         icon1 = QtGui.QIcon()
         icon1.addPixmap(QtGui.QPixmap("c:\\Users\\mauri\\Repos\\GitHub\\iligui\\icons/settings.svg"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
-        self.menuButton.setIcon(icon1)
-        self.menuButton.setIconSize(QtCore.QSize(30, 60))
-        self.menuButton.setCheckable(True)
-        self.menuButton.setChecked(False)
-        self.menuButton.setFlat(True)
-        self.menuButton.setObjectName("menuButton")
-        self.horizontalLayout_2.addWidget(self.menuButton)
-        self.verticalLayout_5.addWidget(self.toolFrame, 0, QtCore.Qt.AlignmentFlag.AlignHCenter|QtCore.Qt.AlignmentFlag.AlignTop)
-        self.inputFrame = QtWidgets.QFrame(parent=self.centralwidget)
+        self.settingsButton.setIcon(icon1)
+        self.settingsButton.setIconSize(QtCore.QSize(30, 30))
+        self.settingsButton.setCheckable(False)
+        self.settingsButton.setChecked(False)
+        self.settingsButton.setAutoRaise(True)
+        self.settingsButton.setObjectName("settingsButton")
+        self.horizontalLayout_2.addWidget(self.settingsButton)
+        self.verticalLayout.addWidget(self.toolFrame, 0, QtCore.Qt.AlignmentFlag.AlignHCenter)
+        self.inputFrame = QtWidgets.QFrame(parent=self.frame)
         self.inputFrame.setAcceptDrops(True)
         self.inputFrame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.inputFrame.setFrameShadow(QtWidgets.QFrame.Shadow.Sunken)
+        self.inputFrame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.inputFrame.setObjectName("inputFrame")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.inputFrame)
-        self.horizontalLayout.setContentsMargins(9, 9, 9, 9)
+        self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout.setSpacing(0)
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.fileselectButton = QtWidgets.QToolButton(parent=self.inputFrame)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Maximum)
@@ -100,6 +113,14 @@ class Ui_MainWindow(object):
         self.fileselectButton.setFont(font)
         self.fileselectButton.setAcceptDrops(True)
         self.fileselectButton.setLayoutDirection(QtCore.Qt.LayoutDirection.LeftToRight)
+        self.fileselectButton.setStyleSheet("QToolButton[objectName^=\"fileselectButton\"]:hover {\n"
+"    background-color : rgb(230,230,230);\n"
+"    border-radius: 20px;\n"
+"    border-style: outset;\n"
+"}\n"
+"\n"
+"\n"
+"")
         icon2 = QtGui.QIcon()
         icon2.addPixmap(QtGui.QPixmap("c:\\Users\\mauri\\Repos\\GitHub\\iligui\\icons/fileupload_blue.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         self.fileselectButton.setIcon(icon2)
@@ -127,6 +148,14 @@ class Ui_MainWindow(object):
         self.modelselectButton.setFont(font)
         self.modelselectButton.setAcceptDrops(True)
         self.modelselectButton.setLayoutDirection(QtCore.Qt.LayoutDirection.LeftToRight)
+        self.modelselectButton.setStyleSheet("QToolButton[objectName^=\"modelselectButton\"]:hover {\n"
+"    background-color : rgb(230,230,230);\n"
+"    border-radius: 20px;\n"
+"    border-style: outset;\n"
+"}\n"
+"\n"
+"\n"
+"")
         icon3 = QtGui.QIcon()
         icon3.addPixmap(QtGui.QPixmap("c:\\Users\\mauri\\Repos\\GitHub\\iligui\\icons/model_lightblue.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         self.modelselectButton.setIcon(icon3)
@@ -147,8 +176,8 @@ class Ui_MainWindow(object):
         self.playButton.setFont(font)
         self.playButton.setMouseTracking(False)
         self.playButton.setLayoutDirection(QtCore.Qt.LayoutDirection.LeftToRight)
-        self.playButton.setStyleSheet("QToolButton[objectName^=\"Button_Play\"]:hover {\n"
-"    background-color : rgb(220,220,220);\n"
+        self.playButton.setStyleSheet("QToolButton[objectName^=\"playButton\"]:hover {\n"
+"    background-color : rgb(230,230,230);\n"
 "    border-radius: 20px;\n"
 "    border-style: outset;\n"
 "}\n"
@@ -163,7 +192,8 @@ class Ui_MainWindow(object):
         self.playButton.setAutoRaise(True)
         self.playButton.setObjectName("playButton")
         self.horizontalLayout.addWidget(self.playButton)
-        self.verticalLayout_5.addWidget(self.inputFrame, 0, QtCore.Qt.AlignmentFlag.AlignTop)
+        self.verticalLayout.addWidget(self.inputFrame)
+        self.verticalLayout_5.addWidget(self.frame, 0, QtCore.Qt.AlignmentFlag.AlignTop)
         self.errorFrame = QtWidgets.QFrame(parent=self.centralwidget)
         self.errorFrame.setEnabled(True)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Preferred)

@@ -1,0 +1,884 @@
+INTERLIS 2.3;
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!
+!! Modèle de base pour les données test INTERLIS 2.3. Le modèle de base
+!! est dérivé du modèle INTERLIS 1 MD01MOCH23F.
+!! Test23_fr n'est par contre pas une traduction officielle du MD01MOCH23F
+!! vers INTERLIS 2.3. Le modèle de données Test23_fr a uniquement pour
+!! but de montrer les concepts d'INTERLIS 2.3 par un exemple connu.
+!!
+!!
+!! Version: 1.0
+!! Langue: français
+!! Nom du fichier: Test23_fr.ili
+!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+MODEL Test23_fr (fr) AT "http://www.interlis.ch/" VERSION "2015-03-06"
+                     TRANSLATION OF Test23 ["2015-03-06"] =
+
+  IMPORTS Units;
+  IMPORTS Time;
+
+  DOMAIN
+    Date = FORMAT INTERLIS.XMLDate "1582-10-15" .. "2999-12-31";
+
+    CoordP = COORD 480000.000 .. 840000.000 [INTERLIS.m],
+                   70000.000 .. 300000.000 [INTERLIS.m],
+                   ROTATION 2 -> 1;
+    CoordA = COORD 480000.000 .. 840000.000 [INTERLIS.m],
+                   70000.000 .. 300000.000 [INTERLIS.m],
+                   -200.000 .. 5000.000 [INTERLIS.m],
+                   ROTATION 2 -> 1;
+
+!!  Altitude = -200.000 .. 5000.000 [INTERLIS.m] {SwissOrthometricAlt};
+    Altitude = -200.000 .. 5000.000 [INTERLIS.m];
+
+    Precision = 0.0 .. 700.0;
+
+    Fiabilite = (
+      oui,
+      non);
+
+    Statut = (
+      projete,
+      valable);
+
+    StandardQualite = (
+      MO93,
+      MP74,
+      NP,
+      autre);
+
+    Materiel = (
+      borne,
+      borne_artificielle,
+      cheville,
+      tuyau,
+      pieu,
+      croix,
+      non_materialise);
+
+
+  TOPIC Domaines_numerotation =
+    DOMAIN
+      Abreviation_cantonale = (
+        ZH,
+        BE,
+        LU,
+        UR,
+        SZ,
+        OW,
+        NW,
+        GL,
+        ZG,
+        FR,
+        SO,
+        BS,
+        BL,
+        SH,
+        AR,
+        AI,
+        SG,
+        GR,
+        AG,
+        TG,
+        TI,
+        VD,
+        VS,
+        NE,
+        GE,
+        JU,
+        FL,
+        CH);
+
+    CLASS Domaine_numerotation =
+      ATTRIBUTE
+        Ct: MANDATORY Abreviation_cantonale;
+        NumeroDN: MANDATORY TEXT*6;
+        DossierTech: MANDATORY TEXT*12;
+        Date: Date;
+      UNIQUE
+        Ct, NumeroDN;
+    END Domaine_numerotation;
+
+    CLASS GeometrieDN =
+      ATTRIBUTE
+        Geometrie: MANDATORY SURFACE WITH (STRAIGHTS, ARCS) VERTEX CoordP
+          WITHOUT OVERLAPS > 0.050;
+    END GeometrieDN;
+
+    ASSOCIATION GeometrieDNAssoc =
+      Objet -- {1} Domaine_numerotation;
+      GeometrieDN -- {*} GeometrieDN;
+    END GeometrieDNAssoc;
+
+  END Domaines_numerotation;
+
+
+  TOPIC Points_fixesCategorie1 =
+
+    CLASS PFP1 =
+      ATTRIBUTE
+        Numero: MANDATORY TEXT*12;
+        Geometrie: MANDATORY CoordP;
+        GeomAlt: Altitude;
+        PrecPlan: MANDATORY Precision;
+        FiabPlan: MANDATORY Fiabilite;
+        PrecAlt: Precision;
+        FiabAlt: Fiabilite;
+        Accessibilite: MANDATORY (
+          accessible,
+          inaccessible);
+      UNIQUE
+        Numero;
+      UNIQUE
+        Geometrie, GeomAlt;
+      MANDATORY CONSTRAINT
+        DEFINED(PrecAlt) == DEFINED(GeomAlt);
+      MANDATORY CONSTRAINT
+        DEFINED(FiabAlt) == DEFINED(GeomAlt);
+    END PFP1;
+
+    CLASS PFA1 =
+      ATTRIBUTE
+        Numero: MANDATORY TEXT*12;
+        Geometrie: MANDATORY CoordP;
+        GeomAlt: MANDATORY Altitude;
+        PrecPlan: Precision;
+        FiabPlan: Fiabilite;
+        PrecAlt: MANDATORY Precision;
+        FiabAlt: MANDATORY Fiabilite;
+      UNIQUE
+        Numero;
+      UNIQUE
+        Geometrie;
+    END PFA1;
+
+  END Points_fixesCategorie1;
+
+
+  TOPIC Points_fixesCategorie2 =
+    DEPENDS ON Test23_fr.Domaines_numerotation;
+
+    CLASS PFP2 =
+      ATTRIBUTE
+        IdentDN: MANDATORY TEXT*8;
+        Numero: MANDATORY TEXT*12;
+        Geometrie: MANDATORY CoordP;
+        GeomAlt: Altitude;
+        PrecPlan: MANDATORY Precision;
+        FiabPlan: MANDATORY Fiabilite;
+        PrecAlt: Precision;
+        FiabAlt: Fiabilite;
+        Accessibilite: MANDATORY (
+          accessible,
+          inaccessible);
+      UNIQUE
+        IdentDN, Numero;
+      UNIQUE
+        Geometrie, GeomAlt;
+      MANDATORY CONSTRAINT
+        DEFINED(PrecAlt) == DEFINED(GeomAlt);
+      MANDATORY CONSTRAINT
+        DEFINED(FiabAlt) == DEFINED(GeomAlt);
+      EXISTENCE CONSTRAINT
+        IdentDN REQUIRED IN Test23_fr.Domaines_numerotation.Domaine_numerotation:NumeroDN;
+    END PFP2;
+
+    CLASS PFA2 =
+      ATTRIBUTE
+        IdentDN: MANDATORY TEXT*8;
+        Numero: MANDATORY TEXT*12;
+        Geometrie: MANDATORY CoordP;
+        GeomAlt: MANDATORY Altitude;
+        PrecPlan: Precision;
+        FiabPlan: Fiabilite;
+        PrecAlt: MANDATORY Precision;
+        FiabAlt: MANDATORY Fiabilite;
+      UNIQUE
+        IdentDN, Numero;
+      UNIQUE
+        Geometrie;
+      EXISTENCE CONSTRAINT
+        IdentDN REQUIRED IN Test23_fr.Domaines_numerotation.Domaine_numerotation:NumeroDN;
+    END PFA2;
+
+  END Points_fixesCategorie2;
+
+
+  TOPIC Points_fixesCategorie3 =
+    DEPENDS ON Test23_fr.Domaines_numerotation;
+
+    CLASS PFP3 =
+      ATTRIBUTE
+        IdentDN: MANDATORY TEXT*8;
+        Numero: MANDATORY TEXT*12;
+        Geometrie: MANDATORY CoordP;
+        GeomAlt: Altitude;
+        PrecPlan: MANDATORY Precision;
+        FiabPlan: MANDATORY Fiabilite;
+        PrecAlt: Precision;
+        FiabAlt: Fiabilite;
+        Signe: MANDATORY Materiel;
+        Fiche: MANDATORY BOOLEAN;
+      UNIQUE
+        IdentDN, Numero;
+      UNIQUE
+        Geometrie;
+      MANDATORY CONSTRAINT
+        Signe != #non_materialise;
+      MANDATORY CONSTRAINT
+        DEFINED(PrecAlt) == DEFINED(GeomAlt);
+      MANDATORY CONSTRAINT
+        DEFINED(FiabAlt) == DEFINED(GeomAlt);
+      EXISTENCE CONSTRAINT
+        IdentDN REQUIRED IN Test23_fr.Domaines_numerotation.Domaine_numerotation:NumeroDN;
+    END PFP3;
+
+    CLASS PFA3 =
+      ATTRIBUTE
+        IdentDN: MANDATORY TEXT*8;
+        Numero: MANDATORY TEXT*12;
+        Geometrie: MANDATORY CoordP;
+        GeomAlt: MANDATORY Altitude;
+        PrecPlan: Precision;
+        FiabPlan: Fiabilite;
+        PrecAlt: MANDATORY Precision;
+        FiabAlt: MANDATORY Fiabilite;
+      UNIQUE
+        IdentDN, Numero;
+      UNIQUE
+        Geometrie;
+      EXISTENCE CONSTRAINT
+        IdentDN REQUIRED IN Test23_fr.Domaines_numerotation.Domaine_numerotation:NumeroDN;
+    END PFA3;
+
+  END Points_fixesCategorie3;
+
+
+  TOPIC Couverture_du_sol =
+
+    DOMAIN
+      Genre_CS = (
+        batiment,
+        revetement_dur (
+          route_chemin,
+          trottoir,
+          ilot,
+          chemin_de_fer,
+          place_aviation,
+          bassin,
+          autre_revetement_dur),
+        verte (
+          champ_pre_paturage,
+          culture_intensive (
+            vigne,
+            autre_culture_intensive),
+          jardin,
+          tourbiere,
+          autre_verte),
+        eau (
+          eau_stagnante,
+          cours_eau,
+          roseliere),
+        boisee (
+          foret_dense,
+          autre_boisee),
+        sans_vegetation (
+          rocher,
+          glacier_neve,
+          eboulis_sable,
+          graviere_decharge,
+          autre_sans_vegetation));
+
+    CLASS ObjetCouv (ABSTRACT) =
+    END ObjetCouv;
+
+    CLASS SurfaceCSProj EXTENDS ObjetCouv =
+      ATTRIBUTE
+        Qualite: MANDATORY StandardQualite;
+        Genre: MANDATORY Genre_CS;
+        Geometrie: MANDATORY SURFACE WITH (STRAIGHTS, ARCS) VERTEX CoordP
+          WITHOUT OVERLAPS > 0.050;
+    END SurfaceCSProj;
+
+    CLASS NumeroBatimentProj =
+      ATTRIBUTE
+        Numero: MANDATORY TEXT*12;
+    END NumeroBatimentProj;
+
+    ASSOCIATION NumeroBatimentProjAssoc =
+      Objet -- {1} SurfaceCSProj;
+      NumeroBatimentProj -- {*} NumeroBatimentProj;
+      MANDATORY CONSTRAINT
+         Objet->Genre == #batiment;
+    END NumeroBatimentProjAssoc;
+
+    CLASS NomObjetProj =
+      ATTRIBUTE
+        Nom: MANDATORY TEXT*30;
+    END NomObjetProj;
+
+    ASSOCIATION NomObjetProjAssoc =
+      Objet -- {1} SurfaceCSProj;
+      NomObjetProj -- {*} NomObjetProj;
+      MANDATORY CONSTRAINT
+        Objet->Genre != #batiment;
+    END NomObjetProjAssoc;
+
+    CLASS SurfaceCS EXTENDS ObjetCouv =
+      ATTRIBUTE
+        Geometrie: MANDATORY AREA WITH (STRAIGHTS, ARCS) VERTEX CoordP
+          WITHOUT OVERLAPS > 0.050;
+        Qualite: MANDATORY StandardQualite;
+        Genre: MANDATORY Genre_CS;
+    END SurfaceCS;
+
+    CLASS Numero_de_batiment =
+      ATTRIBUTE
+        Numero: MANDATORY TEXT*12;
+    END Numero_de_batiment;
+
+    ASSOCIATION Numero_de_batimentAssoc =
+      Objet -- {1} SurfaceCS;
+      Numero_de_batiment -- {*} Numero_de_batiment;
+      MANDATORY CONSTRAINT
+        Objet->Genre == #batiment;
+    END Numero_de_batimentAssoc;
+
+    CLASS Nom_objet =
+      ATTRIBUTE
+        Nom: MANDATORY TEXT*30;
+    END Nom_objet;
+
+    ASSOCIATION Nom_objetAssoc =
+      Objet -- {1} SurfaceCS;
+      Nom_objet -- {*} Nom_objet;
+      MANDATORY CONSTRAINT
+        Objet->Genre != #batiment;
+    END Nom_objetAssoc;
+
+    CLASS Point_particulier EXTENDS ObjetCouv =
+      ATTRIBUTE
+        Identification: TEXT*12;
+        Geometrie: MANDATORY CoordP;
+        PrecPlan: MANDATORY Precision;
+        FiabPlan: MANDATORY Fiabilite;
+        Defini_exactement: MANDATORY BOOLEAN;
+      UNIQUE
+        Geometrie;
+    END Point_particulier;
+
+  END Couverture_du_sol;
+
+
+  TOPIC Objets_divers =
+
+    DOMAIN
+      Genre_OD = (
+        mur,
+        batiment_souterrain,
+        autre_corps_de_batiment,
+        eau_canalisee_souterraine,
+        escalier_important,
+        tunnel_passage_inferieur_galerie,
+        pont_passerelle,
+        fontaine,
+        reservoir,
+        pilier,
+        couvert_independant,
+        silo_tour_gazometre,
+        cheminee,
+        monument,
+        mat_antenne,
+        tour_panoramique,
+        ouvrage_de_protection_des_rives,
+        seuil,
+        paravalanche,
+        socle_massif,
+        ruine_objet_archeologique,
+        debarcadere,
+        bloc_erratique,
+        cordon_boise,
+        ru,
+        sentier,
+        ligne_aerienne_a_haute_tension,
+        conduite_forcee,
+        voie_ferree,
+        telepherique,
+        telecabine_telesiege,
+        telepherique_de_chantier,
+        skilift,
+        bac,
+        grotte_entree_de_caverne,
+        axe,
+        arbre_isole_important,
+        statue_crucifix,
+        source,
+        point_de_reference,
+        autre);
+
+    CLASS Objet_divers (ABSTRACT) =
+      ATTRIBUTE
+        Qualite: MANDATORY StandardQualite;
+        Genre: MANDATORY Genre_OD;
+    END Objet_divers;
+
+    CLASS Element_surfacique EXTENDS Objet_divers =
+      ATTRIBUTE
+        Geometrie: MANDATORY SURFACE WITH (STRAIGHTS, ARCS) VERTEX CoordP
+          WITHOUT OVERLAPS > 0.050;
+    END Element_surfacique;
+
+    CLASS Element_lineaire EXTENDS Objet_divers =
+      ATTRIBUTE
+        Geometrie: MANDATORY POLYLINE WITH (STRAIGHTS, ARCS) VERTEX CoordP;
+    END Element_lineaire;
+
+    CLASS Element_ponctuel EXTENDS Objet_divers =
+      ATTRIBUTE
+        Geometrie: MANDATORY CoordP;
+    END Element_ponctuel;
+
+    CLASS Nom_Objet =
+      ATTRIBUTE
+        Nom: TEXT*30;
+    END Nom_Objet;
+
+    ASSOCIATION Nom_ObjetAssoc =
+      Objet -- {1} Objet_divers;
+      Nom_Objet -- {*} Nom_Objet;
+    END Nom_ObjetAssoc;
+
+    CLASS Numero_Objet =
+      ATTRIBUTE
+        Numero: TEXT*12;
+    END Numero_Objet;
+
+    ASSOCIATION Numero_ObjetAssoc =
+      Objet -- {1} Objet_divers;
+      Numero_Objet -- {*} Numero_Objet;
+    END Numero_ObjetAssoc;
+
+    CLASS Point_particulier =
+      ATTRIBUTE
+        Identification: TEXT*12;
+        Geometrie: MANDATORY CoordP;
+        PrecPlan: MANDATORY Precision;
+        FiabPlan: MANDATORY Fiabilite;
+        Defini_exactement: MANDATORY BOOLEAN;
+      UNIQUE
+        Geometrie;
+    END Point_particulier;
+
+  END Objets_divers;
+
+
+  TOPIC Altimetrie =
+
+    CLASS Objet_altimetrique (ABSTRACT) =
+    END Objet_altimetrique;
+
+    CLASS Point_cote EXTENDS Objet_altimetrique =
+      ATTRIBUTE
+        Geometrie: MANDATORY CoordA;
+        Qualite: MANDATORY StandardQualite;
+      UNIQUE
+        Geometrie;
+    END Point_cote;
+
+    CLASS Arete EXTENDS Objet_altimetrique =
+      ATTRIBUTE
+        Geometrie: MANDATORY POLYLINE WITH (STRAIGHTS) VERTEX CoordA;
+        Qualite: MANDATORY StandardQualite;
+        Genre: MANDATORY (
+          ligne_de_rupture,
+          ligne_de_structure,
+          autre);
+    END Arete;
+
+    CLASS Surface_vide EXTENDS Objet_altimetrique =
+      ATTRIBUTE
+        Qualite: MANDATORY StandardQualite;
+        Genre: MANDATORY (
+          surface_morte,
+          autre);
+        Geometrie: MANDATORY SURFACE WITH (STRAIGHTS, ARCS) VERTEX CoordP
+          WITHOUT OVERLAPS > 0.050;
+    END Surface_vide;
+
+  END Altimetrie;
+
+
+  TOPIC Nomenclature =
+
+    CLASS Nom (ABSTRACT) =
+      ATTRIBUTE
+        Nom: MANDATORY TEXT*40;
+    END Nom;
+
+    CLASS Nom_local EXTENDS Nom =
+      ATTRIBUTE
+        Geometrie: MANDATORY AREA WITH (STRAIGHTS, ARCS) VERTEX CoordP
+          WITHOUT OVERLAPS > 0.200;
+    END Nom_local;
+
+    CLASS Nom_de_lieu EXTENDS Nom =
+      ATTRIBUTE
+        Type: TEXT*30;
+        Geometrie: MANDATORY SURFACE WITH (STRAIGHTS, ARCS) VERTEX CoordP
+          WITHOUT OVERLAPS > 0.200;
+    END Nom_de_lieu;
+
+    CLASS Lieudit EXTENDS Nom =
+    END Lieudit;
+
+  END Nomenclature;
+
+
+  TOPIC Biens_fonds =
+    DEPENDS ON Test23_fr.Domaines_numerotation;
+
+    DOMAIN
+      Genre_immeuble = (
+        bien_fonds,
+        DDP (
+          superficie,
+          source,
+          autre),
+        mine);
+
+    CLASS Objet_immeuble (ABSTRACT) =
+    END Objet_immeuble;
+
+    CLASS Point_limite EXTENDS Objet_immeuble =
+      ATTRIBUTE
+        Identification: TEXT*12;
+        Geometrie: MANDATORY CoordP;
+        PrecPlan: MANDATORY Precision;
+        FiabPlan: MANDATORY Fiabilite;
+        Signe: MANDATORY Materiel;
+        Defini_exactement: MANDATORY BOOLEAN;
+      UNIQUE
+        Geometrie;
+    END Point_limite;
+
+    CLASS ImmeubleProj EXTENDS Objet_immeuble =
+      ATTRIBUTE
+        IdentDN: MANDATORY TEXT*8;
+        Numero: MANDATORY TEXT*12;
+        Genre: MANDATORY Genre_immeuble;
+        Geometrie: MANDATORY SURFACE WITH (STRAIGHTS, ARCS) VERTEX CoordP
+          WITHOUT OVERLAPS > 0.050;
+      UNIQUE
+        IdentDN, Numero;
+      EXISTENCE CONSTRAINT
+        IdentDN REQUIRED IN Test23_fr.Domaines_numerotation.Domaine_numerotation:NumeroDN;
+    END ImmeubleProj;
+
+    CLASS Immeuble EXTENDS Objet_immeuble =
+      ATTRIBUTE
+        IdentDN: MANDATORY TEXT*8;
+        Numero: MANDATORY TEXT*12;
+        Validite: MANDATORY (
+          en_vigueur,
+          litigieux,
+          incomplet);
+        Genre: MANDATORY Genre_immeuble;
+      UNIQUE
+        IdentDN, Numero;
+      EXISTENCE CONSTRAINT
+        IdentDN REQUIRED IN Test23_fr.Domaines_numerotation.Domaine_numerotation:NumeroDN;
+    END Immeuble;
+
+    CLASS Bien_fonds EXTENDS Objet_immeuble =
+      ATTRIBUTE
+        Geometrie: MANDATORY AREA WITH (STRAIGHTS, ARCS) VERTEX CoordP
+          WITHOUT OVERLAPS > 0.050;
+        Superficie: MANDATORY 1 .. 999999999 [Units.m2];
+    END Bien_fonds;
+
+    ASSOCIATION Bien_fondsAssoc =
+      Objet -- {1} Immeuble;
+      Bien_fonds -- {0..*} Bien_fonds;
+    END Bien_fondsAssoc;
+
+    CLASS DDP =
+      ATTRIBUTE
+        Geometrie: MANDATORY SURFACE WITH (STRAIGHTS, ARCS) VERTEX CoordP
+          WITHOUT OVERLAPS > 0.050;
+        Superficie: MANDATORY 1 .. 999999999 [Units.m2];
+    END DDP;
+
+    ASSOCIATION DDPAssoc =
+      Objet -- {1} Immeuble;
+      DDP -- {0..*} DDP;
+    END DDPAssoc;
+
+    CLASS Mine =
+      ATTRIBUTE
+        Geometrie: MANDATORY SURFACE WITH (STRAIGHTS, ARCS) VERTEX CoordP
+          WITHOUT OVERLAPS > 0.050;
+        Superficie: MANDATORY 1 .. 999999999 [Units.m2];
+    END Mine;
+
+    ASSOCIATION MineAssoc =
+      Objet -- {1} Immeuble;
+      Mine -- {0..*} Mine;
+    END MineAssoc;
+
+  END Biens_fonds;
+
+
+  TOPIC Conduites =
+
+    DOMAIN
+      Matiere = (
+        petrole,
+        gaz,
+        autre);
+
+    CLASS Objet_conduite (ABSTRACT) =
+    END Objet_conduite;
+
+    STRUCTURE Geometrie_conduite (ABSTRACT) =
+    END Geometrie_conduite;
+
+    STRUCTURE Element_surfacique EXTENDS Geometrie_conduite =
+      ATTRIBUTE
+        Geometrie: MANDATORY SURFACE WITH (STRAIGHTS, ARCS) VERTEX CoordP
+          WITHOUT OVERLAPS > 0.050;
+    END Element_surfacique;
+
+    STRUCTURE Element_lineaire EXTENDS Geometrie_conduite =
+      ATTRIBUTE
+        Geometrie: MANDATORY POLYLINE WITH (STRAIGHTS, ARCS) VERTEX CoordP;
+        Genre_ligne: (
+          visible);
+    END Element_lineaire;
+
+    STRUCTURE Element_ponctuel EXTENDS Geometrie_conduite =
+      ATTRIBUTE
+        Geometrie: MANDATORY CoordP;
+        GeomAlt: Altitude;
+    END Element_ponctuel;
+
+    CLASS Element_conduite EXTENDS Objet_conduite =
+      ATTRIBUTE
+        Exploitant: MANDATORY TEXT*30;
+        Qualite: MANDATORY StandardQualite;
+        Genre: MANDATORY Matiere;
+        Geometrie: BAG {1 .. *} OF Geometrie_conduite
+                   RESTRICTION (Element_surfacique; Element_lineaire; Element_ponctuel);
+    END Element_conduite;
+
+    CLASS Signal EXTENDS Objet_conduite =
+      ATTRIBUTE
+        Numero: MANDATORY TEXT*12;
+        Exploitant: MANDATORY TEXT*30;
+        Geometrie: MANDATORY CoordP;
+        Qualite: MANDATORY StandardQualite;
+        Genre: MANDATORY Matiere;
+        Genre_point: MANDATORY (
+          balise,
+          plaquette_borne,
+          autre);
+    END Signal;
+
+    CLASS Point_particulier EXTENDS Objet_conduite =
+      ATTRIBUTE
+        Identification: TEXT*12;
+        Geometrie: MANDATORY CoordP;
+        PrecPlan: MANDATORY Precision;
+        FiabPlan: MANDATORY Fiabilite;
+        Defini_exactement: MANDATORY BOOLEAN;
+      UNIQUE
+        Geometrie;
+    END Point_particulier;
+
+  END Conduites;
+
+
+  TOPIC Limites_commune =
+
+    CLASS Objet_limite (ABSTRACT) =
+    END Objet_limite;
+
+    CLASS Point_limite_territorial EXTENDS Objet_limite =
+      ATTRIBUTE
+        Identification: TEXT*12;
+        Geometrie: MANDATORY CoordP;
+        PrecPlan: MANDATORY Precision;
+        FiabPlan: MANDATORY Fiabilite;
+        Signe: MANDATORY Materiel;
+        Borne_territoriale: MANDATORY (
+          oui, non);
+      UNIQUE
+        Geometrie;
+    END Point_limite_territorial;
+
+    CLASS Commune EXTENDS Objet_limite =
+      ATTRIBUTE
+        Nom: MANDATORY TEXT*30;
+        NoOFS: MANDATORY 1 .. 9999;
+      UNIQUE
+        NoOFS;
+    END Commune;
+
+    CLASS Limite_communeProj =
+      ATTRIBUTE
+        Geometrie: MANDATORY POLYLINE WITH (STRAIGHTS, ARCS) VERTEX CoordP
+          WITHOUT OVERLAPS > 0.050;
+    END Limite_communeProj;
+
+    ASSOCIATION Limite_communeProjAssoc =
+      Objet -- {1} Commune;
+      Limite_communeProj -- {0..*} Limite_communeProj;
+    END Limite_communeProjAssoc;
+
+    STRUCTURE Attributs_ligne =
+      ATTRIBUTE
+        Genre_ligne: MANDATORY (
+          en_vigueur,
+          litigieux,
+          provisoire,
+          indefini);
+    END Attributs_ligne;
+
+    CLASS Limite_commune =
+      ATTRIBUTE
+        Geometrie: MANDATORY AREA WITH (STRAIGHTS, ARCS) VERTEX CoordP
+          WITHOUT OVERLAPS > 0.050
+          LINE ATTRIBUTES Attributs_ligne;
+    END Limite_commune;
+
+    ASSOCIATION Limite_communeAssoc =
+      Objet -- {1} Commune;
+      Limite_commune -- {0..*} Limite_commune;
+    END Limite_communeAssoc;
+
+  END Limites_commune;
+
+
+  TOPIC Limites_district =
+
+    CLASS Partie_limite_district =
+      ATTRIBUTE
+        Geometrie: MANDATORY POLYLINE WITH (STRAIGHTS, ARCS) VERTEX CoordP;
+        Validite: MANDATORY (
+          en_vigueur,
+          litigieux,
+          provisoire,
+          indefini);
+    END Partie_limite_district;
+
+  END Limites_district;
+
+
+  TOPIC Limites_canton =
+
+    CLASS Partie_limite_canton =
+      ATTRIBUTE
+        Geometrie: MANDATORY POLYLINE WITH (STRAIGHTS, ARCS) VERTEX CoordP;
+        Validite: MANDATORY (
+          en_vigueur,
+          litigieux,
+          provisoire,
+          indefini);
+    END Partie_limite_canton;
+
+  END Limites_canton;
+
+
+  TOPIC Limites_nationales =
+
+    CLASS Partie_limite_nationale =
+      ATTRIBUTE
+        Geometrie: MANDATORY POLYLINE WITH (STRAIGHTS, ARCS) VERTEX CoordP;
+        Validite: MANDATORY (
+          en_vigueur,
+          litigieux,
+          provisoire,
+          indefini);
+    END Partie_limite_nationale;
+
+  END Limites_nationales;
+
+
+  TOPIC Repartitions_plans =
+    DEPENDS ON Test23_fr.Domaines_numerotation;
+
+    CLASS Plan =
+      ATTRIBUTE
+        IdentDN: MANDATORY TEXT*8;
+        Numero: MANDATORY TEXT*12;
+        DossierTech: MANDATORY TEXT*12;
+        Date: Date;
+      UNIQUE
+        IdentDN, Numero;
+      EXISTENCE CONSTRAINT
+        IdentDN REQUIRED IN Test23_fr.Domaines_numerotation.Domaine_numerotation:NumeroDN;
+    END Plan;
+
+    CLASS Geometrie_plan =
+      ATTRIBUTE
+        Geometrie: MANDATORY AREA WITH (STRAIGHTS, ARCS) VERTEX CoordP
+          WITHOUT OVERLAPS > 0.050;
+    END Geometrie_plan;
+
+    ASSOCIATION Geometrie_planAssoc =
+      Objet -- {1} Plan;
+      Geometrie_plan -- {0..*} Geometrie_plan;
+    END Geometrie_planAssoc;
+
+  END Repartitions_plans;
+
+
+  TOPIC RepartitionNT =
+    DEPENDS ON Test23_fr.Domaines_numerotation;
+
+    CLASS Niveau_tolerance =
+      ATTRIBUTE
+        IdentDN: MANDATORY TEXT*8;
+        Identification: MANDATORY TEXT*12;
+        Geometrie: MANDATORY AREA WITH (STRAIGHTS, ARCS) VERTEX CoordP
+          WITHOUT OVERLAPS > 0.200;
+        Date: Date;
+        Genre: MANDATORY (
+          NT1,
+          NT2,
+          NT3,
+          NT4,
+          NT5);
+      UNIQUE
+        IdentDN, Identification;
+      EXISTENCE CONSTRAINT
+        IdentDN REQUIRED IN Test23_fr.Domaines_numerotation.Domaine_numerotation:NumeroDN;
+    END Niveau_tolerance;
+
+  END RepartitionNT;
+
+
+  TOPIC Zones_glissement =
+    DEPENDS ON Test23_fr.Domaines_numerotation;
+
+    CLASS Glissement =
+      ATTRIBUTE
+        IdentDN: MANDATORY TEXT*8;
+        Identification: MANDATORY TEXT*12;
+        Nom: TEXT*30;
+        Geometrie: MANDATORY SURFACE WITH (STRAIGHTS, ARCS) VERTEX CoordP
+          WITHOUT OVERLAPS > 0.200;
+        Date: Date;
+      UNIQUE
+        IdentDN, Identification;
+      EXISTENCE CONSTRAINT
+        IdentDN REQUIRED IN Test23_fr.Domaines_numerotation.Domaine_numerotation:NumeroDN;
+    END Glissement;
+
+  END Zones_glissement;
+
+END Test23_fr.
+

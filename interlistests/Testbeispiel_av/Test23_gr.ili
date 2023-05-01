@@ -1,0 +1,721 @@
+INTERLIS 2.3;
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!
+!! Graphikdaten zum Testdatensatz INTERLIS 2.3. Das Datenmodell enthaelt
+!! ausschliesslich Text- bzw. Symbolpositionen, welche einen Bezug
+!! zum Basismodell Test23.ili haben.
+!!
+!! Version: 1.0
+!! Sprache: Deutsch
+!! Dateiname: Test23_gr.ili
+!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+CONTRACTED MODEL Test23_gr (de) AT "http://www.interlis.ch/" VERSION "2015-03-06" =
+
+  IMPORTS Test23;
+
+  UNIT
+    Grads = PI / 200.0 [INTERLIS.rad];
+
+  DOMAIN
+    Point (ABSTRACT) = COORD NUMERIC,NUMERIC;
+    Surface (ABSTRACT) = SURFACE WITH (STRAIGHTS, ARCS) VERTEX Point;
+
+  FUNCTION Inside(p:Point; s:Surface): BOOLEAN
+      //liefert True wenn p innerhalb s liegt//;
+
+  DOMAIN
+    Schriftgroesse = (
+      klein,
+      mittel,
+      gross);
+    Schriftstil = (
+      normal,
+      gesperrt,
+      weitere);
+    Rotation = 0.0 .. 399.9 [Grads];
+
+    STRUCTURE TextPos =
+      ATTRIBUTE
+        Pos: MANDATORY Test23.LKoord;
+        Ori: Rotation;
+        HAli: HALIGNMENT;
+        VAli: VALIGNMENT;
+      MANDATORY CONSTRAINT
+        DEFINED(HAli) == DEFINED(VAli);
+      MANDATORY CONSTRAINT
+        DEFINED(VAli) == DEFINED(HAli);
+    END TextPos;
+
+    STRUCTURE TextPosGroesse EXTENDS TextPos =
+      ATTRIBUTE
+        Groesse: Schriftgroesse;
+    END TextPosGroesse;
+
+    STRUCTURE TextPosGroesseStil EXTENDS TextPosGroesse =
+      ATTRIBUTE
+        Stil: Schriftstil;
+    END TextPosGroesseStil;
+
+
+  TOPIC Nummerierungsbereiche =
+
+    OID AS INTERLIS.STANDARDOID;
+    DEPENDS ON Test23.Nummerierungsbereiche;
+
+    CLASS NummerierungsbereichPos =
+      ATTRIBUTE
+        Pos: MANDATORY TextPosGroesse;
+    END NummerierungsbereichPos;
+
+    ASSOCIATION NummerierungsbereichPosAssoc =
+      Objekt (EXTERNAL) -- {1} Test23.Nummerierungsbereiche.Nummerierungsbereich;
+      NummerierungsbereichPos -- {*} NummerierungsbereichPos;
+    END NummerierungsbereichPosAssoc;
+
+  END Nummerierungsbereiche;
+
+
+  TOPIC FixpunkteKategorie1 =
+
+    OID AS INTERLIS.STANDARDOID;
+    DEPENDS ON Test23.FixpunkteKategorie1;
+
+    CLASS LFP1Pos =
+      ATTRIBUTE
+        Pos: MANDATORY TextPos;
+    END LFP1Pos;
+
+    CLASS LFP1Symbol =
+      ATTRIBUTE
+        Ori: Rotation;
+    END LFP1Symbol;
+
+    CLASS HFP1Pos =
+      ATTRIBUTE
+        Pos: MANDATORY TextPos;
+    END HFP1Pos;
+
+    ASSOCIATION LFP1PosAssoc =
+      Objekt (EXTERNAL) -- {1} Test23.FixpunkteKategorie1.LFP1;
+      LFP1Pos -- {*} LFP1Pos;
+    END LFP1PosAssoc;
+
+    ASSOCIATION LFP1SymbolAssoc =
+      Objekt (EXTERNAL) -- {1} Test23.FixpunkteKategorie1.LFP1;
+      LFP1Symbol -- {*} LFP1Symbol;
+    END LFP1SymbolAssoc;
+
+    ASSOCIATION HFP1PosAssoc =
+      Objekt (EXTERNAL) -- {1} Test23.FixpunkteKategorie1.HFP1;
+      HFP1Pos -- {*} HFP1Pos;
+    END HFP1PosAssoc;
+
+  END FixpunkteKategorie1;
+
+
+  TOPIC FixpunkteKategorie2 =
+
+    OID AS INTERLIS.STANDARDOID;
+    DEPENDS ON Test23.FixpunkteKategorie2;
+
+    CLASS LFP2Pos =
+      ATTRIBUTE
+        Pos: MANDATORY TextPos;
+    END LFP2Pos;
+
+    CLASS LFP2Symbol =
+      ATTRIBUTE
+        Ori: Rotation;
+    END LFP2Symbol;
+
+    CLASS HFP2Pos =
+      ATTRIBUTE
+        Pos: MANDATORY TextPos;
+    END HFP2Pos;
+
+    ASSOCIATION LFP2PosAssoc =
+      Objekt (EXTERNAL) -- {1} Test23.FixpunkteKategorie2.LFP2;
+      LFP2Pos -- {*} LFP2Pos;
+    END LFP2PosAssoc;
+
+    ASSOCIATION LFP2SymbolAssoc =
+      Objekt (EXTERNAL) -- {1} Test23.FixpunkteKategorie2.LFP2;
+      LFP2Symbol -- {*} LFP2Symbol;
+    END;
+
+    ASSOCIATION HFP2PosAssoc =
+      Objekt (EXTERNAL) -- {1} Test23.FixpunkteKategorie2.LFP2;
+      HFP2Pos -- {*} HFP2Pos;
+    END HFP2PosAssoc;
+
+  END FixpunkteKategorie2;
+
+
+  TOPIC FixpunkteKategorie3 =
+
+    OID AS INTERLIS.STANDARDOID;
+    DEPENDS ON Test23.FixpunkteKategorie3;
+
+    CLASS LFP3Pos =
+      ATTRIBUTE
+        Pos: MANDATORY TextPos;
+    END LFP3Pos;
+
+    CLASS LFP3Symbol =
+      ATTRIBUTE
+        Ori: Rotation;
+    END LFP3Symbol;
+
+    CLASS HFP3Pos =
+      ATTRIBUTE
+        Pos: MANDATORY TextPos;
+    END HFP3Pos;
+
+    ASSOCIATION LFP3PosAssoc =
+      Objekt (EXTERNAL) -- {1} Test23.FixpunkteKategorie3.LFP3;
+      LFP3Pos -- {*} LFP3Pos;
+    END LFP3PosAssoc;
+
+    ASSOCIATION LFP3SymbolAssoc =
+      Objekt (EXTERNAL) -- {1} Test23.FixpunkteKategorie3.LFP3;
+      LFP3Symbol -- {*} LFP3Symbol;
+    END LFP3SymbolAssoc;
+
+    ASSOCIATION HFP3PosAssoc =
+      Objekt (EXTERNAL) -- {1} Test23.FixpunkteKategorie3.LFP3;
+      HFP3Pos -- {*} HFP3Pos;
+    END HFP3PosAssoc;
+
+  END FixpunkteKategorie3;
+
+
+  TOPIC Bodenbedeckung =
+
+    OID AS INTERLIS.STANDARDOID;
+    DEPENDS ON Test23.Bodenbedeckung;
+
+    CLASS ProjGebaeudenummerPos =
+      ATTRIBUTE
+        Pos: MANDATORY TextPosGroesse;
+    END ProjGebaeudenummerPos;
+
+    ASSOCIATION ProjGebaeudenummerPosAssoc =
+      Objekt (EXTERNAL) -- {1} Test23.Bodenbedeckung.ProjGebaeudenummer;
+      ProjGebNrPos -- {*} ProjGebaeudenummerPos;
+    END ProjGebaeudenummerPosAssoc;
+
+    CLASS ProjObjektnamePos =
+      ATTRIBUTE
+        Pos: MANDATORY TextPosGroesse;
+    END ProjObjektnamePos;
+
+    ASSOCIATION ProjObjektnamePosAssoc =
+      Objekt (EXTERNAL) -- {1} Test23.Bodenbedeckung.ProjObjektname;
+      ProjObjektnamePos -- {*} ProjObjektnamePos;
+      MANDATORY CONSTRAINT
+        Objekt->Objekt->Art == #befestigt.Wasserbecken OR
+        Objekt->Objekt->Art == #humusiert.Intensivkultur.Reben OR
+        Objekt->Objekt->Art == #humusiert.Hoch_Flachmoor OR
+        Objekt->Objekt->Art == #Gewaesser.stehendes OR
+        Objekt->Objekt->Art == #Gewaesser.fliessendes OR
+        Objekt->Objekt->Art == #Gewaesser.Schilfguertel;
+      MANDATORY CONSTRAINT
+        Inside(ProjObjektnamePos->Pos, Objekt->Objekt->Geometrie);
+    END ProjObjektnamePosAssoc;
+
+    CLASS ProjBoFlaecheSymbol =
+      ATTRIBUTE
+        Pos: MANDATORY Test23.LKoord;
+        Ori: Rotation;
+    END ProjBoFlaecheSymbol;
+
+    ASSOCIATION ProjBoFlaecheSymbolAssoc =
+      Objekt (EXTERNAL) -- {1} Test23.Bodenbedeckung.ProjBoFlaeche;
+      ProjBoFlaecheSymbol -- {*} ProjBoFlaecheSymbol;
+    END ProjBoFlaecheSymbolAssoc;
+
+    CLASS GebaeudenummerPos =
+      ATTRIBUTE
+        Pos: MANDATORY TextPosGroesse;
+    END GebaeudenummerPos;
+
+    ASSOCIATION GebaeudenummerPosAssoc =
+      Objekt (EXTERNAL) -- {1} Test23.Bodenbedeckung.Gebaeudenummer;
+      GebaeudenummerPos -- {*} GebaeudenummerPos;
+    END GebaeudenummerPosAssoc;
+
+    CLASS ObjektnamePos =
+      ATTRIBUTE
+        Pos: MANDATORY TextPosGroesse;
+    END ObjektnamePos;
+
+    ASSOCIATION ObjektnamePosAssoc =
+      Objekt (EXTERNAL) -- {1} Test23.Bodenbedeckung.Objektname;
+      ObjektnamePos -- {*} ObjektnamePos;
+      MANDATORY CONSTRAINT
+        Objekt->Objekt->Art == #befestigt.Wasserbecken OR
+        Objekt->Objekt->Art == #humusiert.Intensivkultur.Reben OR
+        Objekt->Objekt->Art == #humusiert.Hoch_Flachmoor OR
+        Objekt->Objekt->Art == #Gewaesser.stehendes OR
+        Objekt->Objekt->Art == #Gewaesser.fliessendes OR
+        Objekt->Objekt->Art == #Gewaesser.Schilfguertel;
+      MANDATORY CONSTRAINT
+        Inside(ObjektnamePos->Pos, Objekt->Objekt->Geometrie);
+    END ObjektnamePosAssoc;
+
+    CLASS BoFlaecheSymbol =
+      ATTRIBUTE
+        Pos: MANDATORY Test23.LKoord;
+        Ori: Rotation;
+    END BoFlaecheSymbol;
+
+    ASSOCIATION BoFlaecheSymbolAssoc =
+      Objekt (EXTERNAL) -- {1} Test23.Bodenbedeckung.BoFlaeche;
+      BoFlaecheSymbol -- {*} BoFlaecheSymbol;
+    END BoFlaecheSymbolAssoc;
+
+    CLASS EinzelpunktPos =
+      ATTRIBUTE
+        Pos: MANDATORY TextPos;
+    END EinzelpunktPos;
+
+    ASSOCIATION EinzelpunktPosAssoc =
+      Objekt (EXTERNAL) -- {1} Test23.Bodenbedeckung.Einzelpunkt;
+      EinzelpunktPos -- {*} EinzelpunktPos;
+    END EinzelpunktPosAssoc;
+
+  END Bodenbedeckung;
+
+
+  TOPIC Einzelobjekte =
+
+    OID AS INTERLIS.STANDARDOID;
+    DEPENDS ON Test23.Einzelobjekte;
+
+    CLASS FlaechenelementSymbol =
+      ATTRIBUTE
+        Pos: MANDATORY Test23.LKoord;
+        Ori: Rotation;
+    END FlaechenelementSymbol;
+
+    ASSOCIATION FlaechenelementSymbolAssoc =
+      Objekt (EXTERNAL) -- {1} Test23.Einzelobjekte.Flaechenelement;
+      FlaechenelementSymbol -- {*} FlaechenelementSymbol;
+    END FlaechenelementSymbolAssoc;
+
+    CLASS LinienelementSymbol =
+      ATTRIBUTE
+        Pos: MANDATORY Test23.LKoord;
+        Ori: MANDATORY Rotation;
+    END LinienelementSymbol;
+
+    ASSOCIATION LinienelementSymbolAssoc =
+      Objekt (EXTERNAL) -- {1} Test23.Einzelobjekte.Linienelement;
+      LinienelementSymbol -- {*} LinienelementSymbol;
+    END LinienelementSymbolAssoc;
+
+    CLASS ObjektnamePos =
+      ATTRIBUTE
+        Pos: MANDATORY TextPosGroesse;
+    END ObjektnamePos;
+
+    ASSOCIATION ObjektnamePosAssoc =
+      Objekt (EXTERNAL) -- {1} Test23.Einzelobjekte.ObjektName;
+      ObjektnamePos -- {*} ObjektnamePos;
+    END ObjektnamePosAssoc;
+
+    CLASS ObjektnummerPos =
+      ATTRIBUTE
+        Pos: MANDATORY TextPosGroesse;
+    END ObjektnummerPos;
+
+    ASSOCIATION ObjektnummerPosAssoc =
+      Objekt (EXTERNAL) -- {1} Test23.Einzelobjekte.ObjektNummer;
+      ObjektnummerPos -- {*} ObjektnummerPos;
+    END ObjektnummerPosAssoc;
+
+    CLASS EinzelpunktPos =
+      ATTRIBUTE
+        Pos: TextPos;
+    END EinzelpunktPos;
+
+    ASSOCIATION EinzelpunktPosAssoc =
+      Objekt (EXTERNAL) -- {1} Test23.Einzelobjekte.Einzelpunkt;
+      EinzelpunktPos -- {*} EinzelpunktPos;
+    END EinzelpunktPosAssoc;
+
+  END Einzelobjekte;
+
+
+  TOPIC Hoehen =
+
+    OID AS INTERLIS.STANDARDOID;
+    DEPENDS ON Test23.Hoehen;
+
+    CLASS HoehenpunktPos =
+      ATTRIBUTE
+        Pos: MANDATORY TextPos;
+    END HoehenpunktPos;
+
+    ASSOCIATION HoehenpunktPosAssoc =
+      Objekt (EXTERNAL) -- {1} Test23.Hoehen.Hoehenpunkt;
+      HoehenpunktPos -- {*} HoehenpunktPos;
+    END HoehenpunktPosAssoc;
+
+  END Hoehen;
+
+
+  TOPIC Nomenklatur =
+
+    OID AS INTERLIS.STANDARDOID;
+    DEPENDS ON Test23.Nomenklatur;
+
+    CLASS FlurnamePos =
+      ATTRIBUTE
+        Pos: MANDATORY TextPosGroesseStil;
+    END FlurnamePos;
+
+    ASSOCIATION FlurnamePosAssoc =
+      Objekt (EXTERNAL) -- {1} Test23.Nomenklatur.Flurname;
+      FlurnamePos -- {*} FlurnamePos;
+    END FlurnamePosAssoc;
+
+    CLASS OrtsnamePos =
+      ATTRIBUTE
+        Pos: MANDATORY TextPosGroesseStil;
+    END OrtsnamePos;
+
+    ASSOCIATION OrtsnamePosAssoc =
+      Objekt (EXTERNAL) -- {1} Test23.Nomenklatur.Ortsname;
+      OrtsnamePos -- {*} OrtsnamePos;
+    END OrtsnamePosAssoc;
+
+    CLASS GelaendenamePos =
+      ATTRIBUTE
+        Pos: MANDATORY TextPosGroesseStil;
+    END GelaendenamePos;
+
+    ASSOCIATION GelaendenamePosAssoc =
+      Objekt (EXTERNAL) -- {1} Test23.Nomenklatur.Gelaendename;
+      GelaendenamePos -- {*} GelaendenamePos;
+    END GelaendenamePosAssoc;
+
+  END Nomenklatur;
+
+
+  TOPIC Liegenschaften =
+
+    OID AS INTERLIS.STANDARDOID;
+    DEPENDS ON Test23.Liegenschaften;
+
+    CLASS GrenzpunktPos =
+      ATTRIBUTE
+        Pos: MANDATORY TextPos;
+    END GrenzpunktPos;
+
+    ASSOCIATION GrenzpunktPosAssoc =
+      Objekt (EXTERNAL) -- {1} Test23.Liegenschaften.Grenzpunkt;
+      GrenzpunktPos -- {*} GrenzpunktPos;
+    END GrenzpunktPosAssoc;
+
+    CLASS GrenzpunktSymbol =
+      ATTRIBUTE
+        Ori: Rotation;
+    END GrenzpunktSymbol;
+
+    ASSOCIATION GrenzpunktSymbolAssoc =
+      Objekt (EXTERNAL) -- {1} Test23.Liegenschaften.Grenzpunkt;
+      GrenzpunktSymbol -- {*} GrenzpunktSymbol;
+    END GrenzpunktSymbolAssoc;
+
+    CLASS ProjGrundstueckPos =
+      ATTRIBUTE
+        Pos: MANDATORY TextPosGroesse;
+        Hilfslinie: POLYLINE WITH (STRAIGHTS) VERTEX Test23.LKoord;
+    END ProjGrundstueckPos;
+
+    ASSOCIATION ProjGrundstueckPosAssoc =
+      Objekt (EXTERNAL) -- {1} Test23.Liegenschaften.ProjGrundstueck;
+      ProjGrundstueckPos -- {*} ProjGrundstueckPos;
+    END ProjGrundstueckPosAssoc;
+
+    CLASS GrundstueckPos =
+      ATTRIBUTE
+        Pos: MANDATORY TextPosGroesse;
+        Hilfslinie: POLYLINE WITH (STRAIGHTS) VERTEX Test23.LKoord;
+    END GrundstueckPos;
+
+    ASSOCIATION GrundstueckPosAssoc =
+      Objekt (EXTERNAL) -- {1} Test23.Liegenschaften.Grundstueck;
+      GrundstueckPos -- {*} GrundstueckPos;
+    END GrundstueckPosAssoc;
+
+  END Liegenschaften;
+
+
+  TOPIC Rohrleitungen =
+
+    OID AS INTERLIS.STANDARDOID;
+    DEPENDS ON Test23.Rohrleitungen;
+
+    CLASS LeitungsobjektPos =
+      ATTRIBUTE
+        Pos: MANDATORY TextPosGroesse;
+    END LeitungsobjektPos;
+
+    ASSOCIATION LeitungsobjektPosAssoc =
+      Objekt (EXTERNAL) -- {1} Test23.Rohrleitungen.Leitungsobjekt;
+      LeitungsobjektPos -- {*} LeitungsobjektPos;
+    END LeitungsobjektPosAssoc;
+
+    CLASS SignalpunktPos =
+      ATTRIBUTE
+        Pos: MANDATORY TextPos;
+    END SignalpunktPos;
+
+    ASSOCIATION SignalpunktPosAssoc =
+      Objekt (EXTERNAL) -- {1} Test23.Rohrleitungen.Signalpunkt;
+      SignalpunktPos -- {*} SignalpunktPos;
+    END SignalpunktPosAssoc;
+
+    CLASS EinzelpunktPos =
+      ATTRIBUTE
+        Pos: MANDATORY TextPos;
+    END EinzelpunktPos;
+
+    ASSOCIATION EinzelpunktPosAssoc =
+      Objekt (EXTERNAL) -- {1} Test23.Rohrleitungen.Einzelpunkt;
+      EinzelpunktPos -- {*} EinzelpunktPos;
+    END EinzelpunktPosAssoc;
+
+  END Rohrleitungen;
+
+
+  TOPIC Gemeindegrenzen =
+
+    OID AS INTERLIS.STANDARDOID;
+    DEPENDS ON Test23.Gemeindegrenzen;
+
+    CLASS HoheitsgrenzpunktPos =
+      ATTRIBUTE
+        Pos: MANDATORY Test23.LKoord;
+    END HoheitsgrenzpunktPos;
+
+    CLASS HoheitsgrenzpunktSymbol =
+      ATTRIBUTE
+        Ori: Rotation;
+    END HoheitsgrenzpunktSymbol;
+
+    ASSOCIATION HoheitsgrenzpunktPosAssoc =
+      Objekt (EXTERNAL) -- {1} Test23.Gemeindegrenzen.Hoheitsgrenzpunkt;
+      HoheitsgrenzpunktPos -- {*} HoheitsgrenzpunktPos;
+    END HoheitsgrenzpunktPosAssoc;
+
+    ASSOCIATION HoheitsgrenzpunktSymbolAssoc =
+      Objekt (EXTERNAL) -- {1} Test23.Gemeindegrenzen.Hoheitsgrenzpunkt;
+      HoheitsgrenzpunktSymbol -- {*} HoheitsgrenzpunktSymbol;
+    END HoheitsgrenzpunktSymbolAssoc;
+
+  END Gemeindegrenzen;
+
+
+  TOPIC Planeinteilungen =
+
+    OID AS INTERLIS.STANDARDOID;
+    DEPENDS ON Test23.Planeinteilungen;
+
+    CLASS PlanPos =
+      ATTRIBUTE
+        Pos: MANDATORY TextPosGroesse;
+    END PlanPos;
+
+    ASSOCIATION PlanPosAssoc =
+      Objekt (EXTERNAL) -- {1} Test23.Planeinteilungen.Plan;
+      PlanPos -- {*} PlanPos;
+    END PlanPosAssoc;
+
+  END Planeinteilungen;
+
+
+  TOPIC TSEinteilung =
+
+    OID AS INTERLIS.STANDARDOID;
+    DEPENDS ON Test23.TSEinteilung;
+
+    CLASS ToleranzstufePos =
+      ATTRIBUTE
+        Pos: MANDATORY TextPosGroesse;
+    END ToleranzstufePos;
+
+    ASSOCIATION ToleranzstufePosAssoc =
+      Objekt (EXTERNAL) -- {1} Test23.TSEinteilung.Toleranzstufe;
+      ToleranzstufePos -- {*} ToleranzstufePos;
+    END ToleranzstufePosAssoc;
+
+  END TSEinteilung;
+
+
+  TOPIC Rutschgebiete =
+
+    OID AS INTERLIS.STANDARDOID;
+    DEPENDS ON Test23.Rutschgebiete;
+
+    CLASS RutschungPos =
+      ATTRIBUTE
+        Pos: MANDATORY TextPosGroesse;
+    END RutschungPos;
+
+    ASSOCIATION RutschungPosAssoc =
+      Objekt (EXTERNAL) -- {1} Test23.Rutschgebiete.Rutschung;
+      RutschungPos -- {*} RutschungPos;
+    END RutschungPosAssoc;
+
+  END Rutschgebiete;
+
+
+  TOPIC Planrahmen =
+
+    OID AS INTERLIS.STANDARDOID;
+    DEPENDS ON Test23.Nummerierungsbereiche;
+
+    DOMAIN
+      Massstabstyp = 1 .. 1000000;
+      Beschriftungsart = (
+        Nachbarn,
+        Nachbarplan,
+        UebersichtNachbarn,
+        Strassenrichtung,
+        LK_Nr,
+        BFSNr,
+        weitere);
+      Linientyp = (
+        weitere);
+      Symbolart = (
+        Nordpfeil,
+        weitere);
+      Kreuzart = (
+        Koord_Kreuz,
+        Netzkreuz,
+        Netzmarkierung,
+        weitere);
+
+    CLASS PlanLayout =
+      ATTRIBUTE
+        NBIdent: MANDATORY TEXT*8;
+        Identifikator: MANDATORY TEXT*32;
+        Layouttyp: MANDATORY TEXT*20;
+        Plannummer: MANDATORY TEXT*12;
+        Gemeindename: MANDATORY TEXT*30;
+        Geometername: TEXT*30;
+        Erstellungsdatum: MANDATORY Test23.Datum;
+        NachfuehrungsGeometername: TEXT*30;
+        Nachfuehrungsdatum: Test23.Datum;
+        Massstabszahl: MANDATORY Massstabstyp;
+        Plannullpunkt: MANDATORY Test23.LKoord;
+        E_Azimut: MANDATORY Rotation;
+        UebersichtMassstabszahl: Massstabstyp;
+        UebersichtPlannullpunkt: Test23.LKoord;
+        Mit_Koordinatennetz: MANDATORY (
+          ja,
+          nein);
+      UNIQUE
+        NBIdent, Identifikator;
+      EXISTENCE CONSTRAINT
+        NBIdent REQUIRED IN Test23.Nummerierungsbereiche.Nummerierungsbereich:NBNummer;
+    END PlanLayout;
+
+    CLASS Planbeschriftung =
+      ATTRIBUTE
+        Beschriftung: MANDATORY TEXT*30;
+        Art: MANDATORY Beschriftungsart;
+    END Planbeschriftung;
+
+    ASSOCIATION PlanbeschriftungAssoc =
+      Objekt -- {1} PlanLayout;
+      Planbeschriftung -- {*} Planbeschriftung;
+    END PlanbeschriftungAssoc;
+
+    CLASS PlanbeschriftungPos =
+      ATTRIBUTE
+        Pos: MANDATORY TextPosGroesse;
+    END PlanbeschriftungPos;
+
+    ASSOCIATION PlanbeschriftungPosAssoc =
+      Objekt -- {1} Planbeschriftung;
+      PlanbeschriftungPos -- {*} PlanbeschriftungPos;
+    END PlanbeschriftungPosAssoc;
+
+    CLASS Koordinatenanschrift =
+      ATTRIBUTE
+        Beschriftung: MANDATORY TEXT*12;
+    END Koordinatenanschrift;
+
+    ASSOCIATION KoordinatenanschriftAssoc =
+      Objekt -- {1} PlanLayout;
+      Koordinatenanschrift -- {*} Koordinatenanschrift;
+    END KoordinatenanschriftAssoc;
+
+    CLASS KoordinatenanschriftPos =
+      ATTRIBUTE
+        Pos: MANDATORY TextPosGroesse;
+      UNIQUE Pos;
+    END KoordinatenanschriftPos;
+
+    ASSOCIATION KoordinatenanschriftPosAssoc =
+      Objekt -- {1} Koordinatenanschrift;
+      KoordinatenanschriftPos -- {*} KoordinatenanschriftPos;
+    END KoordinatenanschriftPosAssoc;
+
+    CLASS Linienobjekt =
+      ATTRIBUTE
+        Geometrie: MANDATORY POLYLINE WITH (STRAIGHTS, ARCS) VERTEX Test23.LKoord;
+        Art: MANDATORY Linientyp;
+    END Linienobjekt;
+
+    ASSOCIATION LinienobjektAssoc =
+      Objekt -- {1} PlanLayout;
+      Linienobjekt -- {*} Linienobjekt;
+    END LinienobjektAssoc;
+
+    CLASS KoordinatenLinie =
+      ATTRIBUTE
+        Geometrie: MANDATORY POLYLINE WITH (STRAIGHTS) VERTEX Test23.LKoord;
+    END KoordinatenLinie;
+
+    ASSOCIATION KoordinatenLinieAssoc =
+      Objekt -- {1} PlanLayout;
+      KoordinatenLinie -- {*} KoordinatenLinie;
+    END KoordinatenLinieAssoc;
+
+    CLASS PlanLayoutSymbol =
+      ATTRIBUTE
+        Pos: MANDATORY Test23.LKoord;
+        Ori: Rotation;
+        Art: MANDATORY Symbolart;
+    END PlanLayoutSymbol;
+
+    ASSOCIATION PlanLayoutSymbolAssoc =
+      Objekt -- {1} PlanLayout;
+      PlanLayoutSymbol -- {*} PlanLayoutSymbol;
+    END PlanLayoutSymbolAssoc;
+
+    CLASS Netzkreuz =
+      ATTRIBUTE
+        Pos: MANDATORY Test23.LKoord;
+        Ori: Rotation;
+        Art: MANDATORY Kreuzart;
+      UNIQUE Pos;
+    END Netzkreuz;
+
+    ASSOCIATION NetzkreuzAssoc =
+      Objekt -- {1} PlanLayout;
+      Netzkreuz -- {*} Netzkreuz;
+    END NetzkreuzAssoc;
+
+  END Planrahmen;
+
+END Test23_gr.
+
