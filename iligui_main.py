@@ -1,5 +1,5 @@
 from PyQt6.QtWidgets import QMainWindow, QApplication, QFileDialog
-from PyQt6.QtWidgets import QLabel, QToolButton, QPlainTextEdit, QProgressBar, QToolBox
+from PyQt6.QtWidgets import QLabel, QToolButton, QPlainTextEdit, QProgressBar, QToolBox, QDialog
 from PyQt6.QtCore import QPropertyAnimation, QSize, QRect, QVariantAnimation, Qt, QUrl
 from PyQt6 import uic, QtGui
 from iligui_modeldialog import ilimodelselectgui
@@ -129,6 +129,9 @@ class iligui(QMainWindow):
 
         ## Get the Modelname that the File was written in.
         if self.file_path != "":
+            # Reset Modelselect Button
+            self.modelselectButton.setIcon(QtGui.QIcon("icons/model_lightblue.png"))
+            self.hideerrorframe()
             """
             The ilivalidator does not get the model name from the header.
             In INTERLIS1 it reads the transferfile to the first basket.
@@ -142,48 +145,23 @@ class iligui(QMainWindow):
                     text = f.read()
                 match = re.search(r'MODEL\s+(\w+)', text)
                 if match:
-                    model_name = match.group(1)
-                    print(model_name)
+                    self.model_name = match.group(1)
+                    print(self.model_name)
                 else:
                     print('MODEL not found')
             ### INTERLIS 2
             else:
                 tree = ET.parse(self.file_path)
                 root = tree.getroot()
-                print(f"root: {root.tag}")
                 ns = "{" + root.tag.split('}')[0].strip('{') + "}" # Get the namespace of the root element for further parsing
                 for section in root:
-                    print(f"child: {section.tag}")
                     if section.tag == ns + 'DATASECTION':
                         first_tag = section[0].tag
                         first_tag_name = first_tag.split('}')[1]
-                        model_name = first_tag_name.split('.')[0]
+                        self.model_name = first_tag_name.split('.')[0]
                         break
-
-                """
-                # Find Elements of the Models
-                models_info = []
-                for model in root.findall(".//{%s}MODELS" % ns):
-                    for attribute in model.findall("{%s}MODEL" % ns):
-                        model_info = []
-                        for attr_name, attr_value in attribute.attrib.items():
-                            # print(f"{attr_name}: {attr_value}")
-                            model_info.append([attr_name, attr_value])
-                        models_info.append(model_info)
-                if len(models_info) != 0:
-                    # TODO: THIS ONLY RETURNS THE FIRST MODEL. I SHOULD ENABLE MUTLIPLE MODELS
-                    print(f"Model Found!: {models_info}")
-                    self.model_name = models_info[0][0][1]
-                    print(f"Model_Name: {self.model_name}")
-                    self.model_version = models_info[0][1][1]
-                    print(f"Model_Version: {self.model_version}")
-                    self.model_url = models_info[0][2][1]
-                    print(f"Model_Url: {self.model_url}")
-                else:
-                    self.model_name = "Not found"
-                    self.model_url = "Not found"
-                """
             print("Loaded Transfer File from " + self.file_path)
+            print("Model Name Found" + self.file_path)
             self.fileselectButton.setIcon(QtGui.QIcon("icons/circle_good_green.png"))
             filename = os.path.basename(self.file_path)
             self.fileText.setText(filename)
@@ -194,13 +172,14 @@ class iligui(QMainWindow):
         self.playButton.setIcon(QtGui.QIcon("icons/play.png"))
         try:
             self.modelselectUIWindow = ilimodelselectgui(self) # Create new window and pass all of self over
-            
-            self.model_path = self.modelselectUIWindow.model_path # overwrite self.model_path with the selection from modelselect window
-            print(f"Current Path: {self.model_path}")
-            self.modelselectButton.setIcon(QtGui.QIcon("icons/circle_good_green.png"))
-            self.modelname = os.path.basename(self.model_path)
-            self.modelText.setText(self.modelname)
-            self.showselectedmodelframe()
+            result = self.modelselectUIWindow.exec()
+            if result == QDialog.DialogCode.Accepted:
+                self.model_path = self.modelselectUIWindow.model_path # overwrite self.model_path with the selection from modelselect window
+                print(f"Current Path: {self.model_path}")
+                self.modelselectButton.setIcon(QtGui.QIcon("icons/circle_good_green.png"))
+                self.modelname = os.path.basename(self.model_name)
+                self.modelText.setText(self.modelname)
+                self.showselectedmodelframe()
         except AttributeError as e:
             print("Execution Error...")
             self.modelselectButton.setIcon(QtGui.QIcon("icons/circle_bad_red.png"))
@@ -283,7 +262,10 @@ class iligui(QMainWindow):
 
             if "...validation done" in xtflog_content:
                 self.playButton.setIcon(QtGui.QIcon("icons/circle_good_green.png"))
+                if self.infoFrame.isVisible() == True:
+                    self.addinfotoggle()
                 self.hideerrorframe()
+                
             else:
                 print("Validation Error...")
                 self.playButton.setIcon(QtGui.QIcon("icons/circle_bad_red.png"))
