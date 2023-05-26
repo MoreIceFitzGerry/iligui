@@ -1,13 +1,15 @@
 from PyQt6.QtWidgets import QMainWindow, QApplication, QFileDialog
 from PyQt6.QtWidgets import QLabel, QToolButton, QPlainTextEdit, QProgressBar, QToolBox
-from PyQt6.QtCore import QPropertyAnimation, QSize, QRect, QVariantAnimation
+from PyQt6.QtCore import QPropertyAnimation, QSize, QRect, QVariantAnimation, Qt, QUrl
 from PyQt6 import uic, QtGui
+from iligui_modeldialog import ilimodelselectgui
 from iligui_settings import ilisettingsgui
 import sys
 import logic_playbutton
 import xml.etree.ElementTree as ET
 import webbrowser
-import time
+import os
+import re
 
 
 class iligui(QMainWindow):
@@ -20,24 +22,43 @@ class iligui(QMainWindow):
         #self.setWindowIcon(QtGui.QIcon("icons/interlis.png"))
 
         # Define our Widgets----------------------------------------------------------------------------------------------
-        ## Central Widget
-        self.centralwidget
-
-        ## Main Widgets
-        self.interlisButton
-        self.settingsButton
-        self.fileselectButton
-        self.modelselectButton
-        self.playButton
-        self.topFrame
+        ## Main Widgets for Overviews sake -> definition not strictly necessary, but help to make sure the naming is correct
+        # Layout Frames
+        self.MainFrame
+        # ---
+        self.selectedFileFrame
+        self.selectedFileFrame.setVisible(False) # hide frame
+        self.selectedModelFrame
+        self.selectedModelFrame.setVisible(False) # hide frame
+        # ---
         self.errorFrame
         self.errorFrame.setVisible(False) # hide frame
+        # ---
+        self.infoFrame
+        self.infoFrame.setVisible(False) # hide frame
+        # Buttons
+        self.interlisButton
+        self.settingsButton
+        self.infoButton
+        self.fileselectButton
+        self.fileselectButtontext.setVisible(False)
+        self.modelselectButton
+        self.modelselectButtontext.setVisible(False)
+        self.playButton
+        self.playButtontext.setVisible(False)
+        # ---
+        self.addinfoButton
+        self.openfileButton
+        self.openmodelButton
+        # ---
+        self.extinfoButton
+        # Text Fields
+        self.fileText
+        self.modelText
+        # ---
         self.errorText
-        self.errorButton
-        self.helpFrame
-        self.helpFrame.setVisible(False) # hide frame
-        self.helpText
-        self.helpButton
+        # ---
+        self.infoText
 
         # Options Bin to pass to commands
         self.settings = []
@@ -67,11 +88,15 @@ class iligui(QMainWindow):
         # Define our Connections------------------------------------------------------------------------------------------
         self.interlisButton.clicked.connect(self.interlisselect)
         self.settingsButton.clicked.connect(self.settingsselect)
+        self.infoButton.toggled.connect(self.infotoggle)
         self.fileselectButton.clicked.connect(self.fileselect)
         self.modelselectButton.clicked.connect(self.modelselect)
         self.playButton.clicked.connect(self.playselect)
-        self.errorButton.clicked.connect(self.helptoggle)
-        self.helpButton.clicked.connect(self.furtherhelp)
+        self.addinfoButton.clicked.connect(self.addinfotoggle)
+        self.openfileButton.clicked.connect(self.openfile)
+        self.openmodelButton.clicked.connect(self.openmodel)
+        self.extinfoButton.clicked.connect(self.furtherhelp)
+        
 
         # Ensure Readiness for Java Interoperability----------------------------------------------------------------------
         # Check JRE Installation in Current working directory, if not install in CWD
@@ -81,8 +106,7 @@ class iligui(QMainWindow):
 
         # Show the App directly at the end of initialization
         self.show()
-        # self.resize(self.width(), self.topFrame.sizeHint().height())
-        # self.centralwidget.adjustSize() # Adjusts the central widget to fit its contents minimally
+        # self.resize(self.width(), self.MainFrame.sizeHint().height())
         self.adjustSize() # Adjusts the main window to fit its contents minimally
 
     # Methods to Run TODO: SEPERATE FROM THIS FILE AND IMPORT-------------------------------------------------------------
@@ -98,15 +122,97 @@ class iligui(QMainWindow):
     """
 
     def fileselect(self):
+        # Reset Play Button
+        self.playButton.setIcon(QtGui.QIcon("icons/play.png"))
         # Open a file dialog and allow the user to select a file
         self.file_path, _ = QFileDialog.getOpenFileName(None, "Select an Interlis Transfer-file", "", "Interlis Files (*.itf *.xtf *.xml)")
+
+        ## Get the Modelname that the File was written in.
         if self.file_path != "":
+            """
+            The ilivalidator does not get the model name from the header.
+            In INTERLIS1 it reads the transferfile to the first basket.
+            In INTERLIS2 it reads the first element in the DATASECTION.
+            This is a Python implementation of this Process the ilivalidator does again byitself.
+            The Purpose is to be able to give the User Feedback on the Modelname immediately
+            """
+            ### INTERLIS 1
+            if self.file_path.endswith('.itf'):
+                with open(self.file_path, 'r') as f:
+                    text = f.read()
+                match = re.search(r'MODEL\s+(\w+)', text)
+                if match:
+                    model_name = match.group(1)
+                    print(model_name)
+                else:
+                    print('MODEL not found')
+            ### INTERLIS 2
+            else:
+                tree = ET.parse(self.file_path)
+                root = tree.getroot()
+                print(f"root: {root.tag}")
+                ns = "{" + root.tag.split('}')[0].strip('{') + "}" # Get the namespace of the root element for further parsing
+                for section in root:
+                    print(f"child: {section.tag}")
+                    if section.tag == ns + 'DATASECTION':
+                        first_tag = section[0].tag
+                        first_tag_name = first_tag.split('}')[1]
+                        model_name = first_tag_name.split('.')[0]
+                        break
+
+                """
+                # Find Elements of the Models
+                models_info = []
+                for model in root.findall(".//{%s}MODELS" % ns):
+                    for attribute in model.findall("{%s}MODEL" % ns):
+                        model_info = []
+                        for attr_name, attr_value in attribute.attrib.items():
+                            # print(f"{attr_name}: {attr_value}")
+                            model_info.append([attr_name, attr_value])
+                        models_info.append(model_info)
+                if len(models_info) != 0:
+                    # TODO: THIS ONLY RETURNS THE FIRST MODEL. I SHOULD ENABLE MUTLIPLE MODELS
+                    print(f"Model Found!: {models_info}")
+                    self.model_name = models_info[0][0][1]
+                    print(f"Model_Name: {self.model_name}")
+                    self.model_version = models_info[0][1][1]
+                    print(f"Model_Version: {self.model_version}")
+                    self.model_url = models_info[0][2][1]
+                    print(f"Model_Url: {self.model_url}")
+                else:
+                    self.model_name = "Not found"
+                    self.model_url = "Not found"
+                """
             print("Loaded Transfer File from " + self.file_path)
+            self.fileselectButton.setIcon(QtGui.QIcon("icons/circle_good_green.png"))
+            filename = os.path.basename(self.file_path)
+            self.fileText.setText(filename)
+            self.showselectedfileframe()
 
     def modelselect(self):
+        # Reset Play Button
+        self.playButton.setIcon(QtGui.QIcon("icons/play.png"))
+        try:
+            self.modelselectUIWindow = ilimodelselectgui(self) # Create new window and pass all of self over
+            
+            self.model_path = self.modelselectUIWindow.model_path # overwrite self.model_path with the selection from modelselect window
+            print(f"Current Path: {self.model_path}")
+            self.modelselectButton.setIcon(QtGui.QIcon("icons/circle_good_green.png"))
+            self.modelname = os.path.basename(self.model_path)
+            self.modelText.setText(self.modelname)
+            self.showselectedmodelframe()
+        except AttributeError as e:
+            print("Execution Error...")
+            self.modelselectButton.setIcon(QtGui.QIcon("icons/circle_bad_red.png"))
+            self.errorText.setText(f"Failed to execute: {repr(e)}")
+            self.infoText.setText("Make sure you selected a file first!")
+            self.showerrorframe()
+
         # Open a file dialog and allow the user to select a file
+        """
         self.model_path, _ = QFileDialog.getOpenFileName(None, "Select an Interlis Model-File", "", "Interlis Model (*.ili);")
         print("Loaded Model from " + self.model_path)
+        """
 
     def playselect(self):
         try:
@@ -120,6 +226,7 @@ class iligui(QMainWindow):
 
             # Find Elements of the IliVErrors.Errorlog where <Type> has text "Error"
             error_elements = []
+            help_elements = []
             for element in root.findall(".//{%s}IliVErrors.ErrorLog.Error" % ns):
                 element_type = element.find("{%s}Type" % ns).text
                 if element_type == "Error":
@@ -131,46 +238,65 @@ class iligui(QMainWindow):
                     tagIdentification = element.find("{%s}Tid" % ns)
 
                     if objectTag is None or tagIdentification is None or Line is None:
-                        # print("errorMessage: ", errorMessage.text)
-                        error_elements.append(f"<a href='file:///{self.file_path}' style='color:red;'>Error found: {errorMessage.text}</a>")
-                    else:
-                        # print("errorMessage: ", errorMessage.text, "objectTag: ", objectTag.text, "tagIdentification: ", tagIdentification.text, "DataSource: ", DataSource.text, "Line: ", Line.text)
-                        error_elements.append(f"<a href='file:///{self.file_path}' style='color:red;'>Error found: Line {Line.text}, TagID {tagIdentification.text}, objectTag {objectTag.text}: {errorMessage.text}</a>")
+                        objectTag = "Not Available"
+                        tagIdentification = "Not Available"
+                        Line = "Not Available"
+                        # error_elements.append(f"<a href='file:///{self.file_path}' style='color:red;'>Error found: {errorMessage.text}</a>")
+                    # print("errorMessage: ", errorMessage.text, "objectTag: ", objectTag.text, "tagIdentification: ", tagIdentification.text, "DataSource: ", DataSource.text, "Line: ", Line.text)
+                    # error_elements.append(f"<a href='file:///{self.file_path}' style='color:red;'>Error found: Line {Line.text}, TagID {tagIdentification.text}, objectTag {objectTag.text}: {errorMessage.text}</a>")
+                    error_elements.append(f"Error found: Line {Line.text}, {errorMessage.text}")
+                    help_elements.append(errorMessage.text)
 
-            # Preload the Help text for the Found Errors
-            """
-            import errorMessages
-            for error_element in error_elements:
-                for errorMessage in errorMessages:
-                    if error_element in errorMessage:
-                        print(errorMessage)
-            """
             # Convert the error_elements list to a string for printing
-            print(error_elements)
             if (len(error_elements) == 1):
                 error_text = error_elements[0]
             else:
                 error_text = "<br>".join(error_elements) # Join them with breaks
-            print(error_text)
 
+            # Identify the Error Name from the Text, and pass HelpMessage
+            import difflib
+            from errorDictionary import error_dictionary # Dictionary listing all possible errors -> Key: Error Name, Value 1: Error Text, Value 2 Error Help
+            first_Values = [values[0] for values in error_dictionary.values()]
+            error_help = []
+            for element in help_elements:
+                closest_match = difflib.get_close_matches(element, first_Values, n=1)
+                if closest_match:
+                    closest_match = closest_match[0]
+                    for key, values in error_dictionary.items():
+                        if values[0] == closest_match:
+                            # error_help.append(key)
+                            # error_help.append(values[1])
+                            error_help.append(f"Error Name: {key}\nHelp Advice: {values[1]}\n")
+                            # error_help.append(f"Help Advice: {values[1]}\n")
+
+            # Convert the error_help list to a string for printing
+            if (len(error_help) == 1):
+                help_text = error_help[0]
+            else:
+                help_text = "".join(error_help) # Join them with breaks
+            print(help_text)
+
+
+            # Parse the xtf log file again to see if process succeeded or not
             with open(xtflog_path, 'r') as f:
                 xtflog_content = f.read()
-                # Parse the xtf log file here and extract the relevant information
 
             if "...validation done" in xtflog_content:
                 self.playButton.setIcon(QtGui.QIcon("icons/circle_good_green.png"))
-                self.hideErrorFrame()
+                self.hideerrorframe()
             else:
                 print("Validation Error...")
                 self.playButton.setIcon(QtGui.QIcon("icons/circle_bad_red.png"))
-                self.showErrorFrame()
                 self.errorText.setText(error_text)
+                self.infoText.setText(help_text)
+                self.showerrorframe()
 
         except AttributeError as e:
             print("Execution Error...")
             self.playButton.setIcon(QtGui.QIcon("icons/circle_bad_red.png"))
-            self.showErrorFrame()
-            self.errorText.setText(f"<a style='color:red;'>Error found: {repr(e)}</a>")
+            self.errorText.setText(f"Failed to execute: {repr(e)}")
+            self.infoText.setText("Make sure you have selected files correctly!")
+            self.showerrorframe()
 
     # Resize-Animation of MainWindow Height
     def updateHeight(self, value):
@@ -182,54 +308,86 @@ class iligui(QMainWindow):
         self.resizeAnimation.setEndValue(newHeight)
         self.resizeAnimation.valueChanged.connect(self.updateHeight) # Update the main window's height with current value of the animation
         self.resizeAnimation.start()
-
-    def mainWindowHeightShrink(self):
-        oldHeight = self.height() # Get current height
-        newHeight = self.height() - self.errorFrame.sizeHint().height() # Get the recommended height from sizeHint
-
-    def showErrorFrame(self):
-        # Regrow the frame to its recommended size
-        # newHeight = self.errorFrame.sizeHint().height() # Get recommended height
-        self.errorFrame.setVisible(True) # Show the Frame
-        # newHeight = self.errorFrame.sizeHint().height()
-        # self.errorFrame.resize(self.width(), newHeight)
-        
-        oldHeight = self.height() # Get current height
-        newHeight = self.sizeHint().height() # Get the recommended height from sizeHint
-        self.mainWindowHeightGrow()
-
-    def hideErrorFrame(self):
-        self.errorFrame.setVisible(False) # Hide the Frame
-        self.mainWindowHeightShrink()
-        # if self.errorFrame.height() != 1: # Skip animation if frame is already shrunk
-            # Shrink the frame to minimal height
-            # oldHeight = self.errorFrame.height() # Get current height
-            # newHeight = 1
-            # self.animation = QVariantAnimation()
-            # self.animation.setDuration(300)
-            # self.animation.setStartValue(oldHeight)
-            # self.animation.setEndValue(newHeight)
-            # self.animation.valueChanged.connect(self.updateErrorFrameHeight)
-            # self.animation.finished.connect(self.mainWindowHeightResize)
-            # self.animation.start()
-        # else:
-            # pass
-
-    # Resize-Animations of helpFrame Height
-    def updateHelpFrameHeight(self, value):
-        self.helpFrame.resize(self.width(), value)
-    def helptoggle(self):
-        if self.helpFrame.height() == 1: # If frame is already shrunk, grow animation
-            self.helpFrame.setVisible(True) # Show the Frame
-            newHeight = self.helpFrame.sizeHint().height()
-            self.helpFrame.resize(self.width(), newHeight)
-            self.mainWindowHeightResize()
+    
+    # Adjust MainWindow Height for selectedfileFrame
+    def showselectedfileframe(self):
+        self.selectedFileFrame.setVisible(True) # Show the Frame
+        if self.height() > self.sizeHint().height(): # If Current Frame is Bigger than it needs to be, no resize needs to be done
+            pass
         else:
-            # Shrink the frame to minimal height
-            newHeight = 1
-            self.helpFrame.resize(self.width(), newHeight)
-            self.helpFrame.setVisible(False)# Hide the Frame
-            self.mainWindowHeightResize()
+            oldHeight = self.height() # Get current height
+            # newHeight = self.height() + self.errorFrame.sizeHint().height() # Add the recommended height from sizeHint
+            newHeight = self.sizeHint().height()
+            self.resizeMainWindowHeight(oldHeight, newHeight)
+    
+    # Adjust MainWindow Height for selectedmodelFrame
+    def showselectedmodelframe(self):
+        self.selectedModelFrame.setVisible(True) # Show the Frame
+        if self.height() > self.sizeHint().height(): # If Current Frame is Bigger than it needs to be, no resize needs to be done
+            pass
+        else:
+            oldHeight = self.height() # Get current height
+            # newHeight = self.height() + self.errorFrame.sizeHint().height() # Add the recommended height from sizeHint
+            newHeight = self.sizeHint().height()
+            self.resizeMainWindowHeight(oldHeight, newHeight)
+
+    # Adjust MainWindow Height for selectedmodelFrame for errorFrame
+    def showerrorframe(self):
+        self.errorFrame.setVisible(True) # Show the Frame
+        if self.height() > self.sizeHint().height(): # If Current Frame is Bigger than it needs to be, no resize needs to be done
+            pass
+        else:
+            oldHeight = self.height() # Get current height
+            # newHeight = self.height() + self.errorFrame.sizeHint().height() # Add the recommended height from sizeHint
+            newHeight = self.sizeHint().height()
+            self.resizeMainWindowHeight(oldHeight, newHeight)
+
+    def hideerrorframe(self):
+        self.errorFrame.setVisible(False) # Hide the Frame
+        if self.windowState() == Qt.WindowState.WindowMaximized or self.windowState() == Qt.WindowState.WindowFullScreen:  # If in Fullscreen, no resize needs to be done
+            pass
+        else:
+            oldHeight = self.height() # Get current height
+            newHeight = self.MainFrame.sizeHint().height()
+            self.resizeMainWindowHeight(oldHeight, newHeight)
+
+    # Adjust MainWindow Height for infoFrame
+    def updateinfoframeheight(self, value):
+        self.infoFrame.resize(self.width(), value)
+    def addinfotoggle(self):
+        if self.infoFrame.isVisible() == False: # If frame is hidden, show infoFrame
+            self.addinfoButton.setIcon(QtGui.QIcon("icons/chevron-down.svg"))
+            self.infoFrame.setVisible(True) # Show the Frame
+            if self.windowState() == Qt.WindowState.WindowMaximized or self.windowState() == Qt.WindowState.WindowFullScreen:  # If in Fullscreen, no resize needs to be done
+                pass
+            else:
+                oldHeight = self.height()
+                newHeight = self.sizeHint().height()
+                self.resizeMainWindowHeight(oldHeight, newHeight)
+        else:
+            self.addinfoButton.setIcon(QtGui.QIcon("icons/info.svg"))
+            self.infoFrame.setVisible(False) # Hide the Frame
+            if self.windowState() == Qt.WindowState.WindowMaximized or self.windowState() == Qt.WindowState.WindowFullScreen:  # If in Fullscreen, no resize needs to be done
+                pass
+            else:
+                oldHeight = self.height()
+                newHeight = self.MainFrame.height() + self.errorFrame.height()
+                self.resizeMainWindowHeight(oldHeight, newHeight)
+
+    def infotoggle(self,checked):
+        self.fileselectButtontext.setVisible(checked)
+        self.modelselectButtontext.setVisible(checked)
+        self.playButtontext.setVisible(checked)
+    def openfile(self):
+        # Reset Play Button
+        self.playButton.setIcon(QtGui.QIcon("icons/play.png"))
+        # Open the file in the preferred editor
+        QtGui.QDesktopServices.openUrl(QUrl.fromLocalFile(self.file_path))
+    def openmodel(self):
+        # Reset Play Button
+        self.playButton.setIcon(QtGui.QIcon("icons/play.png"))
+        # Open the file in the preferred editor
+        QtGui.QDesktopServices.openUrl(QUrl.fromLocalFile(self.model_path))
 
     def furtherhelp(self):
         # TODO: Check for validity of URL
@@ -237,11 +395,13 @@ class iligui(QMainWindow):
 
     def interlisselect(self):
         # TODO: Check for validity of URL
-        webbrowser.open("https://github.com/claeis/ilivalidator/blob/master/docs/ilivalidator.rst")
+        webbrowser.open("https://www.interlis.ch/en")
 
     def settingsselect(self):
+        # Reset Play Button
+        self.playButton.setIcon(QtGui.QIcon("icons/play.png"))
         from iligui_settings import ilisettingsgui
-        self.secondUIWindow = ilisettingsgui()
+        self.settingsUIWindow = ilisettingsgui()
         # overwrite self.options with new settings from settingswindow
         self.settings = self.secondUIWindow.options
         print(f"Current Settings: {self.settings}")

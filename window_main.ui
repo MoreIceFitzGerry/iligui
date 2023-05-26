@@ -6,15 +6,21 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>577</width>
-    <height>467</height>
+    <width>737</width>
+    <height>484</height>
    </rect>
   </property>
   <property name="sizePolicy">
-   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+   <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>685</width>
+    <height>0</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>iligui</string>
@@ -29,7 +35,7 @@
   <property name="toolButtonStyle">
    <enum>Qt::ToolButtonIconOnly</enum>
   </property>
-  <widget class="QWidget" name="centralwidget">
+  <widget class="QWidget" name="MainWidget">
    <property name="sizePolicy">
     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
      <horstretch>0</horstretch>
@@ -45,22 +51,22 @@
    </property>
    <layout class="QVBoxLayout" name="verticalLayout_3">
     <property name="spacing">
-     <number>3</number>
+     <number>10</number>
     </property>
     <property name="leftMargin">
-     <number>3</number>
+     <number>0</number>
     </property>
     <property name="topMargin">
-     <number>3</number>
+     <number>8</number>
     </property>
     <property name="rightMargin">
-     <number>3</number>
+     <number>0</number>
     </property>
     <property name="bottomMargin">
-     <number>3</number>
+     <number>16</number>
     </property>
     <item alignment="Qt::AlignTop">
-     <widget class="QFrame" name="topFrame">
+     <widget class="QFrame" name="MainFrame">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
         <horstretch>0</horstretch>
@@ -93,7 +99,7 @@
         <number>0</number>
        </property>
        <property name="topMargin">
-        <number>9</number>
+        <number>0</number>
        </property>
        <property name="rightMargin">
         <number>0</number>
@@ -181,12 +187,12 @@
             <property name="font">
              <font>
               <family>Segoe UI Black</family>
-              <pointsize>10</pointsize>
+              <pointsize>12</pointsize>
               <bold>true</bold>
              </font>
             </property>
             <property name="text">
-             <string>iligui Version 1.0</string>
+             <string>iligui Version 3.0</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -244,6 +250,35 @@
             </property>
            </widget>
           </item>
+          <item>
+           <widget class="QToolButton" name="infoButton">
+            <property name="minimumSize">
+             <size>
+              <width>60</width>
+              <height>60</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>...</string>
+            </property>
+            <property name="icon">
+             <iconset>
+              <normaloff>icons/info.svg</normaloff>icons/info.svg</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>30</width>
+              <height>30</height>
+             </size>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+            <property name="autoRaise">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
          </layout>
         </widget>
        </item>
@@ -294,30 +329,61 @@
            </spacer>
           </item>
           <item>
-           <widget class="QToolButton" name="fileselectButton">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
+           <widget class="QFrame" name="fileselectButtonFrame">
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
             </property>
-            <property name="font">
-             <font>
-              <family>Segoe UI Black</family>
-              <pointsize>10</pointsize>
-             </font>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
             </property>
-            <property name="acceptDrops">
-             <bool>true</bool>
-            </property>
-            <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select or Drop an INTERLIS 1/2 Transfer File you want to validate.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <property name="layoutDirection">
-             <enum>Qt::LeftToRight</enum>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">QToolButton[objectName^=&quot;fileselectButton&quot;]:hover {
+            <layout class="QVBoxLayout" name="verticalLayout_6">
+             <property name="spacing">
+              <number>0</number>
+             </property>
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QToolButton" name="fileselectButton">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>135</width>
+                 <height>135</height>
+                </size>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Segoe UI Black</family>
+                 <pointsize>13</pointsize>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="acceptDrops">
+                <bool>true</bool>
+               </property>
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select or Drop an INTERLIS 1/2 Transfer File you want to validate.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="layoutDirection">
+                <enum>Qt::LeftToRight</enum>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QToolButton[objectName^=&quot;fileselectButton&quot;]:hover {
 	background-color : rgb(230,230,230);
 	border-radius: 20px;
 	border-style: outset;
@@ -325,32 +391,54 @@
 
 
 </string>
-            </property>
-            <property name="text">
-             <string>Data</string>
-            </property>
-            <property name="icon">
-             <iconset>
-              <normaloff>icons/fileupload_blue.png</normaloff>icons/fileupload_blue.png</iconset>
-            </property>
-            <property name="iconSize">
-             <size>
-              <width>100</width>
-              <height>100</height>
-             </size>
-            </property>
-            <property name="autoRepeat">
-             <bool>false</bool>
-            </property>
-            <property name="popupMode">
-             <enum>QToolButton::DelayedPopup</enum>
-            </property>
-            <property name="toolButtonStyle">
-             <enum>Qt::ToolButtonTextUnderIcon</enum>
-            </property>
-            <property name="autoRaise">
-             <bool>true</bool>
-            </property>
+               </property>
+               <property name="text">
+                <string>1. Select Data</string>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <normaloff>icons/fileupload_blue.png</normaloff>icons/fileupload_blue.png</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>100</width>
+                 <height>100</height>
+                </size>
+               </property>
+               <property name="autoRepeat">
+                <bool>false</bool>
+               </property>
+               <property name="popupMode">
+                <enum>QToolButton::DelayedPopup</enum>
+               </property>
+               <property name="toolButtonStyle">
+                <enum>Qt::ToolButtonTextUnderIcon</enum>
+               </property>
+               <property name="autoRaise">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="fileselectButtontext">
+               <property name="font">
+                <font>
+                 <pointsize>10</pointsize>
+                 <italic>true</italic>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QLabel { color : green; }</string>
+               </property>
+               <property name="text">
+                <string>.itf/.xtf Files</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </widget>
           </item>
           <item>
@@ -367,34 +455,64 @@
            </spacer>
           </item>
           <item>
-           <widget class="QToolButton" name="modelselectButton">
-            <property name="enabled">
-             <bool>true</bool>
+           <widget class="QFrame" name="modelselectButtonFrame">
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
             </property>
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
             </property>
-            <property name="font">
-             <font>
-              <family>Segoe UI Black</family>
-              <pointsize>10</pointsize>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="acceptDrops">
-             <bool>true</bool>
-            </property>
-            <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select or Drop an INTERLIS Model File with which you want to validate your file.&lt;br/&gt;A Model File is not always necessary, since it can also be designated directly in the INTERLIS Transfer File.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <property name="layoutDirection">
-             <enum>Qt::LeftToRight</enum>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">QToolButton[objectName^=&quot;modelselectButton&quot;]:hover {
+            <layout class="QVBoxLayout" name="verticalLayout_7">
+             <property name="spacing">
+              <number>0</number>
+             </property>
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QToolButton" name="modelselectButton">
+               <property name="enabled">
+                <bool>true</bool>
+               </property>
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>135</width>
+                 <height>135</height>
+                </size>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Segoe UI Black</family>
+                 <pointsize>13</pointsize>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="acceptDrops">
+                <bool>true</bool>
+               </property>
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select or Drop an INTERLIS Model File with which you want to validate your file.&lt;br/&gt;A Model File is not always necessary, since it can also be designated directly in the INTERLIS Transfer File.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="layoutDirection">
+                <enum>Qt::LeftToRight</enum>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QToolButton[objectName^=&quot;modelselectButton&quot;]:hover {
 	background-color : rgb(230,230,230);
 	border-radius: 20px;
 	border-style: outset;
@@ -402,35 +520,57 @@
 
 
 </string>
-            </property>
-            <property name="text">
-             <string>Model</string>
-            </property>
-            <property name="icon">
-             <iconset>
-              <normaloff>icons/model_lightblue.png</normaloff>icons/model_lightblue.png</iconset>
-            </property>
-            <property name="iconSize">
-             <size>
-              <width>100</width>
-              <height>100</height>
-             </size>
-            </property>
-            <property name="checkable">
-             <bool>false</bool>
-            </property>
-            <property name="popupMode">
-             <enum>QToolButton::DelayedPopup</enum>
-            </property>
-            <property name="toolButtonStyle">
-             <enum>Qt::ToolButtonTextUnderIcon</enum>
-            </property>
-            <property name="autoRaise">
-             <bool>true</bool>
-            </property>
-            <property name="arrowType">
-             <enum>Qt::NoArrow</enum>
-            </property>
+               </property>
+               <property name="text">
+                <string>2. Select Model</string>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <normaloff>icons/model_lightblue.png</normaloff>icons/model_lightblue.png</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>100</width>
+                 <height>100</height>
+                </size>
+               </property>
+               <property name="checkable">
+                <bool>false</bool>
+               </property>
+               <property name="popupMode">
+                <enum>QToolButton::DelayedPopup</enum>
+               </property>
+               <property name="toolButtonStyle">
+                <enum>Qt::ToolButtonTextUnderIcon</enum>
+               </property>
+               <property name="autoRaise">
+                <bool>true</bool>
+               </property>
+               <property name="arrowType">
+                <enum>Qt::NoArrow</enum>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="modelselectButtontext">
+               <property name="font">
+                <font>
+                 <pointsize>10</pointsize>
+                 <italic>true</italic>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QLabel { color : green; }</string>
+               </property>
+               <property name="text">
+                <string>.ili Files</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </widget>
           </item>
           <item>
@@ -447,24 +587,61 @@
            </spacer>
           </item>
           <item>
-           <widget class="QToolButton" name="playButton">
-            <property name="font">
-             <font>
-              <family>Segoe UI Black</family>
-              <pointsize>10</pointsize>
-             </font>
+           <widget class="QFrame" name="playButtonFrame">
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
             </property>
-            <property name="mouseTracking">
-             <bool>true</bool>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
             </property>
-            <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Click to run the INTERLIS Validator Software with the Transfer-File, Model and Settings you have currently defined.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <property name="layoutDirection">
-             <enum>Qt::LeftToRight</enum>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">QToolButton[objectName^=&quot;playButton&quot;]:hover {
+            <layout class="QVBoxLayout" name="verticalLayout_8">
+             <property name="spacing">
+              <number>0</number>
+             </property>
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QToolButton" name="playButton">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>135</width>
+                 <height>135</height>
+                </size>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Segoe UI Black</family>
+                 <pointsize>13</pointsize>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="mouseTracking">
+                <bool>true</bool>
+               </property>
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Click to run the INTERLIS Validator Software with the Transfer-File, Model and Settings you have currently defined.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="layoutDirection">
+                <enum>Qt::LeftToRight</enum>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QToolButton[objectName^=&quot;playButton&quot;]:hover {
 	background-color : rgb(230,230,230);
 	border-radius: 20px;
 	border-style: outset;
@@ -472,26 +649,45 @@
 
 
 </string>
-            </property>
-            <property name="text">
-             <string>Validate</string>
-            </property>
-            <property name="icon">
-             <iconset>
-              <normaloff>icons/play.png</normaloff>icons/play.png</iconset>
-            </property>
-            <property name="iconSize">
-             <size>
-              <width>100</width>
-              <height>100</height>
-             </size>
-            </property>
-            <property name="toolButtonStyle">
-             <enum>Qt::ToolButtonTextUnderIcon</enum>
-            </property>
-            <property name="autoRaise">
-             <bool>true</bool>
-            </property>
+               </property>
+               <property name="text">
+                <string>3. Validate</string>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <normaloff>icons/play.png</normaloff>icons/play.png</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>100</width>
+                 <height>100</height>
+                </size>
+               </property>
+               <property name="toolButtonStyle">
+                <enum>Qt::ToolButtonTextUnderIcon</enum>
+               </property>
+               <property name="autoRaise">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="playButtontext">
+               <property name="font">
+                <font>
+                 <pointsize>10</pointsize>
+                 <italic>true</italic>
+                </font>
+               </property>
+               <property name="text">
+                <string> </string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </widget>
           </item>
           <item>
@@ -514,68 +710,44 @@
      </widget>
     </item>
     <item>
-     <widget class="QFrame" name="errorFrame">
-      <property name="enabled">
-       <bool>true</bool>
-      </property>
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>0</width>
-        <height>1</height>
-       </size>
-      </property>
-      <property name="autoFillBackground">
-       <bool>false</bool>
-      </property>
+     <widget class="QFrame" name="selectedFileFrame">
       <property name="frameShape">
        <enum>QFrame::NoFrame</enum>
       </property>
       <property name="frameShadow">
-       <enum>QFrame::Plain</enum>
+       <enum>QFrame::Raised</enum>
       </property>
-      <property name="lineWidth">
-       <number>1</number>
-      </property>
-      <layout class="QHBoxLayout" name="horizontalLayout_3">
+      <layout class="QHBoxLayout" name="horizontalLayout_7">
        <property name="spacing">
         <number>0</number>
        </property>
-       <property name="sizeConstraint">
-        <enum>QLayout::SetDefaultConstraint</enum>
-       </property>
        <property name="leftMargin">
-        <number>16</number>
+        <number>50</number>
        </property>
        <property name="topMargin">
-        <number>5</number>
+        <number>0</number>
        </property>
        <property name="rightMargin">
-        <number>16</number>
+        <number>50</number>
        </property>
        <property name="bottomMargin">
-        <number>5</number>
+        <number>0</number>
        </property>
        <item>
-        <widget class="QLabel" name="errorLabel">
+        <widget class="QLabel" name="fileLabel">
          <property name="font">
           <font>
-           <pointsize>9</pointsize>
+           <pointsize>11</pointsize>
            <bold>true</bold>
           </font>
          </property>
          <property name="text">
-          <string>Error</string>
+          <string>Selected Datafile</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="errorITextcon">
+        <widget class="QLabel" name="fileTextcon">
          <property name="text">
           <string/>
          </property>
@@ -588,117 +760,45 @@
         </widget>
        </item>
        <item>
-        <widget class="QScrollArea" name="scrollArea">
+        <widget class="QLabel" name="fileText">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+           <italic>true</italic>
+          </font>
+         </property>
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The Error returned by the Validator. The direct Position will be delivered if possible.&lt;/p&gt;&lt;p&gt;Click on the Error to open your INTERLIS Transfer-File with your preferred editor for XML Files. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="frameShape">
           <enum>QFrame::NoFrame</enum>
          </property>
-         <property name="frameShadow">
-          <enum>QFrame::Plain</enum>
-         </property>
-         <property name="widgetResizable">
-          <bool>true</bool>
-         </property>
-         <widget class="QWidget" name="scrollAreaWidgetContents">
-          <property name="geometry">
-           <rect>
-            <x>0</x>
-            <y>0</y>
-            <width>461</width>
-            <height>118</height>
-           </rect>
-          </property>
-          <layout class="QVBoxLayout" name="verticalLayout_4">
-           <property name="spacing">
-            <number>0</number>
-           </property>
-           <property name="leftMargin">
-            <number>5</number>
-           </property>
-           <property name="topMargin">
-            <number>5</number>
-           </property>
-           <property name="rightMargin">
-            <number>5</number>
-           </property>
-           <property name="bottomMargin">
-            <number>5</number>
-           </property>
-           <item>
-            <widget class="QLabel" name="errorText">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="toolTip">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The Error returned by the Validator. The direct Position will be delivered if possible.&lt;/p&gt;&lt;p&gt;Click on the Error to open your INTERLIS Transfer-File with your preferred editor for XML Files. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-             </property>
-             <property name="frameShape">
-              <enum>QFrame::NoFrame</enum>
-             </property>
-             <property name="text">
-              <string>123456789012345678901234567890123456789012345678901234567890123456789</string>
-             </property>
-             <property name="scaledContents">
-              <bool>false</bool>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
-             </property>
-             <property name="wordWrap">
-              <bool>true</bool>
-             </property>
-             <property name="indent">
-              <number>0</number>
-             </property>
-             <property name="openExternalLinks">
-              <bool>true</bool>
-             </property>
-             <property name="textInteractionFlags">
-              <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-        </widget>
-       </item>
-       <item>
-        <widget class="QToolButton" name="errorButton">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
          <property name="text">
-          <string>...</string>
+          <string>123456789012345678901234567890123456789012345678901234567890123456789</string>
          </property>
-         <property name="icon">
-          <iconset>
-           <normaloff>icons/info.svg</normaloff>icons/info.svg</iconset>
+         <property name="scaledContents">
+          <bool>false</bool>
          </property>
-         <property name="iconSize">
-          <size>
-           <width>16</width>
-           <height>16</height>
-          </size>
+         <property name="alignment">
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
          </property>
-         <property name="popupMode">
-          <enum>QToolButton::DelayedPopup</enum>
-         </property>
-         <property name="autoRaise">
+         <property name="wordWrap">
           <bool>true</bool>
          </property>
-         <property name="arrowType">
-          <enum>Qt::NoArrow</enum>
+         <property name="indent">
+          <number>0</number>
+         </property>
+         <property name="openExternalLinks">
+          <bool>true</bool>
+         </property>
+         <property name="textInteractionFlags">
+          <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
          </property>
         </widget>
        </item>
@@ -706,7 +806,402 @@
      </widget>
     </item>
     <item>
-     <widget class="QFrame" name="helpFrame">
+     <widget class="QFrame" name="selectedModelFrame">
+      <property name="frameShape">
+       <enum>QFrame::NoFrame</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_6">
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <property name="leftMargin">
+        <number>50</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>50</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="QLabel" name="modelLabel">
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>Selected Model</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="modelTextcon">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="pixmap">
+          <pixmap>icons/chevron-right.svg</pixmap>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="modelText">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+           <italic>true</italic>
+          </font>
+         </property>
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The Error returned by the Validator. The direct Position will be delivered if possible.&lt;/p&gt;&lt;p&gt;Click on the Error to open your INTERLIS Transfer-File with your preferred editor for XML Files. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::NoFrame</enum>
+         </property>
+         <property name="text">
+          <string>123456789012345678901234567890123456789012345678901234567890123456789</string>
+         </property>
+         <property name="scaledContents">
+          <bool>false</bool>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
+         <property name="indent">
+          <number>0</number>
+         </property>
+         <property name="openExternalLinks">
+          <bool>true</bool>
+         </property>
+         <property name="textInteractionFlags">
+          <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <widget class="QFrame" name="errorFrame">
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_5">
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <property name="leftMargin">
+        <number>50</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>50</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item alignment="Qt::AlignTop">
+        <widget class="QFrame" name="sub_errorFrame">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>1</height>
+          </size>
+         </property>
+         <property name="autoFillBackground">
+          <bool>false</bool>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::NoFrame</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Plain</enum>
+         </property>
+         <property name="lineWidth">
+          <number>1</number>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <property name="sizeConstraint">
+           <enum>QLayout::SetDefaultConstraint</enum>
+          </property>
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="errorLabel">
+            <property name="font">
+             <font>
+              <pointsize>11</pointsize>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="text">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Error&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="errorITextcon">
+            <property name="text">
+             <string/>
+            </property>
+            <property name="pixmap">
+             <pixmap>icons/chevron-right.svg</pixmap>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QScrollArea" name="scrollArea">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::NoFrame</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Plain</enum>
+            </property>
+            <property name="widgetResizable">
+             <bool>true</bool>
+            </property>
+            <widget class="QWidget" name="scrollAreaWidgetContents">
+             <property name="geometry">
+              <rect>
+               <x>0</x>
+               <y>0</y>
+               <width>576</width>
+               <height>63</height>
+              </rect>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_4">
+              <property name="spacing">
+               <number>0</number>
+              </property>
+              <property name="leftMargin">
+               <number>0</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
+              <item>
+               <widget class="Line" name="line_2">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="errorText">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="font">
+                 <font>
+                  <pointsize>11</pointsize>
+                  <italic>true</italic>
+                 </font>
+                </property>
+                <property name="toolTip">
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The Error returned by the Validator. The direct Position will be delivered if possible.&lt;/p&gt;&lt;p&gt;Click on the Error to open your INTERLIS Transfer-File with your preferred editor for XML Files. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">QLabel { color : red; }</string>
+                </property>
+                <property name="frameShape">
+                 <enum>QFrame::NoFrame</enum>
+                </property>
+                <property name="text">
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;123456789012345678901234567890123456789012345678901234567890123456789&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                </property>
+                <property name="scaledContents">
+                 <bool>false</bool>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                </property>
+                <property name="wordWrap">
+                 <bool>true</bool>
+                </property>
+                <property name="indent">
+                 <number>0</number>
+                </property>
+                <property name="openExternalLinks">
+                 <bool>true</bool>
+                </property>
+                <property name="textInteractionFlags">
+                 <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QFrame" name="buttonFrame">
+         <property name="frameShape">
+          <enum>QFrame::NoFrame</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_5">
+          <property name="spacing">
+           <number>30</number>
+          </property>
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QPushButton" name="addinfoButton">
+            <property name="font">
+             <font>
+              <pointsize>11</pointsize>
+             </font>
+            </property>
+            <property name="mouseTracking">
+             <bool>true</bool>
+            </property>
+            <property name="text">
+             <string>Additional Information</string>
+            </property>
+            <property name="icon">
+             <iconset>
+              <normaloff>icons/info.svg</normaloff>icons/info.svg</iconset>
+            </property>
+            <property name="checkable">
+             <bool>false</bool>
+            </property>
+            <property name="autoDefault">
+             <bool>false</bool>
+            </property>
+            <property name="default">
+             <bool>false</bool>
+            </property>
+            <property name="flat">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="openfileButton">
+            <property name="font">
+             <font>
+              <pointsize>11</pointsize>
+             </font>
+            </property>
+            <property name="mouseTracking">
+             <bool>true</bool>
+            </property>
+            <property name="text">
+             <string>Open Transfer-File</string>
+            </property>
+            <property name="icon">
+             <iconset>
+              <normaloff>icons/edit.svg</normaloff>icons/edit.svg</iconset>
+            </property>
+            <property name="flat">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="openmodelButton">
+            <property name="font">
+             <font>
+              <pointsize>11</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Open Model-File</string>
+            </property>
+            <property name="icon">
+             <iconset>
+              <normaloff>icons/edit.svg</normaloff>icons/edit.svg</iconset>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item alignment="Qt::AlignTop">
+     <widget class="QFrame" name="infoFrame">
       <property name="enabled">
        <bool>true</bool>
       </property>
@@ -736,21 +1231,22 @@
         <enum>QLayout::SetDefaultConstraint</enum>
        </property>
        <property name="leftMargin">
-        <number>16</number>
+        <number>50</number>
        </property>
        <property name="topMargin">
-        <number>5</number>
+        <number>0</number>
        </property>
        <property name="rightMargin">
-        <number>16</number>
+        <number>50</number>
        </property>
        <property name="bottomMargin">
-        <number>5</number>
+        <number>0</number>
        </property>
        <item>
-        <widget class="QLabel" name="helpLabel">
+        <widget class="QLabel" name="infoLabel">
          <property name="font">
           <font>
+           <pointsize>11</pointsize>
            <bold>true</bold>
           </font>
          </property>
@@ -763,7 +1259,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="helpTextIcon">
+        <widget class="QLabel" name="infoTextIcon">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
            <horstretch>0</horstretch>
@@ -782,7 +1278,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QScrollArea" name="scrollArea_2">
+        <widget class="QScrollArea" name="infoScrollArea">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
            <horstretch>0</horstretch>
@@ -798,13 +1294,13 @@
          <property name="widgetResizable">
           <bool>true</bool>
          </property>
-         <widget class="QWidget" name="scrollAreaWidgetContents_2">
+         <widget class="QWidget" name="infoScrollAreaContentLayout">
           <property name="geometry">
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>462</width>
-            <height>117</height>
+            <width>568</width>
+            <height>46</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -823,8 +1319,24 @@
            <property name="bottomMargin">
             <number>5</number>
            </property>
-           <item alignment="Qt::AlignHCenter">
-            <widget class="QLabel" name="helpText">
+           <item>
+            <widget class="Line" name="line">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="infoText">
+             <property name="font">
+              <font>
+               <pointsize>11</pointsize>
+               <italic>true</italic>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QLabel { color : green; }</string>
+             </property>
              <property name="frameShape">
               <enum>QFrame::NoFrame</enum>
              </property>
@@ -850,7 +1362,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QToolButton" name="helpButton">
+        <widget class="QToolButton" name="extinfoButton">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
            <horstretch>0</horstretch>
@@ -863,6 +1375,12 @@
          <property name="icon">
           <iconset>
            <normaloff>icons/book-open.svg</normaloff>icons/book-open.svg</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>16</width>
+           <height>16</height>
+          </size>
          </property>
          <property name="autoRaise">
           <bool>true</bool>
