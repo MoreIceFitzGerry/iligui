@@ -1,89 +1,78 @@
-from PyQt6.QtWidgets import QMainWindow, QApplication, QDialog, QFileDialog
+from PyQt6.QtWidgets import QMainWindow, QApplication, QDialog, QFileDialog, QInputDialog
 from PyQt6.QtWidgets import QLabel, QToolButton, QPlainTextEdit,QProgressBar, QToolBox
-from PyQt6.QtCore import QUrl
+from PyQt6.QtCore import QUrl,QPropertyAnimation, QThread
 from PyQt6 import uic, QtGui
-from PyQt6.QtWebEngineWidgets import QWebEngineView
-import webbrowser
-import sys
-import os
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+import time
+from bs4 import BeautifulSoup
+
+# from PyQt6.QtWebEngineWidgets import QWebEngineView # Note: PyQt6-WebEngine still builds upon requisits from its older version, PyQTWebEngine-qt5 so it is also necessary to install this
+
+
 
 
 class ilimodelselectgui(QDialog):
-    def __init__(self, main_window):
+    def __init__(self):
         super(ilimodelselectgui, self).__init__()
         # Load UI File
         uic.loadUi("dialog_modelselect.ui", self)
-        
-        # Get main_window data
-        self.mainWindow = main_window
-        # Get file_path from Main Window
-        self.file_path = self.mainWindow.file_path
-        # Get model_name from Main Window (Model name found in Transfer file)
-        self.model_name = self.mainWindow.model_name
-        self.model_path = "Automatic Search on Validation Begin"
-        # First Values are these since no input results in this
-        self.modelName_text.setText(self.model_name)
-        self.modelPath_text.setText(self.model_path)
 
         # Define our Widgets----------------------------------------------------------------------------------------------
-        ## Frames
-        self.onlinesearchButtonFrame.setVisible(False)
-        self.localsearchButtonFrame.setVisible(False)
-        ## Radiobuttons
-        self.transferfileRadiobutton
+        ## Frame
+        self.queryFrame.setVisible(False)
+        ## Radiobutton
         self.onlinesearchRadiobutton
-        self.localsearchRadiobutton
-        ## Buttons
-        self.onlinesearchButton
-        self.localsearchButton
+        ## Button
         self.okButton
-        ## Textfields
-        self.modelName_text
-        self.modelPath_text
+        ## QueryEntry
+        self.lineEdit
 
         # Define our Connections------------------------------------------------------------------------------------------
         # self.closeButton.clicked.connect(lambda: self.close())
-        # Radiobutton connections
-        self.transferfileRadiobutton.toggled.connect(self.showtransferfilesource)
-        self.onlinesearchRadiobutton.toggled.connect(self.showonlinesource)
-        self.localsearchRadiobutton.toggled.connect(self.showlocalsource)
-        # Button connections
-        self.onlinesearchButton.clicked.connect(self.getonlinemodel)
-        self.localsearchButton.clicked.connect(self.getlocalmodel)
-        self.okButton.clicked.connect(lambda: self.accept()) # Result code and closes dialog
+        # Radiobutton connection
+        self.onlinesearchRadiobutton.toggled.connect(self.onlineselect)
+        # Button connection
+        self.okButton.clicked.connect(self.ok) # Result code and closes dialog
+        # self.okButton.clicked.connect(lambda: self.accept()) # Result code and closes dialog
 
-         # Validation Setting
-        # self.setting1_1.toggled.connect(lambda : self.setsettings("--forceTypeValidation")) #Force Type Validation
-
-        # Show the App directly at the end of initialization
-       # Run this window, locking the other window behind it
-        # self.exec()
-        # self.resize(self.width(), self.MainFrame.sizeHint().height())
         self.adjustSize() # Adjusts the main window to fit its contents minimally
 
-    def  showtransferfilesource(self, checked):
-        if checked == True:
-            self.model_name = self.mainWindow.model_name # Reset the model name
-            self.model_path = "Automatic Search on Validation Begin"
-            self.modelName_text.setText(self.model_name)
-            self.modelPath_text.setText(self.model_path)
+    def onlineselect(self, checked):
+        if checked:
+            self.queryFrame.setVisible(True)
+        else:
+            self.queryFrame.setVisible(False)
+            self.resize(self.width(), self.height()-self.queryFrame.height())
+    
+    def ok(self):
+        if self.onlinesearchRadiobutton.isChecked():
+            # text, ok = QInputDialog.getText(None, "Search INTERLIS Model Browser", "Enter Model Name:")
+            text = self.lineEdit.text()
+            options = Options()
+            options.headless = True
+            options.add_argument("--ignore-certificate-errors") # CANNOT GET CORRECT RESULTS FROM https://ilimodels.ch OTHERWISE, BUT NOTE SECURITY RISK!
+            driver = webdriver.Chrome(options=options)
+            url = f"https://ilimodels.ch/?query={text}"
+            driver.get(url)
+            html = driver.page_source
+            driver.quit()
+            soup = BeautifulSoup(html, "html.parser")
+            links = soup.find_all("a", href=lambda href: href and href.endswith(".ili"))
+            if links:
+                first_link = links[0].get("href")
+                print(f"First .ili link: {first_link}")
+                self.model_path = first_link
+            else:
+                print("No .ili links found")
+                self.model_path = ""
+            self.accept()
+        elif self.localsearchRadiobutton.isChecked():
+            self.model_path, ok = QFileDialog.getOpenFileName(None, "Select an Interlis Model-File", "", "Interlis Model (*.ili);")
+            self.accept()
+        else:
+            self.reject()
 
-    def  showonlinesource(self, checked):
-        self.onlinesearchButtonFrame.setVisible(checked)
-
-    def  showlocalsource(self, checked):
-        if checked == True:
-            self.modelName_text.setText(self.model_name)
-            self.modelPath_text.setText(self.model_path)
-        self.localsearchButtonFrame.setVisible(checked)
-
-    def getonlinemodel(self):
-        view = QWebEngineView()
-        view.load("https://ilimodels.ch/")
-        view.show()
-
-    def getlocalmodel(self):
-        self.model_path, _ = QFileDialog.getOpenFileName(None, "Select an Interlis Model-File", "", "Interlis Model (*.ili);")
-        self.model_name = os.path.basename(self.model_path)
-        self.modelName_text.setText(self.model_name)
-        self.modelPath_text.setText(self.model_path)
+        # document.querySelector("#root > div > div.MuiContainer-root.MuiContainer-maxWidthLg.css-1qsxih2 > div > div.MuiBox-root.css-w2uu6y > div:nth-child(1) > div.css-1bcexqj > div:nth-child(6) > a")
+        # <a href="https://models.geo.admin.ch/BAFU/NoisePollutionRegisterForNationalRoads_V1_1.ili" target="_blank" rel="noreferrer">BAFU/NoisePollutionRegisterForNationalRoads_V1_1.ili</a>
+        #root > div > div.MuiContainer-root.MuiContainer-maxWidthLg.css-1qsxih2 > div > div.MuiBox-root.css-w2uu6y > div:nth-child(1) > div.css-1bcexqj > div:nth-child(6) > a

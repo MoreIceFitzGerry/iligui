@@ -268,7 +268,7 @@
          <enum>QFrame::Box</enum>
         </property>
         <property name="currentIndex">
-         <number>0</number>
+         <number>4</number>
         </property>
         <widget class="QWidget" name="settings1">
          <layout class="QVBoxLayout" name="verticalLayout">

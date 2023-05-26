@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'c:\Users\mauri\Repos\GitHub\iligui\dialog_modelselect.ui'
+# Form implementation generated from reading ui file 'c:\Users\mauri\Repos\GitHub\iligui\dialog_modelselectonline.ui'
 #
 # Created by: PyQt6 UI code generator 6.4.2
 #
@@ -12,7 +12,7 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_modelselectDialog(object):
     def setupUi(self, modelselectDialog):
         modelselectDialog.setObjectName("modelselectDialog")
-        modelselectDialog.resize(318, 267)
+        modelselectDialog.resize(318, 190)
         modelselectDialog.setStyleSheet("QCheckBox::indicator {\n"
 "    width: 40px;\n"
 "    height: 40px;\n"
@@ -34,9 +34,8 @@ class Ui_modelselectDialog(object):
         self.Title.setFont(font)
         self.Title.setAlignment(QtCore.Qt.AlignmentFlag.AlignLeading|QtCore.Qt.AlignmentFlag.AlignLeft|QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.Title.setObjectName("Title")
-        self.verticalLayout_2.addWidget(self.Title)
+        self.verticalLayout_2.addWidget(self.Title, 0, QtCore.Qt.AlignmentFlag.AlignTop)
         self.frame = QtWidgets.QFrame(parent=modelselectDialog)
-        self.frame.setEnabled(True)
         self.frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame.setObjectName("frame")
@@ -88,46 +87,12 @@ class Ui_modelselectDialog(object):
         self.onlinesearchRadiobutton.setObjectName("onlinesearchRadiobutton")
         self.radioButtonGroup.addButton(self.onlinesearchRadiobutton)
         self.verticalLayout.addWidget(self.onlinesearchRadiobutton)
-        self.queryFrame = QtWidgets.QFrame(parent=self.frame)
-        self.queryFrame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.queryFrame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.queryFrame.setObjectName("queryFrame")
-        self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.queryFrame)
-        self.verticalLayout_3.setContentsMargins(30, 0, 0, 0)
-        self.verticalLayout_3.setSpacing(6)
-        self.verticalLayout_3.setObjectName("verticalLayout_3")
-        self.lineEdit = QtWidgets.QLineEdit(parent=self.queryFrame)
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        font.setBold(True)
-        self.lineEdit.setFont(font)
-        self.lineEdit.setFrame(True)
-        self.lineEdit.setCursorPosition(0)
-        self.lineEdit.setPlaceholderText("")
-        self.lineEdit.setCursorMoveStyle(QtCore.Qt.CursorMoveStyle.LogicalMoveStyle)
-        self.lineEdit.setObjectName("lineEdit")
-        self.verticalLayout_3.addWidget(self.lineEdit)
-        self.verticalLayout.addWidget(self.queryFrame)
-        self.verticalLayout_2.addWidget(self.frame)
+        self.verticalLayout_2.addWidget(self.frame, 0, QtCore.Qt.AlignmentFlag.AlignTop)
         self.okButton = QtWidgets.QPushButton(parent=modelselectDialog)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.okButton.sizePolicy().hasHeightForWidth())
-        self.okButton.setSizePolicy(sizePolicy)
-        self.okButton.setMinimumSize(QtCore.QSize(170, 0))
         font = QtGui.QFont()
         font.setPointSize(13)
         font.setBold(True)
         self.okButton.setFont(font)
-        self.okButton.setStyleSheet("QPushButton[objectName^=\"okButton\"]:hover {\n"
-"    background-color : rgb(230,230,230);\n"
-"    border-radius: 20px;\n"
-"    border-style: outset;\n"
-"}\n"
-"\n"
-"")
-        self.okButton.setFlat(True)
         self.okButton.setObjectName("okButton")
         self.verticalLayout_2.addWidget(self.okButton, 0, QtCore.Qt.AlignmentFlag.AlignHCenter)
 

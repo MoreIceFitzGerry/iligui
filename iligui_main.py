@@ -160,8 +160,8 @@ class iligui(QMainWindow):
                         first_tag_name = first_tag.split('}')[1]
                         self.model_name = first_tag_name.split('.')[0]
                         break
-            print("Loaded Transfer File from " + self.file_path)
-            print("Model Name Found" + self.file_path)
+            print("Loaded Transfer File from: " + self.file_path)
+            print("Model Name found: " + self.model_name)
             self.fileselectButton.setIcon(QtGui.QIcon("icons/circle_good_green.png"))
             filename = os.path.basename(self.file_path)
             self.fileText.setText(filename)
@@ -171,15 +171,20 @@ class iligui(QMainWindow):
         # Reset Play Button
         self.playButton.setIcon(QtGui.QIcon("icons/play.png"))
         try:
-            self.modelselectUIWindow = ilimodelselectgui(self) # Create new window and pass all of self over
+            self.modelselectUIWindow = ilimodelselectgui() # Create new window and pass all of self over
             result = self.modelselectUIWindow.exec()
             if result == QDialog.DialogCode.Accepted:
                 self.model_path = self.modelselectUIWindow.model_path # overwrite self.model_path with the selection from modelselect window
                 print(f"Current Path: {self.model_path}")
+                if self.model_path == "":
+                    self.modelText.setText(f"{self.model_name} with Path Autosearch")
+                else:
+                    self.settings.append(f"---modeldir {self.model_path}")
+                    self.modelText.setText(self.model_path)
                 self.modelselectButton.setIcon(QtGui.QIcon("icons/circle_good_green.png"))
-                self.modelname = os.path.basename(self.model_name)
-                self.modelText.setText(self.modelname)
                 self.showselectedmodelframe()
+            else:
+                self.modelText.setText(f"{self.model_name} with Path Autosearch")
         except AttributeError as e:
             print("Execution Error...")
             self.modelselectButton.setIcon(QtGui.QIcon("icons/circle_bad_red.png"))
