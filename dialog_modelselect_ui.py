@@ -13,11 +13,10 @@ class Ui_modelselectDialog(object):
     def setupUi(self, modelselectDialog):
         modelselectDialog.setObjectName("modelselectDialog")
         modelselectDialog.resize(468, 266)
-        modelselectDialog.setStyleSheet("QCheckBox::indicator {\n"
-"    width: 40px;\n"
-"    height: 40px;\n"
-"}\n"
-"QRadioButton::indicator:checked, QCheckBox::indicator:checked {\n"
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("c:\\Users\\mauri\\Repos\\GitHub\\iligui\\icons/interlis.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        modelselectDialog.setWindowIcon(icon)
+        modelselectDialog.setStyleSheet("QRadioButton::indicator:checked, QCheckBox::indicator:checked {\n"
 "    image: url(icons/check-circle-green.svg);\n"
 "}\n"
 "QRadioButton::indicator:unchecked, QCheckBox::indicator:unchecked {\n"
@@ -151,7 +150,7 @@ class Ui_modelselectDialog(object):
 
     def retranslateUi(self, modelselectDialog):
         _translate = QtCore.QCoreApplication.translate
-        modelselectDialog.setWindowTitle(_translate("modelselectDialog", "Dialog"))
+        modelselectDialog.setWindowTitle(_translate("modelselectDialog", "Model Selection"))
         self.Title.setText(_translate("modelselectDialog", "Select a Model"))
         self.transferfileRadiobutton.setText(_translate("modelselectDialog", "Automatically from Datafile"))
         self.localsearchRadiobutton.setText(_translate("modelselectDialog", "Manually from Local Source"))

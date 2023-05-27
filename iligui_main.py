@@ -1,9 +1,9 @@
 from PyQt6.QtWidgets import QMainWindow, QApplication, QFileDialog
 from PyQt6.QtWidgets import QLabel, QToolButton, QPlainTextEdit, QProgressBar, QToolBox, QDialog
-from PyQt6.QtCore import QPropertyAnimation, QSize, QRect, QVariantAnimation, Qt, QUrl
+from PyQt6.QtCore import QPropertyAnimation, QSize, QRect, QVariantAnimation, Qt, QUrl, QSettings
 from PyQt6 import uic, QtGui
 from iligui_modeldialog import ilimodelselectgui
-from iligui_settings import ilisettingsgui
+from iligui_settingsdialog import ilisettingsgui
 import sys
 import logic_playbutton
 import xml.etree.ElementTree as ET
@@ -59,6 +59,9 @@ class iligui(QMainWindow):
 
         # Options Bin to pass to commands
         self.settings = []
+        
+         # Create savesetting bin to save settings
+        self.savesettings = [False, False, False, False]
         #-----------------------------------------------------------------------------------------------------------------
 
         # Custom Widget Adjustements--------------------------------------------------------------------------------------
@@ -69,12 +72,12 @@ class iligui(QMainWindow):
                 event.acceptProposedAction()
         def handleDropEvent_filepath(event):
             for url in event.mimeData().urls():
-                self.file_path = url.toLocalFile()
-                print("Loaded Transfer File from Dropped File: " + self.file_path)
+                self.dropfile_path = url.toLocalFile()
+                print("Loaded Transfer File from Dropped File: " + self.dropfile_path)
         def handleDropEvent_modelpath(event):
             for url in event.mimeData().urls():
-                self.model_path = url.toLocalFile()
-                print("Loaded Model File from Dropped File: " + self.model_path)
+                self.dropmodel_path = url.toLocalFile()
+                print("Loaded Model File from Dropped File: " + self.dropmodel_path)
         # Find the QToolButton and connect its signals to custom slots
         self.fileselectButton.dragEnterEvent = handleDragEvent
         self.modelselectButton.dragEnterEvent = handleDragEvent
@@ -170,18 +173,29 @@ class iligui(QMainWindow):
         self.playButton.setIcon(QtGui.QIcon("icons/play.png"))
         try:
             self.modelselectUIWindow = ilimodelselectgui() # Create new window and pass all of self over
+            print("2")
             result = self.modelselectUIWindow.exec()
+            print("4")
             if result == QDialog.DialogCode.Accepted:
-                print(f"self.model_path not in globals: {'self.model_path' not in locals()}")
-                if 'self.model_path' in locals():
-                    self.model_path = self.modelselectUIWindow.model_path # overwrite self.model_path with the selection from modelselect window
-                    print(f"Current Path: {self.model_path}")
-                    self.settings.append(f"---modeldir {self.model_path}")
-                    self.modelText.setText(self.model_path)
+                self.model_path = self.modelselectUIWindow.model_path # overwrite or create self.model_path with the selection from modelselect window
+                if self.model_path == "":
+                    self.modelselectButton.setIcon(QtGui.QIcon("icons/circle_bad_red.png"))
+                    self.errorText.setText(f"No Model with that name could be found")
+                    self.infoText.setText("Make sure you typed the name of your model correctly!")
+                    self.showerrorframe()
+                elif self.model_path == "auto":
+                    print(f"Current Path only name: {self.model_name}")
+                    self.modelText.setText(f"{self.model_name} with automatic path search")
+                    self.modelselectButton.setIcon(QtGui.QIcon("icons/circle_good_green.png"))
+                    self.showselectedmodelframe()
                 else:
-                    self.modelText.setText(f"{self.model_name} with Path Autosearch")
-                self.modelselectButton.setIcon(QtGui.QIcon("icons/circle_good_green.png"))
-                self.showselectedmodelframe()
+                    print(f"Current Model Path: {self.model_path}")
+                    self.model_directory = os.path.dirname(self.model_path)
+                    print(f"Current Model Path directory: {self.model_directory}")
+                    self.settings.append(f"--modeldir {self.model_directory};")
+                    self.modelText.setText(self.model_path)
+                    self.modelselectButton.setIcon(QtGui.QIcon("icons/circle_good_green.png"))
+                    self.showselectedmodelframe()
             else:
                 pass
         except AttributeError as e:
@@ -224,10 +238,14 @@ class iligui(QMainWindow):
                         objectTag = "Not Available"
                         tagIdentification = "Not Available"
                         Line = "Not Available"
+                    else:
+                        objectTag = objectTag.text
+                        tagIdentification = tagIdentification.text
+                        Line = Line.text
                         # error_elements.append(f"<a href='file:///{self.file_path}' style='color:red;'>Error found: {errorMessage.text}</a>")
                     # print("errorMessage: ", errorMessage.text, "objectTag: ", objectTag.text, "tagIdentification: ", tagIdentification.text, "DataSource: ", DataSource.text, "Line: ", Line.text)
                     # error_elements.append(f"<a href='file:///{self.file_path}' style='color:red;'>Error found: Line {Line.text}, TagID {tagIdentification.text}, objectTag {objectTag.text}: {errorMessage.text}</a>")
-                    error_elements.append(f"Error found: Line {Line.text}, {errorMessage.text}")
+                    error_elements.append(f"Error found: Line {Line}, {errorMessage.text}")
                     help_elements.append(errorMessage.text)
 
             # Convert the error_elements list to a string for printing
@@ -269,7 +287,7 @@ class iligui(QMainWindow):
                 if self.infoFrame.isVisible() == True:
                     self.addinfotoggle()
                 self.hideerrorframe()
-                
+
             else:
                 print("Validation Error...")
                 self.playButton.setIcon(QtGui.QIcon("icons/circle_bad_red.png"))
@@ -382,11 +400,12 @@ class iligui(QMainWindow):
     def settingsselect(self):
         # Reset Play Button
         self.playButton.setIcon(QtGui.QIcon("icons/play.png"))
-        from iligui_settings import ilisettingsgui
-        self.settingsUIWindow = ilisettingsgui()
-        # overwrite self.options with new settings from settingswindow
-        self.settings = self.secondUIWindow.options
-        print(f"Current Settings: {self.settings}")
+        self.settingsUIWindow = ilisettingsgui(self.savesettings)
+        result = self.settingsUIWindow.exec()
+        if result == QDialog.DialogCode.Accepted:
+            # overwrite self.options with new settings from settingswindow
+            self.settings = self.settingsUIWindow.options
+            print(f"Current Settings: {self.settings}")
 
     def refresh(self):
         # TODO: RESET THE ACTUAL VARIABLES AS WELL AND FOLD SHUT ALL THE HELP

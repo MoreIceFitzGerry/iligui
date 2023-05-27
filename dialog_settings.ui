@@ -6,12 +6,16 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>295</width>
-    <height>192</height>
+    <width>302</width>
+    <height>227</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Settings Selection</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>icons/interlis.png</normaloff>icons/interlis.png</iconset>
   </property>
   <property name="styleSheet">
    <string notr="true">QRadioButton::indicator:checked, QCheckBox::indicator:checked {
@@ -22,19 +26,7 @@ QRadioButton::indicator:unchecked, QCheckBox::indicator:unchecked {
 }</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
-   <property name="leftMargin">
-    <number>20</number>
-   </property>
-   <property name="topMargin">
-    <number>10</number>
-   </property>
-   <property name="rightMargin">
-    <number>20</number>
-   </property>
-   <property name="bottomMargin">
-    <number>10</number>
-   </property>
-   <item alignment="Qt::AlignLeft|Qt::AlignTop">
+   <item>
     <widget class="QFrame" name="frame">
      <property name="frameShape">
       <enum>QFrame::StyledPanel</enum>
@@ -126,7 +118,7 @@ QRadioButton::indicator:unchecked, QCheckBox::indicator:unchecked {
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
-       <widget class="QCheckBox" name="transferfileRadiobutton">
+       <widget class="QCheckBox" name="validationOption0">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
           <horstretch>0</horstretch>
@@ -149,12 +141,12 @@ QRadioButton::indicator:unchecked, QCheckBox::indicator:unchecked {
          <bool>true</bool>
         </property>
         <property name="checked">
-         <bool>true</bool>
+         <bool>false</bool>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QCheckBox" name="localsearchRadiobutton">
+       <widget class="QCheckBox" name="validationOption1">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
           <horstretch>0</horstretch>
@@ -173,7 +165,7 @@ QRadioButton::indicator:unchecked, QCheckBox::indicator:unchecked {
        </widget>
       </item>
       <item>
-       <widget class="QCheckBox" name="onlinesearchRadiobutton">
+       <widget class="QCheckBox" name="validationOption2">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
           <horstretch>0</horstretch>
@@ -201,7 +193,7 @@ QRadioButton::indicator:unchecked, QCheckBox::indicator:unchecked {
        </widget>
       </item>
       <item>
-       <widget class="QCheckBox" name="onlinesearchRadiobutton_2">
+       <widget class="QCheckBox" name="validationOption3">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
           <horstretch>0</horstretch>
@@ -229,6 +221,43 @@ QRadioButton::indicator:unchecked, QCheckBox::indicator:unchecked {
        </widget>
       </item>
      </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="okButton">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>170</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>13</pointsize>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton[objectName^=&quot;okButton&quot;]:hover {
+	background-color : rgb(230,230,230);
+	border-radius: 20px;
+	border-style: outset;
+}
+
+</string>
+     </property>
+     <property name="text">
+      <string>OK</string>
+     </property>
+     <property name="flat">
+      <bool>true</bool>
+     </property>
     </widget>
    </item>
   </layout>

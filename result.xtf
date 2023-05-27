@@ -6,16 +6,16 @@
 <IliVErrors.ErrorLog.Error TID="o2"><Message>ili2c-5.3.2-6fb5df2877070aeb16c7b39a206a61e2518682c8</Message><Type>Info</Type><TechDetails>validate():  (Validator.java:158)</TechDetails></IliVErrors.ErrorLog.Error>
 <IliVErrors.ErrorLog.Error TID="o3"><Message>iox-ili-1.21.17-1b4c51a5527aa4ee5e8e78b00da83cc260182830</Message><Type>Info</Type><TechDetails>validate():  (Validator.java:159)</TechDetails></IliVErrors.ErrorLog.Error>
 <IliVErrors.ErrorLog.Error TID="o4"><Message>User &lt;mauri&gt;</Message><Type>Info</Type><TechDetails>validate():  (Validator.java:160)</TechDetails></IliVErrors.ErrorLog.Error>
-<IliVErrors.ErrorLog.Error TID="o5"><Message>Start date 2023-05-27 10:56</Message><Type>Info</Type><TechDetails>validate():  (Validator.java:163)</TechDetails></IliVErrors.ErrorLog.Error>
+<IliVErrors.ErrorLog.Error TID="o5"><Message>Start date 2023-05-27 15:43</Message><Type>Info</Type><TechDetails>validate():  (Validator.java:163)</TechDetails></IliVErrors.ErrorLog.Error>
 <IliVErrors.ErrorLog.Error TID="o6"><Message>maxMemory 2076672 KB</Message><Type>Info</Type><TechDetails>validate():  (Validator.java:164)</TechDetails></IliVErrors.ErrorLog.Error>
-<IliVErrors.ErrorLog.Error TID="o7"><Message>dataFile &lt;C:/Users/mauri/Repos/GitHub/iligui/interlistests/interlis1_bsp.itf&gt;</Message><Type>Info</Type><TechDetails>validate():  (Validator.java:168)</TechDetails></IliVErrors.ErrorLog.Error>
+<IliVErrors.ErrorLog.Error TID="o7"><Message>dataFile &lt;C:/Users/mauri/Repos/GitHub/iligui/interlistests/customCollection/RoadsSimple.xml&gt;</Message><Type>Info</Type><TechDetails>validate():  (Validator.java:168)</TechDetails></IliVErrors.ErrorLog.Error>
 <IliVErrors.ErrorLog.Error TID="o8"><Message>pluginFolder &lt;C:\Users\mauri\Repos\GitHub\iligui\ilivalidator-1.13.2\plugins&gt;</Message><Type>Info</Type><TechDetails>validate():  (Validator.java:174)</TechDetails></IliVErrors.ErrorLog.Error>
-<IliVErrors.ErrorLog.Error TID="o9"><Message>modeldir &lt;%ITF_DIR;http://models.interlis.ch/;%JAR_DIR/ilimodels&gt;</Message><Type>Info</Type><TechDetails>createRepositoryManager():  (Validator.java:639)</TechDetails></IliVErrors.ErrorLog.Error>
-<IliVErrors.ErrorLog.Error TID="o10"><Message>no reader found</Message><Type>Error</Type><TechDetails>no reader found
-    ch.interlis.iox_j.utility.ReaderFactory.createReader(ReaderFactory.java:120)
-    ch.interlis.iox_j.utility.ReaderFactory.createReader(ReaderFactory.java:32)
-    ch.interlis.iox_j.IoxUtility.getModels(IoxUtility.java:57)
-    org.interlis2.validator.Validator.validate(Validator.java:276)
+<IliVErrors.ErrorLog.Error TID="o9"><Message>modeldir &lt;https://models.geo.admin.ch/BAFU;&gt;</Message><Type>Info</Type><TechDetails>createRepositoryManager():  (Validator.java:639)</TechDetails></IliVErrors.ErrorLog.Error>
+<IliVErrors.ErrorLog.Error TID="o10"><Message>lookup model &lt;NoisePollutionRegisterForNationalRoads_V1_1&gt; 2.3 in repository &lt;https://models.geo.admin.ch/BAFU/&gt;</Message><Type>Info</Type><TechDetails>logRepositoryScan():  (ModelFinder.java:26)</TechDetails></IliVErrors.ErrorLog.Error>
+<IliVErrors.ErrorLog.Error TID="o11"><Message>NoisePollutionRegisterForNationalRoads_V1_1: model(s) not found</Message><Type>Error</Type><TechDetails>NoisePollutionRegisterForNationalRoads_V1_1: model(s) not found
+    ch.interlis.ilirepository.IliManager.getConfig(IliManager.java:339)
+    org.interlis2.validator.Validator.compileIli(Validator.java:613)
+    org.interlis2.validator.Validator.validate(Validator.java:333)
     org.interlis2.validator.Validator.runValidation(Validator.java:79)
     org.interlis2.validator.Main.main(Main.java:208)
 </TechDetails></IliVErrors.ErrorLog.Error>

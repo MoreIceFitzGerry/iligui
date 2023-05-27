@@ -13,7 +13,6 @@ class interlisSiteContentGrabber(QThread):
     def __init__(self, query):
         super().__init__()
         self.query = query
-        self.result = ""
 
     def run(self):
         url = f"https://ilimodels.ch/?query={self.query}"
@@ -23,7 +22,7 @@ class interlisSiteContentGrabber(QThread):
         options.add_argument("--ignore-certificate-errors")
         driver = webdriver.Chrome(options=options)
         driver.get(url)
-        time.sleep(5)
+        time.sleep(4)
         html = driver.page_source
         driver.quit()
         soup = BeautifulSoup(html, "html.parser")
@@ -35,6 +34,7 @@ class interlisSiteContentGrabber(QThread):
         else:
             print("No .ili links found")
             self.result = ""
+        print("3")
 
 
 class ilimodelselectgui(QDialog):
@@ -42,7 +42,10 @@ class ilimodelselectgui(QDialog):
         super(ilimodelselectgui, self).__init__()
         # Load UI File
         uic.loadUi("dialog_modelselect.ui", self)
-
+        
+        # Initialize model path
+        self.model_path = ""
+        print("1")
         # Define our Widgets----------------------------------------------------------------------------------------------
         ## Frame
         self.queryFrame.setVisible(False)
@@ -76,6 +79,7 @@ class ilimodelselectgui(QDialog):
 
     def ok(self):
         if self.onlinesearchRadiobutton.isChecked():
+            print("online search")
             text = self.lineEdit.text()
 
             self.selectionFrame.setDisabled(True)
@@ -89,9 +93,16 @@ class ilimodelselectgui(QDialog):
             self.thread.start()
 
         elif self.localsearchRadiobutton.isChecked():
+            print("local search")
             self.model_path, ok = QFileDialog.getOpenFileName(None, "Select an Interlis Model-File", "", "Interlis Model (*.ili);")
+            self.accept()
 
-        self.accept()
+        else:
+            print("auto search")
+            self.model_path = "auto"
+            self.accept()
+
+        
 
     def process_finished(self):
         self.model_path = self.thread.result
@@ -99,6 +110,7 @@ class ilimodelselectgui(QDialog):
         self.loadingLabel.setVisible(False)
         self.okButton.setVisible(True)
         self.selectionFrame.setDisabled(False)
+        self.accept()
 
         # document.querySelector("#root > div > div.MuiContainer-root.MuiContainer-maxWidthLg.css-1qsxih2 > div > div.MuiBox-root.css-w2uu6y > div:nth-child(1) > div.css-1bcexqj > div:nth-child(6) > a")
         # <a href="https://models.geo.admin.ch/BAFU/NoisePollutionRegisterForNationalRoads_V1_1.ili" target="_blank" rel="noreferrer">BAFU/NoisePollutionRegisterForNationalRoads_V1_1.ili</a>

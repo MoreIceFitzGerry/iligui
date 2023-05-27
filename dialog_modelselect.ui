@@ -11,14 +11,14 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Model Selection</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>icons/interlis.png</normaloff>icons/interlis.png</iconset>
   </property>
   <property name="styleSheet">
-   <string notr="true">QCheckBox::indicator {
-    width: 40px;
-    height: 40px;
-}
-QRadioButton::indicator:checked, QCheckBox::indicator:checked {
+   <string notr="true">QRadioButton::indicator:checked, QCheckBox::indicator:checked {
     image: url(icons/check-circle-green.svg);
 }
 QRadioButton::indicator:unchecked, QCheckBox::indicator:unchecked {
