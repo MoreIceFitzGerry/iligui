@@ -39,13 +39,10 @@ class iligui(QMainWindow):
         # Buttons
         self.interlisButton
         self.settingsButton
-        self.infoButton
+        self.refreshButton
         self.fileselectButton
-        self.fileselectButtontext.setVisible(False)
         self.modelselectButton
-        self.modelselectButtontext.setVisible(False)
         self.playButton
-        self.playButtontext.setVisible(False)
         # ---
         self.addinfoButton
         self.openfileButton
@@ -88,7 +85,7 @@ class iligui(QMainWindow):
         # Define our Connections------------------------------------------------------------------------------------------
         self.interlisButton.clicked.connect(self.interlisselect)
         self.settingsButton.clicked.connect(self.settingsselect)
-        self.infoButton.toggled.connect(self.infotoggle)
+        self.refreshButton.clicked.connect(self.refresh)
         self.fileselectButton.clicked.connect(self.fileselect)
         self.modelselectButton.clicked.connect(self.modelselect)
         self.playButton.clicked.connect(self.playselect)
@@ -168,23 +165,25 @@ class iligui(QMainWindow):
             self.showselectedfileframe()
 
     def modelselect(self):
-        # Reset Play Button
+        # Reset Buttons
+        self.modelselectButton.setIcon(QtGui.QIcon("icons/model_lightblue.png"))
         self.playButton.setIcon(QtGui.QIcon("icons/play.png"))
         try:
             self.modelselectUIWindow = ilimodelselectgui() # Create new window and pass all of self over
             result = self.modelselectUIWindow.exec()
             if result == QDialog.DialogCode.Accepted:
-                self.model_path = self.modelselectUIWindow.model_path # overwrite self.model_path with the selection from modelselect window
-                print(f"Current Path: {self.model_path}")
-                if self.model_path == "":
-                    self.modelText.setText(f"{self.model_name} with Path Autosearch")
-                else:
+                print(f"self.model_path not in globals: {'self.model_path' not in locals()}")
+                if 'self.model_path' in locals():
+                    self.model_path = self.modelselectUIWindow.model_path # overwrite self.model_path with the selection from modelselect window
+                    print(f"Current Path: {self.model_path}")
                     self.settings.append(f"---modeldir {self.model_path}")
                     self.modelText.setText(self.model_path)
+                else:
+                    self.modelText.setText(f"{self.model_name} with Path Autosearch")
                 self.modelselectButton.setIcon(QtGui.QIcon("icons/circle_good_green.png"))
                 self.showselectedmodelframe()
             else:
-                self.modelText.setText(f"{self.model_name} with Path Autosearch")
+                pass
         except AttributeError as e:
             print("Execution Error...")
             self.modelselectButton.setIcon(QtGui.QIcon("icons/circle_bad_red.png"))
@@ -361,10 +360,6 @@ class iligui(QMainWindow):
                 newHeight = self.MainFrame.height() + self.errorFrame.height()
                 self.resizeMainWindowHeight(oldHeight, newHeight)
 
-    def infotoggle(self,checked):
-        self.fileselectButtontext.setVisible(checked)
-        self.modelselectButtontext.setVisible(checked)
-        self.playButtontext.setVisible(checked)
     def openfile(self):
         # Reset Play Button
         self.playButton.setIcon(QtGui.QIcon("icons/play.png"))
@@ -392,6 +387,20 @@ class iligui(QMainWindow):
         # overwrite self.options with new settings from settingswindow
         self.settings = self.secondUIWindow.options
         print(f"Current Settings: {self.settings}")
+
+    def refresh(self):
+        # TODO: RESET THE ACTUAL VARIABLES AS WELL AND FOLD SHUT ALL THE HELP
+        self.fileselectButton.setIcon(QtGui.QIcon("icons/fileupload_blue.png"))
+        self.modelselectButton.setIcon(QtGui.QIcon("icons/model_lightblue.png"))
+        self.playButton.setIcon(QtGui.QIcon("icons/play.png"))
+        self.selectedFileFrame.setVisible(False)
+        self.selectedModelFrame.setVisible(False)
+        self.errorFrame.setVisible(False)
+        self.infoFrame.setVisible(False)
+        oldHeight = self.height() # Get current height
+            # newHeight = self.height() + self.errorFrame.sizeHint().height() # Add the recommended height from sizeHint
+        newHeight = self.MainFrame.height()
+        self.resizeMainWindowHeight(oldHeight, newHeight)
     #---------------------------------------------------------------------------------------------------------------------
 
 # Initialize the App
