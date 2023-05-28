@@ -632,11 +632,17 @@
        </item>
        <item>
         <widget class="QLabel" name="fileTextcon">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="text">
           <string/>
          </property>
          <property name="pixmap">
-          <pixmap>icons/chevron-right.svg</pixmap>
+          <pixmap>../icons/chevron-right.svg</pixmap>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
@@ -732,7 +738,7 @@
           <string/>
          </property>
          <property name="pixmap">
-          <pixmap>icons/chevron-right.svg</pixmap>
+          <pixmap>../icons/chevron-right.svg</pixmap>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
@@ -755,6 +761,105 @@
          </property>
          <property name="toolTip">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The Error returned by the Validator. The direct Position will be delivered if possible.&lt;/p&gt;&lt;p&gt;Click on the Error to open your INTERLIS Transfer-File with your preferred editor for XML Files. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::NoFrame</enum>
+         </property>
+         <property name="text">
+          <string>123456789012345678901234567890123456789012345678901234567890123456789</string>
+         </property>
+         <property name="scaledContents">
+          <bool>false</bool>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
+         <property name="indent">
+          <number>0</number>
+         </property>
+         <property name="openExternalLinks">
+          <bool>true</bool>
+         </property>
+         <property name="textInteractionFlags">
+          <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <widget class="QFrame" name="updatedModelFrame">
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_8">
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <property name="leftMargin">
+        <number>50</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>50</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="QLabel" name="updated_modelLabel">
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>Found Newer Model</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="updated_modelTextcon">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="pixmap">
+          <pixmap>../icons/chevron-right.svg</pixmap>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="updated_modelText">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+           <italic>true</italic>
+          </font>
+         </property>
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The Error returned by the Validator. The direct Position will be delivered if possible.&lt;/p&gt;&lt;p&gt;Click on the Error to open your INTERLIS Transfer-File with your preferred editor for XML Files. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QLabel { color : orange; }</string>
          </property>
          <property name="frameShape">
           <enum>QFrame::NoFrame</enum>
@@ -906,7 +1011,7 @@
                <x>0</x>
                <y>0</y>
                <width>594</width>
-               <height>69</height>
+               <height>55</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -1183,8 +1288,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>574</width>
-            <height>69</height>
+            <width>572</width>
+            <height>55</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -1261,7 +1366,7 @@
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>icons/book-open.svg</normaloff>icons/book-open.svg</iconset>
+           <normaloff>../icons/book-open.svg</normaloff>../icons/book-open.svg</iconset>
          </property>
          <property name="iconSize">
           <size>

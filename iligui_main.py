@@ -33,6 +33,8 @@ class iligui(QMainWindow):
         self.selectedFileFrame.setVisible(False) # hide frame
         self.selectedModelFrame
         self.selectedModelFrame.setVisible(False) # hide frame
+        self.updatedModelFrame
+        self.updatedModelFrame.setVisible(False) # hide Frame
         # ---
         self.errorFrame
         self.errorFrame.setVisible(False) # hide frame
@@ -65,6 +67,7 @@ class iligui(QMainWindow):
         
          # Create savesetting bin to save settings
         self.savesettings = [False, False, False, False]
+        self.saved_model_link = ""
         #-----------------------------------------------------------------------------------------------------------------
 
         # Custom Widget Adjustements--------------------------------------------------------------------------------------
@@ -121,19 +124,19 @@ class iligui(QMainWindow):
     #https://stackoverflow.com/questions/67638434/detect-single-mouse-click-in-pyqt5-widgets-missing-mouseclickevent-function
 
     def reset_PlayButton(self):
-        self.playButton.setIcon(QtGui.QIcon("icons/play.png"))
+        self.playButton.setIcon(QtGui.QIcon("icons/play_blue.png"))
     """
 
     def fileselect(self):
         # Reset Play Button
-        self.playButton.setIcon(QtGui.QIcon("icons/play.png"))
+        self.playButton.setIcon(QtGui.QIcon("icons/play_blue.png"))
         # Open a file dialog and allow the user to select a file
         self.file_path, _ = QFileDialog.getOpenFileName(None, "Select an Interlis Transfer-file", "", "Interlis Files (*.itf *.xtf *.xml)")
 
         ## Get the Modelname that the File was written in.
         if self.file_path != "":
             # Reset Modelselect Button
-            self.modelselectButton.setIcon(QtGui.QIcon("icons/model_lightblue.png"))
+            self.modelselectButton.setIcon(QtGui.QIcon("icons/model_blue.png"))
             self.hideerrorframe()
             """
             The ilivalidator does not get the model name from the header.
@@ -172,40 +175,43 @@ class iligui(QMainWindow):
 
     def modelselect(self):
         # Reset Buttons
-        self.modelselectButton.setIcon(QtGui.QIcon("icons/model_lightblue.png"))
-        self.playButton.setIcon(QtGui.QIcon("icons/play.png"))
+        self.modelselectButton.setIcon(QtGui.QIcon("icons/model_blue.png"))
+        self.playButton.setIcon(QtGui.QIcon("icons/play_blue.png"))
         try:
-            self.modelselectUIWindow = ilimodelselectgui() # Create new window and pass all of self over
-            print("2")
+            self.modelselectUIWindow = ilimodelselectgui(self.model_name, self.saved_model_link) # Create new window and pass all of self over
             result = self.modelselectUIWindow.exec()
-            print("4")
             if result == QDialog.DialogCode.Accepted:
-                self.model_path = self.modelselectUIWindow.model_path # overwrite or create self.model_path with the selection from modelselect window
-                if self.model_path == "":
-                    self.modelselectButton.setIcon(QtGui.QIcon("icons/circle_bad_red.png"))
-                    self.errorText.setText(f"No Model with that name could be found")
-                    self.infoText.setText("Make sure you typed the name of your model correctly!")
-                    self.showerrorframe()
-                elif self.model_path == "auto":
-                    print(f"Current Path only name: {self.model_name}")
+                self.saved_model_link= self.modelselectUIWindow.model_link # Save the link so when you reopen it is still there
+                self.model_path = self.modelselectUIWindow.model_path # get self.model_path  selection from modelselect window
+                # Autosearch Only informs the user and doesnt pass any argumetns to ilivalidator
+                if self.model_path == "auto":
+                    # self.modelLabel.setText("Model for Autosearch")
                     self.modelText.setText(f"{self.model_name} with automatic path search")
-                    self.modelselectButton.setIcon(QtGui.QIcon("icons/circle_good_green.png"))
+                    self.modelselectButton.setIcon(QtGui.QIcon("icons/circle_continue_green.png"))
                     self.showselectedmodelframe()
+                # VALIDATE WETHER THE MODEL ACTUALLY CORRESPONDS TO THE MODEL IN THE TRANSFER FILE
                 else:
-                    print(f"Current Model Path: {self.model_path}")
-                    if self.model_path.startswith(('http://', 'https://')):
-                        parsed_url = urlsplit(self.model_path)
-                        model_respository_url = urlunsplit((parsed_url.scheme, parsed_url.netloc, '', '', ''))
-                        self.model_directory = model_respository_url
-                        print(f"Current Model directory: {self.model_directory}")
+                    self.model_name_mf = self.modelselectUIWindow.model_name_mf #  get model name from model file
+                    if self.model_name_mf != self.model_name:
+                        self.modelselectButton.setIcon(QtGui.QIcon("icons/circle_bad_red.png"))
+                        self.errorText.setText("Model does not fit your selected File!")
+                        self.infoText.setText("Make sure you select a Model that fits your transfer file. Check the first Part of each tag in an INTERLIS2 File to see which model is necessary.")
+                        self.showerrorframe()
                     else:
-                        self.model_directory = os.path.dirname(self.model_path)
-                        print(f"Current Model directory: {self.model_directory}")
-    
-                    self.settings.append(f"--modeldir {self.model_directory};")
-                    self.modelText.setText(self.model_path)
-                    self.modelselectButton.setIcon(QtGui.QIcon("icons/circle_good_green.png"))
-                    self.showselectedmodelframe()
+                        # SEPERATE THE MODEL_PATHS INTO THEIR ACTUAL DIRECTORY PATHS TO BE ABLE TO APPEND TO THE SETTINGS
+                        # Get Base from URL Path
+                        if self.model_path.startswith(('http://', 'https://')):
+                            parsed_url = urlsplit(self.model_path)
+                            model_respository_url = urlunsplit((parsed_url.scheme, parsed_url.netloc, '', '', ''))
+                            self.model_directory = model_respository_url
+                        # Get Base from Local Path
+                        else:
+                            self.model_directory = os.path.dirname(self.model_path)
+                        # Append to Settings
+                        self.settings.append(f"--modeldir {self.model_directory};")
+                        self.modelText.setText(self.model_path)
+                        self.modelselectButton.setIcon(QtGui.QIcon("icons/circle_good_green.png"))
+                        self.showselectedmodelframe()
             else:
                 pass
         except AttributeError as e:
@@ -251,11 +257,21 @@ class iligui(QMainWindow):
                     if f"ilifile" in infoMessage.text:
                         ilip = infoMessage.text
                         self.def_model_path = ilip[ilip.find('<')+1 : ilip.find('>')]
-                        print(f"def path : {self.def_model_path}")
-                        self.modelText.setText(self.def_model_path)
+                        # if it's a URL, the ilivalidator will always Cache it locally!
+                        print(f"COMPARISON, Selected:{self.model_path}, Used:{self.def_model_path}")
+                        if self.model_path != "auto" and os.path.normpath(self.def_model_path) != os.path.normpath(self.model_path):
+                            if ".ilicache" in self.def_model_path:
+                                self.updated_modelLabel.setText("Model Stored in local Cache")
+                            self.updated_modelText.setText(self.def_model_path)
+                            self.updatedModelFrame.setVisible(True)
 
                 if element_type == "Error":
                     errorMessage = element.find("{%s}Message" % ns)
+                    if f"model(s) not found" in errorMessage.text:
+                        self.playButton.setIcon(QtGui.QIcon("icons/circle_bad_red.png"))
+                        self.errorText.setText("Autosearch could not find Model")
+                        self.infoText.setText("Select the Model Locally or Online. After doing this once, Autosearch will find it in the future")
+                        self.showerrorframe()
                     DataSource = element.find("{%s}DataSource" % ns)
                     # Then find the following elements, IF THEY EXIST (Can vary depending on the error)
                     Line = element.find("{%s}Line" % ns)
@@ -408,12 +424,12 @@ class iligui(QMainWindow):
 
     def openfile(self):
         # Reset Play Button
-        self.playButton.setIcon(QtGui.QIcon("icons/play.png"))
+        self.playButton.setIcon(QtGui.QIcon("icons/play_blue.png"))
         # Open the file in the preferred editor
         QtGui.QDesktopServices.openUrl(QUrl.fromLocalFile(self.file_path))
     def openmodel(self):
         # Reset Play Button
-        self.playButton.setIcon(QtGui.QIcon("icons/play.png"))
+        self.playButton.setIcon(QtGui.QIcon("icons/play_blue.png"))
         # Open the file in the preferred editor
         if self.model_path == "auto":
             QtGui.QDesktopServices.openUrl(QUrl.fromLocalFile(self.def_model_path))
@@ -431,7 +447,7 @@ class iligui(QMainWindow):
 
     def settingsselect(self):
         # Reset Play Button
-        self.playButton.setIcon(QtGui.QIcon("icons/play.png"))
+        self.playButton.setIcon(QtGui.QIcon("icons/play_blue.png"))
         self.settingsUIWindow = ilisettingsgui(self.savesettings)
         result = self.settingsUIWindow.exec()
         if result == QDialog.DialogCode.Accepted:
@@ -448,10 +464,11 @@ class iligui(QMainWindow):
         self.settings = []
         self.savesettings = [False,False,False,False]
         self.fileselectButton.setIcon(QtGui.QIcon("icons/fileupload_blue.png"))
-        self.modelselectButton.setIcon(QtGui.QIcon("icons/model_lightblue.png"))
-        self.playButton.setIcon(QtGui.QIcon("icons/play.png"))
+        self.modelselectButton.setIcon(QtGui.QIcon("icons/model_blue.png"))
+        self.playButton.setIcon(QtGui.QIcon("icons/play_blue.png"))
         self.selectedFileFrame.setVisible(False)
         self.selectedModelFrame.setVisible(False)
+        self.updatedModelFrame.setVisible(False)
         self.errorFrame.setVisible(False)
         self.infoFrame.setVisible(False)
         oldHeight = self.height() # Get current height

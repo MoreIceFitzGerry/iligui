@@ -2,69 +2,38 @@ from PyQt6.QtWidgets import QMainWindow, QApplication, QDialog, QFileDialog, QIn
 from PyQt6.QtWidgets import QLabel, QToolButton, QPlainTextEdit,QProgressBar, QToolBox
 from PyQt6.QtCore import QUrl,QPropertyAnimation, QThread
 from PyQt6 import uic, QtGui
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-import time
-from bs4 import BeautifulSoup
-
-# from PyQt6.QtWebEngineWidgets import QWebEngineView # Note: PyQt6-WebEngine still builds upon requisits from its older version, PyQTWebEngine-qt5 so it is also necessary to install this
-
-class interlisSiteContentGrabber(QThread):
-    def __init__(self, query):
-        super().__init__()
-        self.query = query
-
-    def run(self):
-        url = f"https://ilimodels.ch/?query={self.query}"
-        # Create Selenium Driver To Open Site
-        options = Options()
-        options.headless = True
-        options.add_argument("--ignore-certificate-errors")
-        driver = webdriver.Chrome(options=options)
-        driver.get(url)
-        time.sleep(4)
-        html = driver.page_source
-        driver.quit()
-        soup = BeautifulSoup(html, "html.parser")
-        links = soup.find_all("a", href=lambda href: href and href.endswith(".ili"))
-        if links:
-            first_link = links[0].get("href")
-            print(f"First .ili link: {first_link}")
-            self.result = first_link
-        else:
-            print("No .ili links found")
-            self.result = ""
-        print("3")
-
+from urllib import request
+import re
+import webbrowser
 
 class ilimodelselectgui(QDialog):
-    def __init__(self):
+    def __init__(self, model_name, saved_model_link):
         super(ilimodelselectgui, self).__init__()
         # Load UI File
         uic.loadUi("ui_files/dialog_modelselect.ui", self)
-        
-        # Initialize model path
-        self.model_path = ""
-        print("1")
+        # Load External Variable
+        self.model_name_tf = model_name # Model name we read out from the transferfile
+        self.model_link = saved_model_link
+
         # Define our Widgets----------------------------------------------------------------------------------------------
         ## Frame
         self.queryFrame.setVisible(False)
         ## Radiobutton
         self.onlinesearchRadiobutton
-        ## Button
-        self.okButton
         ## QueryEntry
         self.lineEdit
-        ## Loading GIF Label
-        self.movie = QtGui.QMovie("icons\Spin-1s-200px.gif")
-        self.loadingLabel.setMovie(self.movie)
-        self.loadingLabel.setVisible(False)
+        ## Button
+        self.searchButton
+        self.okButton
 
         # Define our Connections------------------------------------------------------------------------------------------
         # self.closeButton.clicked.connect(lambda: self.close())
         # Radiobutton connection
         self.onlinesearchRadiobutton.toggled.connect(self.onlineselect)
+        # Text entry connection
+        self.lineEdit.textChanged.connect(self.update_icon)
         # Button connection
+        self.searchButton.clicked.connect(self.searchmodel) # Find model and display if valid link
         self.okButton.clicked.connect(self.ok) # Result code and closes dialog
         # self.okButton.clicked.connect(lambda: self.accept()) # Result code and closes dialog
 
@@ -80,38 +49,55 @@ class ilimodelselectgui(QDialog):
     def ok(self):
         if self.onlinesearchRadiobutton.isChecked():
             print("online search")
-            text = self.lineEdit.text()
-
-            self.selectionFrame.setDisabled(True)
-            self.okButton.setVisible(False)
-            self.loadingLabel.setVisible(True)
-            self.movie.start()
-            print("You should see the loading splash now")
-
-            self.thread = interlisSiteContentGrabber(query=text)
-            self.thread.finished.connect(self.process_finished)
-            self.thread.start()
+            self.model_path = self.lineEdit.text()
+            # Parse the URL Model to get the Model Name
+            if self.model_path.endswith('.ili'):
+                response = request.urlopen(self.model_path)
+                html_content = response.read().decode('utf-8')
+                match = re.search(r'MODEL\s+(\w+)', html_content)
+                if match:
+                    self.model_name_mf = match.group(1)
+                else:
+                    self.model_name_mf = ""
 
         elif self.localsearchRadiobutton.isChecked():
             print("local search")
             self.model_path, ok = QFileDialog.getOpenFileName(None, "Select an Interlis Model-File", "", "Interlis Model (*.ili);")
-            self.accept()
+            # Parse the local model to get the Model Name
+            if self.model_path.endswith('.ili'):
+                with open(self.model_path, 'r') as f:
+                    text = f.read()
+                match = re.search(r'MODEL\s+(\w+)', text)
+                if match:
+                    self.model_name_mf = match.group(1)
+                else:
+                    self.model_name_mf = ""
 
         else:
-            print("auto search")
             self.model_path = "auto"
-            self.accept()
+            print("auto search")
+            # model.name will not be adjusted
 
-        
-
-    def process_finished(self):
-        self.model_path = self.thread.result
-        self.movie.stop()
-        self.loadingLabel.setVisible(False)
-        self.okButton.setVisible(True)
-        self.selectionFrame.setDisabled(False)
         self.accept()
 
-        # document.querySelector("#root > div > div.MuiContainer-root.MuiContainer-maxWidthLg.css-1qsxih2 > div > div.MuiBox-root.css-w2uu6y > div:nth-child(1) > div.css-1bcexqj > div:nth-child(6) > a")
-        # <a href="https://models.geo.admin.ch/BAFU/NoisePollutionRegisterForNationalRoads_V1_1.ili" target="_blank" rel="noreferrer">BAFU/NoisePollutionRegisterForNationalRoads_V1_1.ili</a>
-        #root > div > div.MuiContainer-root.MuiContainer-maxWidthLg.css-1qsxih2 > div > div.MuiBox-root.css-w2uu6y > div:nth-child(1) > div.css-1bcexqj > div:nth-child(6) > a
+    def update_icon(self):
+        url = self.lineEdit.text()
+        if self.lineEdit.text() and self.check_valid_url(url):
+            self.lineEdit.setStyleSheet("QLineEdit { color: green; }")
+        elif not self.lineEdit.text():
+            self.lineEdit.setStyleSheet("QLineEdit { color: black; }")
+        else:
+            self.lineEdit.setStyleSheet("QLineEdit { color: red; }")
+
+    def check_valid_url(self, url):
+        url_regex = re.compile(r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+') # definition of a valid URL Code
+        # Check if Valid URL and if it ends with .ili since we want to check if it fits the model later
+        if url_regex.match(url) and re.search(r'\.ili$', url):
+            return True
+        else:
+            print(f"{url} is not a valid URL")
+            return False
+    
+    def searchmodel(self):
+        # TODO: Check for validity of URL
+        webbrowser.open("https://ilimodels.ch/")
