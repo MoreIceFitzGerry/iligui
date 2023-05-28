@@ -69,7 +69,7 @@ error_dictionary = {'err_internalCompilerError': ["""Internal Compiler Error [{0
 'err_view_abstractAttr': ["""{0} must be declared as ABSTRACT. One of its attributes ({1}) is abstract.""", "HelpMessagePlaceholder"],
 'err_viewext_notBase': ["""{0} must be an extension of {1}.""", "HelpMessagePlaceholder"],
 'err_viewExtendsNonview': ["""VIEWs can only extend other VIEWs, "HelpMessagePlaceholder"], but {0} is not a VIEW.""", "HelpMessagePlaceholder"],
-'err_view_extendedWithoutDecl': ["""There can not be a view "{0}" in {1} because the name conflicts with {2}. Use a different name, "HelpMessagePlaceholder"], or declare the view as EXTENDED.""", "HelpMessagePlaceholder"],
+'err_view_extendedWithoutDecl': ["""There can not be a view "{0}" in {1} becaause the name conflicts with {2}. Use a different name, "HelpMessagePlaceholder"], or declare the view as EXTENDED.""", "HelpMessagePlaceholder"],
 'err_viewNotExtending': ["""If a VIEW does not extend another VIEW, "HelpMessagePlaceholder"], it must be declared as SELECTION, "HelpMessagePlaceholder"], JOIN, "HelpMessagePlaceholder"], UNION or DECOMPOSITION.""", "HelpMessagePlaceholder"],
 'err_view_nothingToExtend': ["""There is no view "{0}" in {1} which could be extended.""", "HelpMessagePlaceholder"],
 'err_view_formationdef': ["""An EXTENDED ViewDef ({0}) can not have a FormationDef.""", "HelpMessagePlaceholder"],

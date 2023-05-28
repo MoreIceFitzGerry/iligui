@@ -10,6 +10,7 @@ import xml.etree.ElementTree as ET
 import webbrowser
 import os
 import re
+from urllib.parse import urlsplit, urlunsplit
 
 
 class iligui(QMainWindow):
@@ -39,7 +40,7 @@ class iligui(QMainWindow):
         # Buttons
         self.interlisButton
         self.settingsButton
-        self.refreshButton
+        self.resetButton
         self.fileselectButton
         self.modelselectButton
         self.playButton
@@ -88,7 +89,7 @@ class iligui(QMainWindow):
         # Define our Connections------------------------------------------------------------------------------------------
         self.interlisButton.clicked.connect(self.interlisselect)
         self.settingsButton.clicked.connect(self.settingsselect)
-        self.refreshButton.clicked.connect(self.refresh)
+        self.resetButton.clicked.connect(self.reset)
         self.fileselectButton.clicked.connect(self.fileselect)
         self.modelselectButton.clicked.connect(self.modelselect)
         self.playButton.clicked.connect(self.playselect)
@@ -190,8 +191,15 @@ class iligui(QMainWindow):
                     self.showselectedmodelframe()
                 else:
                     print(f"Current Model Path: {self.model_path}")
-                    self.model_directory = os.path.dirname(self.model_path)
-                    print(f"Current Model Path directory: {self.model_directory}")
+                    if self.model_path.startswith(('http://', 'https://')):
+                        parsed_url = urlsplit(self.model_path)
+                        model_respository_url = urlunsplit((parsed_url.scheme, parsed_url.netloc, '', '', ''))
+                        self.model_directory = model_respository_url
+                        print(f"Current Model directory: {self.model_directory}")
+                    else:
+                        self.model_directory = os.path.dirname(self.model_path)
+                        print(f"Current Model directory: {self.model_directory}")
+    
                     self.settings.append(f"--modeldir {self.model_directory};")
                     self.modelText.setText(self.model_path)
                     self.modelselectButton.setIcon(QtGui.QIcon("icons/circle_good_green.png"))
@@ -214,7 +222,17 @@ class iligui(QMainWindow):
     def playselect(self):
         try:
             # Use subprocess method to run the Jar file with the selected input options
-            xtflog_path = logic_playbutton.run_ilivalidator(self.settings, self.file_path)
+            print(f"this should be current filepath: {self.file_path}")
+            result = logic_playbutton.run_ilivalidator(self.settings, self.file_path)
+            if result == "":
+                print("Load Error...")
+                self.playButton.setIcon(QtGui.QIcon("icons/circle_bad_red.png"))
+                self.errorText.setText("Validation Error. No Datafile Path set.")
+                self.infoText.setText("LoadError. Make sure Files have been loaded correctly")
+                self.showerrorframe()
+                return
+            else:
+                xtflog_path = result
             # Prepare the XTF File for element finding
             tree = ET.parse(xtflog_path)
             root = tree.getroot()
@@ -226,6 +244,14 @@ class iligui(QMainWindow):
             help_elements = []
             for element in root.findall(".//{%s}IliVErrors.ErrorLog.Error" % ns):
                 element_type = element.find("{%s}Type" % ns).text
+                if element_type == "Info":
+                    infoMessage = element.find("{%s}Message" % ns)
+                    if f"ilifile" in infoMessage.text:
+                        ilip = infoMessage.text
+                        self.def_model_path = ilip[ilip.find('<')+1 : ilip.find('>')]
+                        print(f"def path : {self.def_model_path}")
+                        self.modelText.setText(self.def_model_path)
+
                 if element_type == "Error":
                     errorMessage = element.find("{%s}Message" % ns)
                     DataSource = element.find("{%s}DataSource" % ns)
@@ -256,7 +282,7 @@ class iligui(QMainWindow):
 
             # Identify the Error Name from the Text, and pass HelpMessage
             import difflib
-            from errorDictionary import error_dictionary # Dictionary listing all possible errors -> Key: Error Name, Value 1: Error Text, Value 2 Error Help
+            from errorDictionary_ilivalidator import error_dictionary # Dictionary listing all possible errors -> Key: Error Name, Value 1: Error Text, Value 2 Error Help
             first_Values = [values[0] for values in error_dictionary.values()]
             error_help = []
             for element in help_elements:
@@ -267,7 +293,10 @@ class iligui(QMainWindow):
                         if values[0] == closest_match:
                             # error_help.append(key)
                             # error_help.append(values[1])
-                            error_help.append(f"Error Name: {key}\nHelp Advice: {values[1]}\n")
+                            if values[1] == "HelpMessagePlaceholder":
+                                error_help.append(f"Error Name: {key}\nHelp Advice: None available. Visit <a href='https://github.com/MoreIceFitzGerry/iligui'>the Project Page</a> to contribute a Hint.")
+                            else:
+                                error_help.append(f"Error Name: {key}\nHelp Advice: {values[1]}\n")
                             # error_help.append(f"Help Advice: {values[1]}\n")
 
             # Convert the error_help list to a string for printing
@@ -281,14 +310,12 @@ class iligui(QMainWindow):
             # Parse the xtf log file again to see if process succeeded or not
             with open(xtflog_path, 'r') as f:
                 xtflog_content = f.read()
-
             if "...validation done" in xtflog_content:
                 self.playButton.setIcon(QtGui.QIcon("icons/circle_good_green.png"))
                 if self.infoFrame.isVisible() == True:
                     self.addinfotoggle()
                 self.hideerrorframe()
-
-            else:
+            elif "...validation failed" in xtflog_content:
                 print("Validation Error...")
                 self.playButton.setIcon(QtGui.QIcon("icons/circle_bad_red.png"))
                 self.errorText.setText(error_text)
@@ -352,7 +379,7 @@ class iligui(QMainWindow):
             pass
         else:
             oldHeight = self.height() # Get current height
-            newHeight = self.MainFrame.sizeHint().height()
+            newHeight = self.MainFrame.sizeHint().height()+self.selectedFileFrame.sizeHint().height()+self.selectedModelFrame.sizeHint().height()
             self.resizeMainWindowHeight(oldHeight, newHeight)
 
     # Adjust MainWindow Height for infoFrame
@@ -370,13 +397,13 @@ class iligui(QMainWindow):
                 self.resizeMainWindowHeight(oldHeight, newHeight)
         else:
             self.addinfoButton.setIcon(QtGui.QIcon("icons/info.svg"))
-            self.infoFrame.setVisible(False) # Hide the Frame
             if self.windowState() == Qt.WindowState.WindowMaximized or self.windowState() == Qt.WindowState.WindowFullScreen:  # If in Fullscreen, no resize needs to be done
                 pass
             else:
                 oldHeight = self.height()
-                newHeight = self.MainFrame.height() + self.errorFrame.height()
+                newHeight = self.height()-self.infoFrame.height()
                 self.resizeMainWindowHeight(oldHeight, newHeight)
+            self.infoFrame.setVisible(False) # Hide the Frame
 
     def openfile(self):
         # Reset Play Button
@@ -387,7 +414,11 @@ class iligui(QMainWindow):
         # Reset Play Button
         self.playButton.setIcon(QtGui.QIcon("icons/play.png"))
         # Open the file in the preferred editor
-        QtGui.QDesktopServices.openUrl(QUrl.fromLocalFile(self.model_path))
+        if self.model_path == "auto":
+            QtGui.QDesktopServices.openUrl(QUrl.fromLocalFile(self.def_model_path))
+            pass
+        else:
+            QtGui.QDesktopServices.openUrl(QUrl.fromLocalFile(self.model_path))
 
     def furtherhelp(self):
         # TODO: Check for validity of URL
@@ -407,8 +438,14 @@ class iligui(QMainWindow):
             self.settings = self.settingsUIWindow.options
             print(f"Current Settings: {self.settings}")
 
-    def refresh(self):
+    def reset(self):
         # TODO: RESET THE ACTUAL VARIABLES AS WELL AND FOLD SHUT ALL THE HELP
+        self.file_path = ""
+        self.file_name= ""
+        self.model_path = ""
+        self.def_model_path = ""
+        self.settings = []
+        self.savesettings = [False,False,False,False]
         self.fileselectButton.setIcon(QtGui.QIcon("icons/fileupload_blue.png"))
         self.modelselectButton.setIcon(QtGui.QIcon("icons/model_lightblue.png"))
         self.playButton.setIcon(QtGui.QIcon("icons/play.png"))

@@ -152,8 +152,8 @@ class Ui_modelselectDialog(object):
         _translate = QtCore.QCoreApplication.translate
         modelselectDialog.setWindowTitle(_translate("modelselectDialog", "Model Selection"))
         self.Title.setText(_translate("modelselectDialog", "Select a Model"))
-        self.transferfileRadiobutton.setText(_translate("modelselectDialog", "Automatically from Datafile"))
-        self.localsearchRadiobutton.setText(_translate("modelselectDialog", "Manually from Local Source"))
-        self.onlinesearchRadiobutton.setText(_translate("modelselectDialog", "Manually from Online Source"))
+        self.transferfileRadiobutton.setText(_translate("modelselectDialog", "Automatically from Datafile - Autosearch"))
+        self.localsearchRadiobutton.setText(_translate("modelselectDialog", "Manually from Local Source - Add to Autosearch"))
+        self.onlinesearchRadiobutton.setText(_translate("modelselectDialog", "Manually from Online Source - Add to Autosearch"))
         self.lineEdit.setPlaceholderText(_translate("modelselectDialog", "Enter Model Name"))
         self.okButton.setText(_translate("modelselectDialog", "OK"))

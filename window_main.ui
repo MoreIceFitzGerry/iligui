@@ -76,13 +76,7 @@
       <property name="minimumSize">
        <size>
         <width>0</width>
-        <height>0</height>
-       </size>
-      </property>
-      <property name="baseSize">
-       <size>
-        <width>0</width>
-        <height>92</height>
+        <height>196</height>
        </size>
       </property>
       <property name="frameShape">
@@ -251,7 +245,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QToolButton" name="refreshButton">
+           <widget class="QToolButton" name="resetButton">
             <property name="minimumSize">
              <size>
               <width>60</width>
@@ -1232,6 +1226,9 @@
              </property>
              <property name="text">
               <string>123456789012345678901234567890123456789012345678901234567890123456789</string>
+             </property>
+             <property name="textFormat">
+              <enum>Qt::RichText</enum>
              </property>
              <property name="wordWrap">
               <bool>true</bool>
