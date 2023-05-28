@@ -41,7 +41,7 @@ class ilimodelselectgui(QDialog):
     def __init__(self):
         super(ilimodelselectgui, self).__init__()
         # Load UI File
-        uic.loadUi("dialog_modelselect.ui", self)
+        uic.loadUi("ui_files/dialog_modelselect.ui", self)
         
         # Initialize model path
         self.model_path = ""

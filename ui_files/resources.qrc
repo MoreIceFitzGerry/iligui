@@ -1,0 +1,7 @@
+<RCC>
+  <qresource prefix="icons">
+    <file>../icons/fileupload_blue.png</file>
+    <file>../icons/model_lightblue.png</file>
+    <file>../icons/play.png</file>
+  </qresource>
+</RCC>

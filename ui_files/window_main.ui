@@ -150,7 +150,7 @@
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>icons/interlis.png</normaloff>icons/interlis.png</iconset>
+              <normaloff>../icons/interlis.png</normaloff>../icons/interlis.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -181,7 +181,7 @@
             <property name="font">
              <font>
               <family>Segoe UI Black</family>
-              <pointsize>12</pointsize>
+              <pointsize>14</pointsize>
               <bold>true</bold>
              </font>
             </property>
@@ -225,7 +225,7 @@
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>icons/settings.svg</normaloff>icons/settings.svg</iconset>
+              <normaloff>../icons/settings.svg</normaloff>../icons/settings.svg</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -257,7 +257,7 @@
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>icons/refresh-ccw.svg</normaloff>icons/refresh-ccw.svg</iconset>
+              <normaloff>../icons/refresh-ccw.svg</normaloff>../icons/refresh-ccw.svg</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -365,7 +365,7 @@
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>icons/fileupload_blue.png</normaloff>icons/fileupload_blue.png</iconset>
+              <normaloff>../icons/fileupload_blue.png</normaloff>../icons/fileupload_blue.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -448,7 +448,7 @@
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>icons/model_lightblue.png</normaloff>icons/model_lightblue.png</iconset>
+              <normaloff>../icons/model_blue.png</normaloff>../icons/model_blue.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -531,7 +531,7 @@
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>icons/play.png</normaloff>icons/play.png</iconset>
+              <normaloff>../icons/play_blue.png</normaloff>../icons/play_blue.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -905,7 +905,7 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>576</width>
+               <width>594</width>
                <height>69</height>
               </rect>
              </property>
@@ -1183,8 +1183,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>568</width>
-            <height>52</height>
+            <width>574</width>
+            <height>69</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_2">

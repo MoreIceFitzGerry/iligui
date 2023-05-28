@@ -8,11 +8,10 @@ def run_ilivalidator(settings_list, file):
         
         java_path = "java11\\bin\\java.exe"
         ilivalidator_path = "ilivalidator-1.13.2\\ilivalidator-1.13.2.jar" # .jar file path
-        xtflog_path = "result.xtf"
+        xtflog_path = "data/result.xtf"
         settings_list.append(f"--xtflog {xtflog_path}") # in any case we want the xtflog
         option_string = " ".join(str(option) for option in settings_list)
         print(f"Option_string: {option_string}")
-    
         process = QProcess()
         process.setProcessChannelMode(QProcess.ProcessChannelMode.MergedChannels)
         # java11\\bin\java.exe -jar ilivalidator-1.13.2/ilivalidator-1.13.2.jar --xtflog errorlog.xtf  interlistests/Testbeispiel_roads/RoadsSimpleWrong.xml

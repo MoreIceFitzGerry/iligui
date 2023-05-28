@@ -4,8 +4,10 @@ from PyQt6.QtCore import QPropertyAnimation, QSize, QRect, QVariantAnimation, Qt
 from PyQt6 import uic, QtGui
 from iligui_modeldialog import ilimodelselectgui
 from iligui_settingsdialog import ilisettingsgui
-import sys
 import logic_playbutton
+import difflib
+from data.errorDictionary_ilivalidator import error_dictionary
+import sys
 import xml.etree.ElementTree as ET
 import webbrowser
 import os
@@ -18,7 +20,7 @@ class iligui(QMainWindow):
         super(iligui, self).__init__()
 
         # Load UI File
-        uic.loadUi("window_main.ui", self)
+        uic.loadUi("ui_files/window_main.ui", self)
         # Set the Icon -> do this with Pyinstaller!
         #self.setWindowIcon(QtGui.QIcon("icons/interlis.png"))
 
@@ -281,8 +283,7 @@ class iligui(QMainWindow):
                 error_text = "<br>".join(error_elements) # Join them with breaks
 
             # Identify the Error Name from the Text, and pass HelpMessage
-            import difflib
-            from errorDictionary_ilivalidator import error_dictionary # Dictionary listing all possible errors -> Key: Error Name, Value 1: Error Text, Value 2 Error Help
+            # Dictionary lists all possible errors -> Key: Error Name, Value 1: Error Text, Value 2 Error Help
             first_Values = [values[0] for values in error_dictionary.values()]
             error_help = []
             for element in help_elements:

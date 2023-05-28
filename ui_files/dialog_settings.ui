@@ -89,7 +89,7 @@ QRadioButton::indicator:unchecked, QCheckBox::indicator:unchecked {
         </property>
         <property name="icon">
          <iconset>
-          <normaloff>icons/tool.svg</normaloff>icons/tool.svg</iconset>
+          <normaloff>../icons/tool.svg</normaloff>../icons/tool.svg</iconset>
         </property>
         <property name="iconSize">
          <size>

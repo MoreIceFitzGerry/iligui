@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'c:\Users\mauri\Repos\GitHub\iligui\dialog_settings.ui'
+# Form implementation generated from reading ui file 'c:\Users\mauri\Repos\GitHub\iligui\ui_files\dialog_settings.ui'
 #
 # Created by: PyQt6 UI code generator 6.4.2
 #
@@ -14,7 +14,7 @@ class Ui_Dialog(object):
         Dialog.setObjectName("Dialog")
         Dialog.resize(302, 227)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("c:\\Users\\mauri\\Repos\\GitHub\\iligui\\icons/interlis.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        icon.addPixmap(QtGui.QPixmap("c:\\Users\\mauri\\Repos\\GitHub\\iligui\\ui_files\\icons/interlis.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         Dialog.setWindowIcon(icon)
         Dialog.setStyleSheet("QRadioButton::indicator:checked, QCheckBox::indicator:checked {\n"
 "    image: url(icons/check-circle-green.svg);\n"
@@ -51,7 +51,7 @@ class Ui_Dialog(object):
 "\n"
 "")
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap("c:\\Users\\mauri\\Repos\\GitHub\\iligui\\icons/tool.svg"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        icon1.addPixmap(QtGui.QPixmap("c:\\Users\\mauri\\Repos\\GitHub\\iligui\\ui_files\\../icons/tool.svg"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         self.configButton.setIcon(icon1)
         self.configButton.setIconSize(QtCore.QSize(30, 30))
         self.configButton.setAutoRaise(True)

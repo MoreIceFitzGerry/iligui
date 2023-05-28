@@ -10,7 +10,7 @@ class ilisettingsgui(QDialog):
         super(ilisettingsgui, self).__init__()
 
         # Load UI File
-        uic.loadUi("dialog_settings.ui", self)
+        uic.loadUi("ui_files/dialog_settings.ui", self)
 
         # Use the QSettings object passed from the main window
         self.savesettings = savesettings
