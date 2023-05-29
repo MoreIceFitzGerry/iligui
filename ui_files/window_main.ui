@@ -65,7 +65,7 @@
     <property name="bottomMargin">
      <number>16</number>
     </property>
-    <item alignment="Qt::AlignTop">
+    <item>
      <widget class="QFrame" name="MainFrame">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -132,30 +132,31 @@
            <number>0</number>
           </property>
           <item>
-           <widget class="QToolButton" name="interlisButton">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
+           <widget class="QToolButton" name="toolButton">
             <property name="minimumSize">
              <size>
               <width>60</width>
               <height>60</height>
              </size>
             </property>
+            <property name="font">
+             <font>
+              <pointsize>10</pointsize>
+              <italic>true</italic>
+              <bold>true</bold>
+             </font>
+            </property>
             <property name="text">
-             <string>...</string>
+             <string>DE-ENG</string>
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>../icons/interlis.png</normaloff>../icons/interlis.png</iconset>
+              <normaloff>../icons/globe.svg</normaloff>../icons/globe.svg</iconset>
             </property>
             <property name="iconSize">
              <size>
-              <width>30</width>
-              <height>30</height>
+              <width>25</width>
+              <height>25</height>
              </size>
             </property>
             <property name="autoRaise">
@@ -175,6 +176,38 @@
              </size>
             </property>
            </spacer>
+          </item>
+          <item>
+           <widget class="QToolButton" name="interlisButton">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>30</width>
+              <height>30</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>...</string>
+            </property>
+            <property name="icon">
+             <iconset>
+              <normaloff>../icons/interlis.png</normaloff>../icons/interlis.png</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>30</width>
+              <height>30</height>
+             </size>
+            </property>
+            <property name="autoRaise">
+             <bool>true</bool>
+            </property>
+           </widget>
           </item>
           <item>
            <widget class="QLabel" name="versionLabel">
@@ -981,7 +1014,7 @@
              <string/>
             </property>
             <property name="pixmap">
-             <pixmap>icons/chevron-right.svg</pixmap>
+             <pixmap>../icons/chevron-right.svg</pixmap>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -1010,7 +1043,7 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>594</width>
+               <width>576</width>
                <height>55</height>
               </rect>
              </property>
@@ -1129,7 +1162,7 @@
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>icons/edit.svg</normaloff>icons/edit.svg</iconset>
+              <normaloff>../icons/edit.svg</normaloff>../icons/edit.svg</iconset>
             </property>
             <property name="flat">
              <bool>false</bool>
@@ -1148,7 +1181,7 @@
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>icons/edit.svg</normaloff>icons/edit.svg</iconset>
+              <normaloff>../icons/edit.svg</normaloff>../icons/edit.svg</iconset>
             </property>
            </widget>
           </item>
@@ -1167,7 +1200,7 @@
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>icons/info.svg</normaloff>icons/info.svg</iconset>
+              <normaloff>../icons/info.svg</normaloff>../icons/info.svg</iconset>
             </property>
             <property name="checkable">
              <bool>false</bool>

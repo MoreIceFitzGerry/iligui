@@ -83,11 +83,14 @@ QRadioButton::indicator:unchecked, QCheckBox::indicator:unchecked {
           <bold>true</bold>
          </font>
         </property>
+        <property name="toolTip">
+         <string>Autosearch function</string>
+        </property>
         <property name="styleSheet">
          <string notr="true"/>
         </property>
         <property name="text">
-         <string>Automatically from Datafile - Autosearch</string>
+         <string>Automatically from Datafile</string>
         </property>
         <property name="checkable">
          <bool>true</bool>
@@ -114,8 +117,11 @@ QRadioButton::indicator:unchecked, QCheckBox::indicator:unchecked {
           <bold>true</bold>
          </font>
         </property>
+        <property name="toolTip">
+         <string>Only needs to be done for each path once. Afterwards it is addede atuomatically to autosearch</string>
+        </property>
         <property name="text">
-         <string>Manually from Local Source - Add to Autosearch</string>
+         <string>Manually from Local Source</string>
         </property>
         <attribute name="buttonGroup">
          <string notr="true">radioButtonGroup</string>
@@ -137,7 +143,7 @@ QRadioButton::indicator:unchecked, QCheckBox::indicator:unchecked {
          </font>
         </property>
         <property name="text">
-         <string>Manually from Online Source - Add to Autosearch</string>
+         <string>Manually from Online Source</string>
         </property>
         <property name="iconSize">
          <size>
@@ -161,9 +167,9 @@ QRadioButton::indicator:unchecked, QCheckBox::indicator:unchecked {
         <property name="frameShadow">
          <enum>QFrame::Raised</enum>
         </property>
-        <layout class="QHBoxLayout" name="horizontalLayout">
+        <layout class="QVBoxLayout" name="verticalLayout_3">
          <property name="spacing">
-          <number>0</number>
+          <number>5</number>
          </property>
          <property name="leftMargin">
           <number>27</number>
@@ -177,6 +183,26 @@ QRadioButton::indicator:unchecked, QCheckBox::indicator:unchecked {
          <property name="bottomMargin">
           <number>0</number>
          </property>
+         <item>
+          <widget class="QToolButton" name="searchButton">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>INTERLIS Model Browser</string>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normaloff>../icons/search.svg</normaloff>../icons/search.svg</iconset>
+           </property>
+           <property name="toolButtonStyle">
+            <enum>Qt::ToolButtonTextBesideIcon</enum>
+           </property>
+          </widget>
+         </item>
          <item>
           <widget class="QLineEdit" name="lineEdit">
            <property name="font">
@@ -204,17 +230,6 @@ QRadioButton::indicator:unchecked, QCheckBox::indicator:unchecked {
            </property>
            <property name="clearButtonEnabled">
             <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QToolButton" name="searchButton">
-           <property name="text">
-            <string>...</string>
-           </property>
-           <property name="icon">
-            <iconset>
-             <normaloff>../icons/search.svg</normaloff>../icons/search.svg</iconset>
            </property>
           </widget>
          </item>
