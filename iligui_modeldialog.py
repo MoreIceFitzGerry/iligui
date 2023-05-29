@@ -5,12 +5,17 @@ from PyQt6 import uic, QtGui
 from urllib import request
 import re
 import webbrowser
+import os
+
+basedir = os.path.normpath(os.path.dirname(__file__))
+basedir = basedir.replace('\\', '/')
+print("basedir_modeldialog: ", basedir)
 
 class ilimodelselectgui(QDialog):
     def __init__(self, model_name, saved_model_link):
         super(ilimodelselectgui, self).__init__()
         # Load UI File
-        uic.loadUi("ui_files/dialog_modelselect.ui", self)
+        uic.loadUi(os.path.join(basedir, "ui_files/dialog_modelselect.ui"), self)
         # Load External Variable
         self.model_name_tf = model_name # Model name we read out from the transferfile
         self.model_link = saved_model_link
@@ -38,6 +43,14 @@ class ilimodelselectgui(QDialog):
         # self.okButton.clicked.connect(lambda: self.accept()) # Result code and closes dialog
 
         self.adjustSize() # Adjusts the main window to fit its contents minimally
+        
+        ### STYLESHEET ADJUSTEMENTS BASE ON LOGIC - NECESSARY FOR PACKAGING OF APP TO DECLARE HERE
+        checked_icon = basedir + "/icons/check-circle-green.svg"
+        unchecked_icon = basedir + "/icons/circle.svg"
+        self.setStyleSheet("""
+        QRadioButton::indicator:checked {{image: url({0});}}
+        QRadioButton::indicator:unchecked {{image: url({1});}}
+        """.format(checked_icon, unchecked_icon))
 
     def onlineselect(self, checked):
         if checked:
@@ -74,8 +87,8 @@ class ilimodelselectgui(QDialog):
                     self.model_name_mf = ""
 
         else:
-            self.model_path = "auto"
             print("auto search")
+            self.model_path = "auto"
             # model.name will not be adjusted
 
         self.accept()

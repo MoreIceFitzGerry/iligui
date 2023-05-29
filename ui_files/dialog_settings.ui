@@ -15,14 +15,12 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>icons/interlis.png</normaloff>icons/interlis.png</iconset>
+    <normaloff>../icons/interlis.png</normaloff>../icons/interlis.png</iconset>
   </property>
   <property name="styleSheet">
-   <string notr="true">QRadioButton::indicator:checked, QCheckBox::indicator:checked {
-    image: url(icons/check-circle-green.svg);
+   <string notr="true">QCheckBox::indicator:checked {image: url(icons/check-circle-green.svg);
 }
-QRadioButton::indicator:unchecked, QCheckBox::indicator:unchecked {
-    image: url(icons/circle.svg);
+QCheckBox::indicator:unchecked {image: url(icons/circle.svg);
 }</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -73,6 +71,9 @@ QRadioButton::indicator:unchecked, QCheckBox::indicator:unchecked {
           <width>30</width>
           <height>30</height>
          </size>
+        </property>
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The loading of config files as an automatic settings set up is still to be implemented.&lt;/p&gt;&lt;p&gt;For now this button is a simple placeholder&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="styleSheet">
          <string notr="true">QToolButton[objectName^=&quot;configButton&quot;]:hover {
@@ -131,6 +132,9 @@ QRadioButton::indicator:unchecked, QCheckBox::indicator:unchecked {
           <bold>true</bold>
          </font>
         </property>
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;ToolTip still to be implemented.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
         <property name="styleSheet">
          <string notr="true"/>
         </property>
@@ -159,6 +163,9 @@ QRadioButton::indicator:unchecked, QCheckBox::indicator:unchecked {
           <bold>true</bold>
          </font>
         </property>
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;ToolTip still to be implemented.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
         <property name="text">
          <string>Disable Area Validation</string>
         </property>
@@ -177,6 +184,9 @@ QRadioButton::indicator:unchecked, QCheckBox::indicator:unchecked {
           <pointsize>11</pointsize>
           <bold>true</bold>
          </font>
+        </property>
+        <property name="toolTip">
+         <string>ToolTip still to be implemented.</string>
         </property>
         <property name="text">
          <string>Disable Constraing Validation</string>
@@ -205,6 +215,9 @@ QRadioButton::indicator:unchecked, QCheckBox::indicator:unchecked {
           <pointsize>11</pointsize>
           <bold>true</bold>
          </font>
+        </property>
+        <property name="toolTip">
+         <string>ToolTip still to be implemented.</string>
         </property>
         <property name="text">
          <string>Mark All Objects as Accessible</string>

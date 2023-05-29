@@ -15,13 +15,13 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>icons/interlis.png</normaloff>icons/interlis.png</iconset>
+    <normaloff>../icons/interlis.png</normaloff>../icons/interlis.png</iconset>
   </property>
   <property name="styleSheet">
-   <string notr="true">QRadioButton::indicator:checked, QCheckBox::indicator:checked {
+   <string notr="true">QRadioButton::indicator:checked {
     image: url(icons/check-circle-green.svg);
 }
-QRadioButton::indicator:unchecked, QCheckBox::indicator:unchecked {
+QRadioButton::indicator:unchecked {
     image: url(icons/circle.svg);
 }</string>
   </property>
@@ -84,7 +84,7 @@ QRadioButton::indicator:unchecked, QCheckBox::indicator:unchecked {
          </font>
         </property>
         <property name="toolTip">
-         <string>Autosearch function</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Autosearch function&lt;/span&gt;&lt;/p&gt;&lt;p&gt;A Model File is not always strictly necessary. Since each transfer file has the model name included in the containers of its structure, an automatic search of the model name can be done in common locations. &lt;/p&gt;&lt;p&gt;These locations include: The directory your transfer-file is in. The most common online repositories. The Cache of the interlis validator. If you select a file locally, or enter an online link to a Transfer-File inside of an online repository, the path will be added to the automatic search locations of your Validator. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="styleSheet">
          <string notr="true"/>
@@ -118,7 +118,7 @@ QRadioButton::indicator:unchecked, QCheckBox::indicator:unchecked {
          </font>
         </property>
         <property name="toolTip">
-         <string>Only needs to be done for each path once. Afterwards it is addede atuomatically to autosearch</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Load a Local Transfer File&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Only needs to be done for a given path once. Afterwards the repository of that model is added atuomatically to autosearch&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="text">
          <string>Manually from Local Source</string>
@@ -141,6 +141,9 @@ QRadioButton::indicator:unchecked, QCheckBox::indicator:unchecked {
           <pointsize>11</pointsize>
           <bold>true</bold>
          </font>
+        </property>
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Load a Online Transfer File&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Transfer Files can also be stored on online repositories. &lt;/p&gt;&lt;p&gt;For Example: https://models.geo.admin.ch/BAFU/NoisePollutionRegisterForNationalRoads_V1_1.ili&lt;/p&gt;&lt;p&gt;Only needs to be done for a given path once. Afterwards the repository of that model is added atuomatically to autosearch&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="text">
          <string>Manually from Online Source</string>
@@ -191,6 +194,9 @@ QRadioButton::indicator:unchecked, QCheckBox::indicator:unchecked {
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Open the Online INTERLIS Model Browser&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;This is a Webapplication to search for INTERLIS-Models in publicly available Repositories. If you dont know where to find a model online link, this may be a good start, as you can search for your model directly with attributes such as Name, Filename, Publisher, or Model-Version.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
            <property name="text">
             <string>INTERLIS Model Browser</string>
            </property>
@@ -209,6 +215,9 @@ QRadioButton::indicator:unchecked, QCheckBox::indicator:unchecked {
             <font>
              <pointsize>10</pointsize>
             </font>
+           </property>
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Enter URL Link to an INTERLIS Model&lt;/span&gt;&lt;/p&gt;&lt;p&gt;This must be a URL leading to the Model specifically. The reason for this is, that iligui will check to see if the model you have selected even conforms to the File you have selected. &lt;/p&gt;&lt;p&gt;Think of you File as a Paper you have written, and the Model as a Grammar-Book to check your writing. There is no point in even beginning to check your German Written Essay with an English Grammar book, since you can see that it wont fit before even opening it. &lt;br/&gt;Thus you must choose a model, that can actually realistically conform to the datafile you want to validate.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="inputMask">
             <string/>

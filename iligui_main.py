@@ -15,12 +15,24 @@ import re
 from urllib.parse import urlsplit, urlunsplit
 
 
+basedir = os.path.normpath(os.path.dirname(__file__))
+basedir = basedir.replace('\\', '/')
+print("basedir:", basedir)
+
+try:
+    from ctypes import windll  # Only exists on Windows.
+    myappid = 'iligui.v3.0'
+    windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
+except ImportError:
+    pass
+
+
 class iligui(QMainWindow):
     def __init__(self):
         super(iligui, self).__init__()
 
         # Load UI File
-        uic.loadUi("ui_files/window_main.ui", self)
+        uic.loadUi(os.path.join(basedir, "ui_files/window_main.ui"), self)
         # Set the Icon -> do this with Pyinstaller!
         #self.setWindowIcon(QtGui.QIcon("icons/interlis.png"))
 
@@ -102,12 +114,12 @@ class iligui(QMainWindow):
         self.openfileButton.clicked.connect(self.openfile)
         self.openmodelButton.clicked.connect(self.openmodel)
         self.extinfoButton.clicked.connect(self.furtherhelp)
-        
 
+        ### NO LONGER NECESSARY THEORETICALLY, SINCE I HAVE THIS PACKAGED IN WITH THE .EXE!!!
         # Ensure Readiness for Java Interoperability----------------------------------------------------------------------
         # Check JRE Installation in Current working directory, if not install in CWD
-        import logic_checkjava
-        logic_checkjava.checkinstall_cwdjava()
+        # import logic_checkjava
+        # logic_checkjava.checkinstall_cwdjava()
         #-----------------------------------------------------------------------------------------------------------------
 
         # Show the App directly at the end of initialization
@@ -129,14 +141,14 @@ class iligui(QMainWindow):
 
     def fileselect(self):
         # Reset Play Button
-        self.playButton.setIcon(QtGui.QIcon("icons/play_blue.png"))
+        self.playButton.setIcon(QtGui.QIcon(os.path.join(basedir, "icons/play_blue.png")))
         # Open a file dialog and allow the user to select a file
         self.file_path, _ = QFileDialog.getOpenFileName(None, "Select an Interlis Transfer-file", "", "Interlis Files (*.itf *.xtf *.xml)")
 
         ## Get the Modelname that the File was written in.
         if self.file_path != "":
             # Reset Modelselect Button
-            self.modelselectButton.setIcon(QtGui.QIcon("icons/model_blue.png"))
+            self.modelselectButton.setIcon(QtGui.QIcon(os.path.join(basedir, "icons/model_blue.png")))
             self.hideerrorframe()
             """
             The ilivalidator does not get the model name from the header.
@@ -167,16 +179,16 @@ class iligui(QMainWindow):
                         self.model_name = first_tag_name.split('.')[0]
                         break
             print("Loaded Transfer File from: " + self.file_path)
-            print("Model Name found: " + self.model_name)
-            self.fileselectButton.setIcon(QtGui.QIcon("icons/circle_good_green.png"))
+            print("Fourn Model Name from TF: " + self.model_name)
+            self.fileselectButton.setIcon(QtGui.QIcon(os.path.join(basedir, "icons/circle_good_green.png")))
             filename = os.path.basename(self.file_path)
             self.fileText.setText(filename)
             self.showselectedfileframe()
 
     def modelselect(self):
         # Reset Buttons
-        self.modelselectButton.setIcon(QtGui.QIcon("icons/model_blue.png"))
-        self.playButton.setIcon(QtGui.QIcon("icons/play_blue.png"))
+        self.modelselectButton.setIcon(QtGui.QIcon(os.path.join(basedir, "icons/model_blue.png")))
+        self.playButton.setIcon(QtGui.QIcon(os.path.join(basedir, "icons/play_blue.png")))
         try:
             self.modelselectUIWindow = ilimodelselectgui(self.model_name, self.saved_model_link) # Create new window and pass all of self over
             result = self.modelselectUIWindow.exec()
@@ -187,13 +199,13 @@ class iligui(QMainWindow):
                 if self.model_path == "auto":
                     # self.modelLabel.setText("Model for Autosearch")
                     self.modelText.setText(f"{self.model_name} with automatic path search")
-                    self.modelselectButton.setIcon(QtGui.QIcon("icons/circle_continue_green.png"))
+                    self.modelselectButton.setIcon(QtGui.QIcon(os.path.join(basedir, "icons/circle_continue_green.png")))
                     self.showselectedmodelframe()
                 # VALIDATE WETHER THE MODEL ACTUALLY CORRESPONDS TO THE MODEL IN THE TRANSFER FILE
                 else:
                     self.model_name_mf = self.modelselectUIWindow.model_name_mf #  get model name from model file
                     if self.model_name_mf != self.model_name:
-                        self.modelselectButton.setIcon(QtGui.QIcon("icons/circle_bad_red.png"))
+                        self.modelselectButton.setIcon(QtGui.QIcon(os.path.join(basedir, "icons/circle_bad_red.png")))
                         self.errorText.setText("Model does not fit your selected File!")
                         self.infoText.setText("Make sure you select a Model that fits your transfer file. Check the first Part of each tag in an INTERLIS2 File to see which model is necessary.")
                         self.showerrorframe()
@@ -210,13 +222,13 @@ class iligui(QMainWindow):
                         # Append to Settings
                         self.settings.append(f"--modeldir {self.model_directory};")
                         self.modelText.setText(self.model_path)
-                        self.modelselectButton.setIcon(QtGui.QIcon("icons/circle_good_green.png"))
+                        self.modelselectButton.setIcon(QtGui.QIcon(os.path.join(basedir, "icons/circle_good_green.png")))
                         self.showselectedmodelframe()
             else:
                 pass
         except AttributeError as e:
             print("Execution Error...")
-            self.modelselectButton.setIcon(QtGui.QIcon("icons/circle_bad_red.png"))
+            self.modelselectButton.setIcon(QtGui.QIcon(os.path.join(basedir, "icons/circle_bad_red.png")))
             self.errorText.setText(f"Failed to execute: {repr(e)}")
             self.infoText.setText("Make sure you selected a file first!")
             self.showerrorframe()
@@ -230,17 +242,18 @@ class iligui(QMainWindow):
     def playselect(self):
         try:
             # Use subprocess method to run the Jar file with the selected input options
-            print(f"this should be current filepath: {self.file_path}")
+            print(f"Selected Datafilepath: {self.file_path}")
             result = logic_playbutton.run_ilivalidator(self.settings, self.file_path)
             if result == "":
                 print("Load Error...")
-                self.playButton.setIcon(QtGui.QIcon("icons/circle_bad_red.png"))
+                self.playButton.setIcon(QtGui.QIcon(os.path.join(basedir, "icons/circle_bad_red.png")))
                 self.errorText.setText("Validation Error. No Datafile Path set.")
                 self.infoText.setText("LoadError. Make sure Files have been loaded correctly")
                 self.showerrorframe()
                 return
             else:
                 xtflog_path = result
+                print("xtflog_path returned by ilivalidator", xtflog_path)
             # Prepare the XTF File for element finding
             tree = ET.parse(xtflog_path)
             root = tree.getroot()
@@ -261,14 +274,19 @@ class iligui(QMainWindow):
                         print(f"COMPARISON, Selected:{self.model_path}, Used:{self.def_model_path}")
                         if self.model_path != "auto" and os.path.normpath(self.def_model_path) != os.path.normpath(self.model_path):
                             if ".ilicache" in self.def_model_path:
-                                self.updated_modelLabel.setText("Model Stored in local Cache")
+                                self.updated_modelLabel.setText("Model stored in local cache")
+                            self.updated_modelText.setText(self.def_model_path)
+                            self.updatedModelFrame.setVisible(True)
+                        elif self.model_path == "auto":
+                            # self.modelselectButton.setIcon(QtGui.QIcon(os.path.join(basedir, "icons/circle_good_green.png")))
+                            self.updated_modelLabel.setText("Model found")
                             self.updated_modelText.setText(self.def_model_path)
                             self.updatedModelFrame.setVisible(True)
 
                 if element_type == "Error":
                     errorMessage = element.find("{%s}Message" % ns)
                     if f"model(s) not found" in errorMessage.text:
-                        self.playButton.setIcon(QtGui.QIcon("icons/circle_bad_red.png"))
+                        self.playButton.setIcon(QtGui.QIcon(os.path.join(basedir, "icons/circle_bad_red.png")))
                         self.errorText.setText("Autosearch could not find Model")
                         self.infoText.setText("Select the Model Locally or Online. After doing this once, Autosearch will find it in the future")
                         self.showerrorframe()
@@ -328,20 +346,20 @@ class iligui(QMainWindow):
             with open(xtflog_path, 'r') as f:
                 xtflog_content = f.read()
             if "...validation done" in xtflog_content:
-                self.playButton.setIcon(QtGui.QIcon("icons/circle_good_green.png"))
+                self.playButton.setIcon(QtGui.QIcon(os.path.join(basedir, "icons/circle_good_green.png")))
                 if self.infoFrame.isVisible() == True:
                     self.addinfotoggle()
                 self.hideerrorframe()
             elif "...validation failed" in xtflog_content:
                 print("Validation Error...")
-                self.playButton.setIcon(QtGui.QIcon("icons/circle_bad_red.png"))
+                self.playButton.setIcon(QtGui.QIcon(os.path.join(basedir, "icons/circle_bad_red.png")))
                 self.errorText.setText(error_text)
                 self.infoText.setText(help_text)
                 self.showerrorframe()
 
         except AttributeError as e:
             print("Execution Error...")
-            self.playButton.setIcon(QtGui.QIcon("icons/circle_bad_red.png"))
+            self.playButton.setIcon(QtGui.QIcon(os.path.join(basedir, "icons/circle_bad_red.png")))
             self.errorText.setText(f"Failed to execute: {repr(e)}")
             self.infoText.setText("Make sure you have selected files correctly!")
             self.showerrorframe()
@@ -404,7 +422,7 @@ class iligui(QMainWindow):
         self.infoFrame.resize(self.width(), value)
     def addinfotoggle(self):
         if self.infoFrame.isVisible() == False: # If frame is hidden, show infoFrame
-            self.addinfoButton.setIcon(QtGui.QIcon("icons/chevron-down.svg"))
+            self.addinfoButton.setIcon(QtGui.QIcon(os.path.join(basedir, "icons/chevron-down.svg")))
             self.infoFrame.setVisible(True) # Show the Frame
             if self.windowState() == Qt.WindowState.WindowMaximized or self.windowState() == Qt.WindowState.WindowFullScreen:  # If in Fullscreen, no resize needs to be done
                 pass
@@ -413,7 +431,7 @@ class iligui(QMainWindow):
                 newHeight = self.sizeHint().height()
                 self.resizeMainWindowHeight(oldHeight, newHeight)
         else:
-            self.addinfoButton.setIcon(QtGui.QIcon("icons/info.svg"))
+            self.addinfoButton.setIcon(QtGui.QIcon(os.path.join(basedir, "icons/info.svg")))
             if self.windowState() == Qt.WindowState.WindowMaximized or self.windowState() == Qt.WindowState.WindowFullScreen:  # If in Fullscreen, no resize needs to be done
                 pass
             else:
@@ -424,18 +442,18 @@ class iligui(QMainWindow):
 
     def openfile(self):
         # Reset Play Button
-        self.playButton.setIcon(QtGui.QIcon("icons/play_blue.png"))
+        self.playButton.setIcon(QtGui.QIcon(os.path.join(basedir, "icons/play_blue.png")))
         # Open the file in the preferred editor
         QtGui.QDesktopServices.openUrl(QUrl.fromLocalFile(self.file_path))
     def openmodel(self):
         # Reset Play Button
-        self.playButton.setIcon(QtGui.QIcon("icons/play_blue.png"))
+        self.playButton.setIcon(QtGui.QIcon(os.path.join(basedir, "icons/play_blue.png")))
         # Open the file in the preferred editor
-        if self.model_path == "auto":
-            QtGui.QDesktopServices.openUrl(QUrl.fromLocalFile(self.def_model_path))
-            pass
-        else:
-            QtGui.QDesktopServices.openUrl(QUrl.fromLocalFile(self.model_path))
+        # if self.model_path == "auto":
+        QtGui.QDesktopServices.openUrl(QUrl.fromLocalFile(self.def_model_path))
+        #     pass
+        # else:
+        #     QtGui.QDesktopServices.openUrl(QUrl.fromLocalFile(self.model_path))
 
     def furtherhelp(self):
         # TODO: Check for validity of URL
@@ -447,7 +465,7 @@ class iligui(QMainWindow):
 
     def settingsselect(self):
         # Reset Play Button
-        self.playButton.setIcon(QtGui.QIcon("icons/play_blue.png"))
+        self.playButton.setIcon(QtGui.QIcon(os.path.join(basedir, "icons/play_blue.png")))
         self.settingsUIWindow = ilisettingsgui(self.savesettings)
         result = self.settingsUIWindow.exec()
         if result == QDialog.DialogCode.Accepted:
@@ -463,9 +481,9 @@ class iligui(QMainWindow):
         self.def_model_path = ""
         self.settings = []
         self.savesettings = [False,False,False,False]
-        self.fileselectButton.setIcon(QtGui.QIcon("icons/fileupload_blue.png"))
-        self.modelselectButton.setIcon(QtGui.QIcon("icons/model_blue.png"))
-        self.playButton.setIcon(QtGui.QIcon("icons/play_blue.png"))
+        self.fileselectButton.setIcon(QtGui.QIcon(os.path.join(basedir, "icons/fileupload_blue.png")))
+        self.modelselectButton.setIcon(QtGui.QIcon(os.path.join(basedir, "icons/model_blue.png")))
+        self.playButton.setIcon(QtGui.QIcon(os.path.join(basedir, "icons/play_blue.png")))
         self.selectedFileFrame.setVisible(False)
         self.selectedModelFrame.setVisible(False)
         self.updatedModelFrame.setVisible(False)
@@ -479,6 +497,8 @@ class iligui(QMainWindow):
 
 # Initialize the App
 app = QApplication(sys.argv)
+app.setWindowIcon(QtGui.QIcon(os.path.join(basedir, 'icons/interlis.ico')))
+# app.setWindowIcon(QtGui.QIcon('icons/interlis.ico'))
 UIWindow = iligui()
 app.exec()
 

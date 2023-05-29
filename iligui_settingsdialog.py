@@ -2,15 +2,17 @@ from PyQt6.QtWidgets import QMainWindow, QApplication, QDialog, QFileDialog
 from PyQt6.QtWidgets import QLabel, QToolButton, QPlainTextEdit,QProgressBar, QToolBox, QCheckBox
 from PyQt6 import uic, QtGui
 from PyQt6.QtCore import QSettings
-import sys
+import os
 
+basedir = os.path.normpath(os.path.dirname(__file__))
+basedir = basedir.replace('\\', '/')
 
 class ilisettingsgui(QDialog):
     def __init__(self, savesettings):
         super(ilisettingsgui, self).__init__()
 
         # Load UI File
-        uic.loadUi("ui_files/dialog_settings.ui", self)
+        uic.loadUi(os.path.join(basedir, "ui_files/dialog_settings.ui"), self)
 
         # Use the QSettings object passed from the main window
         self.savesettings = savesettings
@@ -34,6 +36,16 @@ class ilisettingsgui(QDialog):
         #-----------------------------------------------------------------------------------------------------------------
 
         self.adjustSize() # Adjusts the main window to fit its contents minimally
+        
+        ### STYLESHEET ADJUSTEMENTS BASE ON LOGIC - NECESSARY FOR PACKAGING OF APP TO DECLARE HERE
+        print(basedir)
+        checked_icon = basedir + "/icons/check-circle-green.svg"
+        unchecked_icon = basedir + "/icons/circle.svg"
+        print(checked_icon, unchecked_icon)
+        self.setStyleSheet("""
+        QCheckBox::indicator:checked {{image: url({0});}}
+        QCheckBox::indicator:unchecked {{image: url({1});}}
+        """.format(checked_icon, unchecked_icon))
 
     # Methods to Run TODO: SEPERATE FROM THIS FILE AND IMPORT-------------------------------------------------------------
     def setsetting(self, option, nr, command):
