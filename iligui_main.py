@@ -1,6 +1,6 @@
 from PyQt6.QtWidgets import QMainWindow, QApplication, QFileDialog
 from PyQt6.QtWidgets import QLabel, QToolButton, QPlainTextEdit, QProgressBar, QToolBox, QDialog
-from PyQt6.QtCore import QPropertyAnimation, QSize, QRect, QVariantAnimation, Qt, QUrl, QSettings
+from PyQt6.QtCore import QPropertyAnimation, QSize, QRect, QVariantAnimation, Qt, QUrl, QSettings, QTimer
 from PyQt6 import uic, QtGui
 from iligui_modeldialog import ilimodelselectgui
 from iligui_settingsdialog import ilisettingsgui
@@ -157,33 +157,45 @@ class iligui(QMainWindow):
             This is a Python implementation of this Process the ilivalidator does again byitself.
             The Purpose is to be able to give the User Feedback on the Modelname immediately
             """
-            ### INTERLIS 1
-            if self.file_path.endswith('.itf'):
-                with open(self.file_path, 'r') as f:
-                    text = f.read()
-                match = re.search(r'MODEL\s+(\w+)', text)
-                if match:
-                    self.model_name = match.group(1)
-                    print(self.model_name)
+            try:
+                ### INTERLIS 1
+                if self.file_path.endswith('.itf'):
+                    with open(self.file_path, 'r') as f:
+                        text = f.read()
+                    match = re.search(r'MODEL\s+(\w+)', text)
+                    if match:
+                        self.model_name = match.group(1)
+                        print(self.model_name)
+                    else:
+                        match = re.search(r'MODL\s+(\w+)', text)
+                        if match:
+                            self.model_name = match.group(1)
+                            print(self.model_name)
+                        else:
+                            print('MODEL not found')
+                ### INTERLIS 2
                 else:
-                    print('MODEL not found')
-            ### INTERLIS 2
-            else:
-                tree = ET.parse(self.file_path)
-                root = tree.getroot()
-                ns = "{" + root.tag.split('}')[0].strip('{') + "}" # Get the namespace of the root element for further parsing
-                for section in root:
-                    if section.tag == ns + 'DATASECTION':
-                        first_tag = section[0].tag
-                        first_tag_name = first_tag.split('}')[1]
-                        self.model_name = first_tag_name.split('.')[0]
-                        break
-            print("Loaded Transfer File from: " + self.file_path)
-            print("Fourn Model Name from TF: " + self.model_name)
-            self.fileselectButton.setIcon(QtGui.QIcon(os.path.join(basedir, "icons/circle_good_green.png")))
-            filename = os.path.basename(self.file_path)
-            self.fileText.setText(filename)
-            self.showselectedfileframe()
+                    tree = ET.parse(self.file_path)
+                    root = tree.getroot()
+                    ns = "{" + root.tag.split('}')[0].strip('{') + "}" # Get the namespace of the root element for further parsing
+                    for section in root:
+                        if section.tag == ns + 'DATASECTION':
+                            first_tag = section[0].tag
+                            first_tag_name = first_tag.split('}')[1]
+                            self.model_name = first_tag_name.split('.')[0]
+                            break
+                print("Loaded Transfer File from: " + self.file_path)
+                print("Found Model Name from TF: " + self.model_name)
+                self.fileselectButton.setIcon(QtGui.QIcon(os.path.join(basedir, "icons/circle_good_green.png")))
+                filename = os.path.basename(self.file_path)
+                self.fileText.setText(filename)
+                self.showselectedfileframe()
+            except AttributeError as e:
+                print("Execution Error...")
+                self.modelselectButton.setIcon(QtGui.QIcon(os.path.join(basedir, "icons/circle_bad_red.png")))
+                self.errorText.setText(f"Failed to execute: {repr(e)}")
+                self.infoText.setText("No model name could be identified. Make sure the Tags are correct!")
+                self.showerrorframe()
 
     def modelselect(self):
         # Reset Buttons
@@ -240,10 +252,13 @@ class iligui(QMainWindow):
         """
 
     def playselect(self):
+        self.playButton.setIcon(QtGui.QIcon(os.path.join(basedir, "icons/circle_load_blue.png")))
         try:
             # Use subprocess method to run the Jar file with the selected input options
             print(f"Selected Datafilepath: {self.file_path}")
+            QApplication.processEvents() # Gives me a split second to refresh the playButton as i set above, before entering the method
             result = logic_playbutton.run_ilivalidator(self.settings, self.file_path)
+            print("2")
             if result == "":
                 print("Load Error...")
                 self.playButton.setIcon(QtGui.QIcon(os.path.join(basedir, "icons/circle_bad_red.png")))
@@ -253,13 +268,15 @@ class iligui(QMainWindow):
                 return
             else:
                 xtflog_path = result
+                xtflog_path = xtflog_path.replace('\\', '/')
                 print("xtflog_path returned by ilivalidator", xtflog_path)
+            
+            ## XTFLOG PARSING!!!!
             # Prepare the XTF File for element finding
             tree = ET.parse(xtflog_path)
             root = tree.getroot()
             # Get the namespace of the root element
             ns = root.tag.split('}')[0].strip('{')
-
             # Find Elements of the IliVErrors.Errorlog where <Type> has text "Error"
             error_elements = []
             help_elements = []
@@ -333,7 +350,6 @@ class iligui(QMainWindow):
                             else:
                                 error_help.append(f"Error Name: {key}\nHelp Advice: {values[1]}\n")
                             # error_help.append(f"Help Advice: {values[1]}\n")
-
             # Convert the error_help list to a string for printing
             if (len(error_help) == 1):
                 help_text = error_help[0]
@@ -356,7 +372,8 @@ class iligui(QMainWindow):
                 self.errorText.setText(error_text)
                 self.infoText.setText(help_text)
                 self.showerrorframe()
-
+            else:
+                print("what the huha")
         except AttributeError as e:
             print("Execution Error...")
             self.playButton.setIcon(QtGui.QIcon(os.path.join(basedir, "icons/circle_bad_red.png")))
