@@ -95,7 +95,7 @@ error_dictionary ={
 'validateAttrValue.theValueXIsNotAPolygonInAttributeY': ["""The value <{0}> is not a Polygon in attribute {1}""", "HelpMessagePlaceholder"],
 'validateAttrValue.theValueXIsNotCoordInAttributeY': ["""The value <{0}> is not a Coord in attribute {1}""", "HelpMessagePlaceholder"],
 'validateAttrValue.attributeXHasAnUnexpectedTypeY': ["""Attribute {0} has an unexpected type {1}""", "HelpMessagePlaceholder"],
-'validateAttrValue.valueXIsNotAMemberOfTheEnumerationInAttributeY': ["""value {0} is not a member of the enumeration in attribute {1}""", "HelpMessagePlaceholder"],
+'validateAttrValue.valueXIsNotAMemberOfTheEnumerationInAttributeY': ["""value {0} is not a member of the enumeration in attribute {1}""", "Check if the value fits the 'allowed' entries for the attribute defined in the model"],
 'validateAttrValue.attributeXHasAnUnexpectedTypeY': ["""Attribute {0} has an unexpected type {1}""", "HelpMessagePlaceholder"],
 'validateAttrValue.valueXIsNotAValidOidInAttributeY': ["""value <{0}> is not a valid OID in attribute {1}""", "HelpMessagePlaceholder"],
 'validateAttrValue.attributeXHasAInvalidValueY': ["""Attribute <{0}> has a invalid value <{1}>""", "HelpMessagePlaceholder"],

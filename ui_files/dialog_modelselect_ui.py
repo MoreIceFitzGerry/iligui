@@ -14,12 +14,12 @@ class Ui_modelselectDialog(object):
         modelselectDialog.setObjectName("modelselectDialog")
         modelselectDialog.resize(468, 266)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("c:\\Users\\mauri\\Repos\\GitHub\\iligui\\ui_files\\icons/interlis.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        icon.addPixmap(QtGui.QPixmap("c:\\Users\\mauri\\Repos\\GitHub\\iligui\\ui_files\\../icons/interlis.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         modelselectDialog.setWindowIcon(icon)
-        modelselectDialog.setStyleSheet("QRadioButton::indicator:checked, QCheckBox::indicator:checked {\n"
+        modelselectDialog.setStyleSheet("QRadioButton::indicator:checked {\n"
 "    image: url(icons/check-circle-green.svg);\n"
 "}\n"
-"QRadioButton::indicator:unchecked, QCheckBox::indicator:unchecked {\n"
+"QRadioButton::indicator:unchecked {\n"
 "    image: url(icons/circle.svg);\n"
 "}")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(modelselectDialog)
@@ -33,7 +33,7 @@ class Ui_modelselectDialog(object):
         self.Title.setFont(font)
         self.Title.setAlignment(QtCore.Qt.AlignmentFlag.AlignLeading|QtCore.Qt.AlignmentFlag.AlignLeft|QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.Title.setObjectName("Title")
-        self.verticalLayout_2.addWidget(self.Title)
+        self.verticalLayout_2.addWidget(self.Title, 0, QtCore.Qt.AlignmentFlag.AlignTop)
         self.selectionFrame = QtWidgets.QFrame(parent=modelselectDialog)
         self.selectionFrame.setEnabled(True)
         self.selectionFrame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
@@ -58,7 +58,7 @@ class Ui_modelselectDialog(object):
         self.radioButtonGroup = QtWidgets.QButtonGroup(modelselectDialog)
         self.radioButtonGroup.setObjectName("radioButtonGroup")
         self.radioButtonGroup.addButton(self.transferfileRadiobutton)
-        self.verticalLayout.addWidget(self.transferfileRadiobutton)
+        self.verticalLayout.addWidget(self.transferfileRadiobutton, 0, QtCore.Qt.AlignmentFlag.AlignTop)
         self.localsearchRadiobutton = QtWidgets.QRadioButton(parent=self.selectionFrame)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Preferred)
         sizePolicy.setHorizontalStretch(0)
@@ -71,7 +71,7 @@ class Ui_modelselectDialog(object):
         self.localsearchRadiobutton.setFont(font)
         self.localsearchRadiobutton.setObjectName("localsearchRadiobutton")
         self.radioButtonGroup.addButton(self.localsearchRadiobutton)
-        self.verticalLayout.addWidget(self.localsearchRadiobutton)
+        self.verticalLayout.addWidget(self.localsearchRadiobutton, 0, QtCore.Qt.AlignmentFlag.AlignTop)
         self.onlinesearchRadiobutton = QtWidgets.QRadioButton(parent=self.selectionFrame)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Preferred)
         sizePolicy.setHorizontalStretch(0)
@@ -86,7 +86,7 @@ class Ui_modelselectDialog(object):
         self.onlinesearchRadiobutton.setChecked(False)
         self.onlinesearchRadiobutton.setObjectName("onlinesearchRadiobutton")
         self.radioButtonGroup.addButton(self.onlinesearchRadiobutton)
-        self.verticalLayout.addWidget(self.onlinesearchRadiobutton)
+        self.verticalLayout.addWidget(self.onlinesearchRadiobutton, 0, QtCore.Qt.AlignmentFlag.AlignTop)
         self.queryFrame = QtWidgets.QFrame(parent=self.selectionFrame)
         self.queryFrame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.queryFrame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
@@ -119,8 +119,8 @@ class Ui_modelselectDialog(object):
         self.lineEdit.setClearButtonEnabled(True)
         self.lineEdit.setObjectName("lineEdit")
         self.verticalLayout_3.addWidget(self.lineEdit)
-        self.verticalLayout.addWidget(self.queryFrame)
-        self.verticalLayout_2.addWidget(self.selectionFrame)
+        self.verticalLayout.addWidget(self.queryFrame, 0, QtCore.Qt.AlignmentFlag.AlignTop)
+        self.verticalLayout_2.addWidget(self.selectionFrame, 0, QtCore.Qt.AlignmentFlag.AlignTop)
         self.okButton = QtWidgets.QPushButton(parent=modelselectDialog)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -141,7 +141,7 @@ class Ui_modelselectDialog(object):
 "")
         self.okButton.setFlat(True)
         self.okButton.setObjectName("okButton")
-        self.verticalLayout_2.addWidget(self.okButton, 0, QtCore.Qt.AlignmentFlag.AlignHCenter)
+        self.verticalLayout_2.addWidget(self.okButton, 0, QtCore.Qt.AlignmentFlag.AlignHCenter|QtCore.Qt.AlignmentFlag.AlignTop)
 
         self.retranslateUi(modelselectDialog)
         QtCore.QMetaObject.connectSlotsByName(modelselectDialog)
@@ -150,11 +150,14 @@ class Ui_modelselectDialog(object):
         _translate = QtCore.QCoreApplication.translate
         modelselectDialog.setWindowTitle(_translate("modelselectDialog", "Model Selection"))
         self.Title.setText(_translate("modelselectDialog", "Select a Model"))
-        self.transferfileRadiobutton.setToolTip(_translate("modelselectDialog", "Autosearch function"))
+        self.transferfileRadiobutton.setToolTip(_translate("modelselectDialog", "<html><head/><body><p><span style=\" font-weight:700;\">Autosearch function</span></p><p>A Model File is not always strictly necessary. Since each transfer file has the model name included in the containers of its structure, an automatic search of the model name can be done in common locations. </p><p>These locations include: The directory your transfer-file is in. The most common online repositories. The Cache of the interlis validator. If you select a file locally, or enter an online link to a Transfer-File inside of an online repository, the path will be added to the automatic search locations of your Validator. </p></body></html>"))
         self.transferfileRadiobutton.setText(_translate("modelselectDialog", "Automatically from Datafile"))
-        self.localsearchRadiobutton.setToolTip(_translate("modelselectDialog", "Only needs to be done for each path once. Afterwards it is addede atuomatically to autosearch"))
+        self.localsearchRadiobutton.setToolTip(_translate("modelselectDialog", "<html><head/><body><p><span style=\" font-weight:700;\">Load a Local Transfer File</span></p><p>Only needs to be done for a given path once. Afterwards the repository of that model is added atuomatically to autosearch</p></body></html>"))
         self.localsearchRadiobutton.setText(_translate("modelselectDialog", "Manually from Local Source"))
+        self.onlinesearchRadiobutton.setToolTip(_translate("modelselectDialog", "<html><head/><body><p><span style=\" font-weight:700;\">Load a Online Transfer File</span></p><p><br/></p><p>Transfer Files can also be stored on online repositories. </p><p>For Example: https://models.geo.admin.ch/BAFU/NoisePollutionRegisterForNationalRoads_V1_1.ili</p><p>Only needs to be done for a given path once. Afterwards the repository of that model is added atuomatically to autosearch</p></body></html>"))
         self.onlinesearchRadiobutton.setText(_translate("modelselectDialog", "Manually from Online Source"))
+        self.searchButton.setToolTip(_translate("modelselectDialog", "<html><head/><body><p><span style=\" font-weight:700;\">Open the Online INTERLIS Model Browser</span></p><p>This is a Webapplication to search for INTERLIS-Models in publicly available Repositories. If you dont know where to find a model online link, this may be a good start, as you can search for your model directly with attributes such as Name, Filename, Publisher, or Model-Version.</p></body></html>"))
         self.searchButton.setText(_translate("modelselectDialog", "INTERLIS Model Browser"))
+        self.lineEdit.setToolTip(_translate("modelselectDialog", "<html><head/><body><p><span style=\" font-weight:700;\">Enter URL Link to an INTERLIS Model</span></p><p>This must be a URL leading to the Model specifically. The reason for this is, that iligui will check to see if the model you have selected even conforms to the File you have selected. </p><p>Think of you File as a Paper you have written, and the Model as a Grammar-Book to check your writing. There is no point in even beginning to check your German Written Essay with an English Grammar book, since you can see that it wont fit before even opening it. <br/>Thus you must choose a model, that can actually realistically conform to the datafile you want to validate.</p></body></html>"))
         self.lineEdit.setPlaceholderText(_translate("modelselectDialog", "Enter URL Link to an INTERLIS .ili Model"))
         self.okButton.setText(_translate("modelselectDialog", "OK"))

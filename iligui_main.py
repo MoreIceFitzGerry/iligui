@@ -15,9 +15,17 @@ import re
 from urllib.parse import urlsplit, urlunsplit
 
 
-basedir = os.path.normpath(os.path.dirname(__file__))
+if getattr(sys, 'frozen', False):
+    # Running as a packaged executable
+    basedir = sys._MEIPASS
+else:
+    # Running as a script
+    basedir = os.path.normpath(os.path.dirname(__file__))
 basedir = basedir.replace('\\', '/')
 print("basedir:", basedir)
+# basedir = os.path.normpath(os.path.dirname(__file__))
+# basedir = basedir.replace('\\', '/')
+# print("basedir:", basedir)
 
 try:
     from ctypes import windll  # Only exists on Windows.
@@ -258,6 +266,7 @@ class iligui(QMainWindow):
             print(f"Selected Datafilepath: {self.file_path}")
             QApplication.processEvents() # Gives me a split second to refresh the playButton as i set above, before entering the method
             result = logic_playbutton.run_ilivalidator(self.settings, self.file_path)
+            self.modelselectButton.setIcon(QtGui.QIcon(os.path.join(basedir, "icons/circle_good_green.png")))
             print("2")
             if result == "":
                 print("Load Error...")
@@ -354,7 +363,7 @@ class iligui(QMainWindow):
             if (len(error_help) == 1):
                 help_text = error_help[0]
             else:
-                help_text = "".join(error_help) # Join them with breaks
+                help_text = "<br>".join(error_help) # Join them with breaks
             print(help_text)
 
 

@@ -150,11 +150,7 @@
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Language Selection&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Select different Languages. At the moment only English available, the tooltips will soon be provided in German and English however.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="text">
-             <string>DE-ENG</string>
-            </property>
-            <property name="icon">
-             <iconset>
-              <normaloff>../icons/globe.svg</normaloff>../icons/globe.svg</iconset>
+             <string>ENG</string>
             </property>
             <property name="iconSize">
              <size>
@@ -623,6 +619,9 @@
            <bold>true</bold>
           </font>
          </property>
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;The Transfer-File selected for the Validation.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Path to the selected INTERLIS 1 or 2 Data Transfer File&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
          <property name="text">
           <string>Selected Datafile</string>
          </property>
@@ -662,7 +661,7 @@
           </font>
          </property>
          <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The Error returned by the Validator. The direct Position will be delivered if possible.&lt;/p&gt;&lt;p&gt;Click on the Error to open your INTERLIS Transfer-File with your preferred editor for XML Files. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;The Transfer-File selected for the Validation.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Path to the selected INTERLIS 1 or 2 Data Transfer File&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="frameShape">
           <enum>QFrame::NoFrame</enum>
@@ -725,6 +724,9 @@
            <bold>true</bold>
           </font>
          </property>
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;The model selected for the Validation.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;In reality only the directory of the selected model is passed to the ilivalidator. This is because the ilivalidator does not accept specific models, and instead only the repositories where they are stored. This is to avoid the usage of outdated model, so that always the newest model is selected automatically.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
          <property name="text">
           <string>Selected Model</string>
          </property>
@@ -758,7 +760,7 @@
           </font>
          </property>
          <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The Error returned by the Validator. The direct Position will be delivered if possible.&lt;/p&gt;&lt;p&gt;Click on the Error to open your INTERLIS Transfer-File with your preferred editor for XML Files. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;The model selected for the Validation.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;In reality only the directory of the selected model is passed to the ilivalidator. This is because the ilivalidator does not accept specific models, and instead only the repositories where they are stored. This is to avoid the usage of outdated model, so that always the newest model is selected automatically.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="frameShape">
           <enum>QFrame::NoFrame</enum>
@@ -821,6 +823,9 @@
            <bold>true</bold>
           </font>
          </property>
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;The model effectively used for the Validation.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;If a newer model could be found in one of your frequent paths, it will be automatically selected. This is to prevent the accidental use of outdated models. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
          <property name="text">
           <string>Found Newer Model</string>
          </property>
@@ -854,7 +859,7 @@
           </font>
          </property>
          <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The Error returned by the Validator. The direct Position will be delivered if possible.&lt;/p&gt;&lt;p&gt;Click on the Error to open your INTERLIS Transfer-File with your preferred editor for XML Files. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;The model effectively used for the Validation.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;If a newer model could be found in one of your frequent paths, it will be automatically selected. This is to prevent the accidental use of outdated models. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="styleSheet">
           <string notr="true">QLabel { color : orange; }</string>
@@ -967,6 +972,9 @@
               <pointsize>11</pointsize>
               <bold>true</bold>
              </font>
+            </property>
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;The Error returned by the Validator&lt;/span&gt;&lt;/p&gt;&lt;p&gt;The direct Position will be delivered if possible.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="text">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Error&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -1246,6 +1254,9 @@
            <bold>true</bold>
           </font>
          </property>
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;The Hint returned from the online error library&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;Solving Errors can sometimes be tricky. Clicking here will open a Hint, stored online in reference to the error you're experiencing. If no hint can be found, we would be greatful if you would contribute one on the link provided, provided you find a solution that may help others.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
          <property name="text">
           <string>Hint</string>
          </property>
@@ -1266,7 +1277,7 @@
           <string/>
          </property>
          <property name="pixmap">
-          <pixmap>icons/chevron-right.svg</pixmap>
+          <pixmap>../icons/chevron-right.svg</pixmap>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
@@ -1295,7 +1306,7 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>683</width>
+            <width>665</width>
             <height>55</height>
            </rect>
           </property>
@@ -1343,7 +1354,7 @@
               <string>123456789012345678901234567890123456789012345678901234567890123456789</string>
              </property>
              <property name="textFormat">
-              <enum>Qt::RichText</enum>
+              <enum>Qt::AutoText</enum>
              </property>
              <property name="wordWrap">
               <bool>true</bool>

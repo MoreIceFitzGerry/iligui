@@ -57,7 +57,10 @@ class ilimodelselectgui(QDialog):
             self.queryFrame.setVisible(True)
         else:
             self.queryFrame.setVisible(False)
-            self.resize(self.width(), self.height()-self.queryFrame.height())
+            self.selectionFrame.adjustSize()
+            self.adjustSize()
+            # self.resize(self.width(), self.height()-self.queryFrame.height())
+            self.selectionFrame.adjustSize()
 
     def ok(self):
         if self.onlinesearchRadiobutton.isChecked():

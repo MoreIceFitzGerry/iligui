@@ -41,7 +41,7 @@ QRadioButton::indicator:unchecked {
    <property name="bottomMargin">
     <number>10</number>
    </property>
-   <item>
+   <item alignment="Qt::AlignTop">
     <widget class="QLabel" name="Title">
      <property name="font">
       <font>
@@ -57,7 +57,7 @@ QRadioButton::indicator:unchecked {
      </property>
     </widget>
    </item>
-   <item>
+   <item alignment="Qt::AlignTop">
     <widget class="QFrame" name="selectionFrame">
      <property name="enabled">
       <bool>true</bool>
@@ -69,7 +69,7 @@ QRadioButton::indicator:unchecked {
       <enum>QFrame::Raised</enum>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
-      <item>
+      <item alignment="Qt::AlignTop">
        <widget class="QRadioButton" name="transferfileRadiobutton">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -103,7 +103,7 @@ QRadioButton::indicator:unchecked {
         </attribute>
        </widget>
       </item>
-      <item>
+      <item alignment="Qt::AlignTop">
        <widget class="QRadioButton" name="localsearchRadiobutton">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -128,7 +128,7 @@ QRadioButton::indicator:unchecked {
         </attribute>
        </widget>
       </item>
-      <item>
+      <item alignment="Qt::AlignTop">
        <widget class="QRadioButton" name="onlinesearchRadiobutton">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -162,7 +162,7 @@ QRadioButton::indicator:unchecked {
         </attribute>
        </widget>
       </item>
-      <item>
+      <item alignment="Qt::AlignTop">
        <widget class="QFrame" name="queryFrame">
         <property name="frameShape">
          <enum>QFrame::StyledPanel</enum>
@@ -195,7 +195,7 @@ QRadioButton::indicator:unchecked {
             </sizepolicy>
            </property>
            <property name="toolTip">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Open the Online INTERLIS Model Browser&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;This is a Webapplication to search for INTERLIS-Models in publicly available Repositories. If you dont know where to find a model online link, this may be a good start, as you can search for your model directly with attributes such as Name, Filename, Publisher, or Model-Version.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Open the Online INTERLIS Model Browser&lt;/span&gt;&lt;/p&gt;&lt;p&gt;This is a Webapplication to search for INTERLIS-Models in publicly available Repositories. If you dont know where to find a model online link, this may be a good start, as you can search for your model directly with attributes such as Name, Filename, Publisher, or Model-Version.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="text">
             <string>INTERLIS Model Browser</string>
@@ -248,7 +248,7 @@ QRadioButton::indicator:unchecked {
      </layout>
     </widget>
    </item>
-   <item alignment="Qt::AlignHCenter">
+   <item alignment="Qt::AlignHCenter|Qt::AlignTop">
     <widget class="QPushButton" name="okButton">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
