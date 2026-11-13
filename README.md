@@ -22,6 +22,8 @@ Im 'dist' Ordner befindet sich die aktuelle Distributionsdatei. Es handelt sich 
   * Version für Windows
   * Version für Java
 
+
+
 # ENGLISH
 
 ## iligui
@@ -43,7 +45,7 @@ Although the language has quite some documentation, most tools are pure command 
 In a [bachelor thesis of the FHNW Muttenz](https://www.fhnw.ch/++api++/de/architektur-bau-geomatik/studium/angebot/studiengaenge/bachelor-in-geomatik/bachelorthesen/bachelor-thesis-2023/bth2023_13.pdf/@@inline-file/file), a new user interface for the ilivalidator software has been created.
 
 # Download
-# Download
+
 The 'dist' folder contains the current distribution file. This is either
 
   * Version for Windows
