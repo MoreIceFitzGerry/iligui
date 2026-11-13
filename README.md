@@ -35,7 +35,7 @@ Development of an understandable Graphical User Interface to simplify the usage 
 INTERLIS appeared in 1991 as a description language for spatial data and as a mechanism for data exchange. The name comes from the abbreviation INTER or BETWEEN land information systems. 
 The language is intended to ensure long-term compatibility among different systems. Since 2008, it has been legally specified in the Swiss Geoinformation Act.
 
-To facilitate the work with ![INTERLIS](https://www.interlis.ch) for all parties involved, reference documents as well as software tools are provided on the official INTERLIS website. 
+To facilitate the work with INTERLIS for all parties involved, reference documents as well as software tools are provided on the ![official INTERLIS website](https://www.interlis.ch). 
 This range of software tools are developed for a professional audience, whereby their user interface is not the main focus. 
 Although the language has quite some documentation, most tools are pure command line programs.
 
