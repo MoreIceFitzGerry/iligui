@@ -1,8 +1,12 @@
 # Deutsch
-##iligui
+
+## iligui
+
 Entwicklung einer verständlichen grafischen Benutzeroberfläche zur Vereinfachung der Verwendung des INTERLIS Validator Tool.
 
-###Hintergrund
+![ili gui User Interface](images/iligui.png)
+
+### Hintergrund
 INTERLIS erschien 1991 als Beschreibungssprache für räumliche Daten und als Mechanismus für den Datenaustausch. Der Name stammt von der Abkürzung INTER oder ZWISCHEN Landinformationssystemen. 
 Die Sprache soll die langfristige Kompatibilität zwischen verschiedenen Systemen gewährleisten. Seit 2008 ist sie im schweizerischen Geoinformationsgesetz gesetzlich festgelegt.
 
@@ -10,14 +14,22 @@ Um die Arbeit mit INTERLIS für alle Beteiligten zu erleichtern, werden auf der 
 Diese Palette von Softwaretools wurde für ein professionelles Publikum entwickelt, wobei ihre Benutzeroberfläche nicht im Vordergrund steht. 
 Obwohl die Sprache jetzt einige Dokumentationen enthält, sind die meisten Tools reine Kommandozeilenprogramme.
 
-In einer Bachelorarbeit der FHNW Muttenz wurde eine neue Benutzeroberfläche für die ilivalidator Software erstellt.
+In einer [Bachelorarbeit der FHNW Muttenz](https://www.fhnw.ch/++api++/de/architektur-bau-geomatik/studium/angebot/studiengaenge/bachelor-in-geomatik/bachelorthesen/bachelor-thesis-2023/bth2023_13.pdf/@@inline-file/file) wurde eine neue Benutzeroberfläche für die ilivalidator Software erstellt.
 
 # Download
-Im 'dist' Ordner befindet sich die aktuelle Distributionsdatei. Es handelt sich dabei
+Im 'dist' Ordner befindet sich die aktuelle Distributionsdatei. Es handelt sich dabei um entweder
+
+  * Version für Windows
+  * Version für Java
 
 # ENGLISH
+
 ## iligui
+
 Development of an understandable Graphical User Interface to simplify the usage of the INTERLIS Vaildator Tool.
+
+![ili gui User Interface](images/iligui.png)
+
 
 ### Background
 INTERLIS appeared in 1991 as a description language for spatial data and as a mechanism for data exchange. The name comes from the abbreviation INTER or BETWEEN land information systems. 
@@ -27,6 +39,11 @@ To facilitate the work with INTERLIS for all parties involved, reference documen
 This range of software tools are developed for a professional audience, whereby their user interface is not the main focus. 
 Although the language has quite some documentation, most tools are pure command line programs.
 
-In a bachelor thesis of the FHNW Muttenz, a new user interface for the ilivalidator software has been created.
+In a [bachelor thesis of the FHNW Muttenz](https://www.fhnw.ch/++api++/de/architektur-bau-geomatik/studium/angebot/studiengaenge/bachelor-in-geomatik/bachelorthesen/bachelor-thesis-2023/bth2023_13.pdf/@@inline-file/file), a new user interface for the ilivalidator software has been created.
 
 # Download
+# Download
+The 'dist' folder contains the current distribution file. This is either
+
+  * Version for Windows
+  * Version for Java
